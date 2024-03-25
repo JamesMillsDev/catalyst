@@ -49,12 +49,15 @@
     <Filter Include="Resource Files\Config">
       <UniqueIdentifier>{93e08d57-c1a4-4e6c-8b26-92742fb5f3d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Utility">
+      <UniqueIdentifier>{0f670b21-a183-4b50-aea4-b0677505241b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Utility">
+      <UniqueIdentifier>{9e4689c5-341c-4b93-90f7-03a7c96ab7b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp">
@@ -72,11 +75,21 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="catalyst-engine.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Config.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -102,10 +115,24 @@
     <ClCompile Include="source\Engine\BaseApplication.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\Utility\Config.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Utility\ConfigValue.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Utility\Color.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\config\engine.xml">
       <Filter>Resource Files\Config</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="catalyst-engine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

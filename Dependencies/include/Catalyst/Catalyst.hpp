@@ -16,7 +16,6 @@ concept Derived = std::is_base_of<U, T>::value;
 using std::shared_ptr;
 
 typedef uint8_t ubyte;
-typedef int8_t byte;
 
 typedef uint16_t ushort16;
 typedef int16_t short16;
