@@ -41,6 +41,9 @@
     <ClCompile Include="source\Engine\UUID.cpp" />
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="resources\config\engine.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

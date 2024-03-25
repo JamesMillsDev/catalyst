@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Gameplay">
       <UniqueIdentifier>{0b95ab17-6880-4d4d-ae68-aa366aeddaff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Config">
+      <UniqueIdentifier>{93e08d57-c1a4-4e6c-8b26-92742fb5f3d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
@@ -99,5 +102,10 @@
     <ClCompile Include="source\Engine\BaseApplication.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="resources\config\engine.xml">
+      <Filter>Resource Files\Config</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
