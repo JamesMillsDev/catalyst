@@ -38,7 +38,7 @@ namespace Catalyst
 	void EditorApplication::Tick()
 	{
 		// Render a simple grid with gizmos
-		const Color white = { 1, 1, 1, 1 };
+		const Color white = { .5f, .5f, .5f, .5f };
 		const Color black = { 0, 0, 0, 1 };
 
 		for (int i = 0; i < 201; ++i)

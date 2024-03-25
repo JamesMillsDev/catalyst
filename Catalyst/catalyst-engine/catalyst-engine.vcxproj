@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp" />
     <ClInclude Include="resource.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="source\Engine\Utility\Config.cpp" />
     <ClCompile Include="source\Engine\Utility\ConfigValue.cpp" />
     <ClCompile Include="source\Engine\UUID.cpp" />
+    <ClCompile Include="source\Gameplay\Actors\Transform.cpp" />
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
   </ItemGroup>

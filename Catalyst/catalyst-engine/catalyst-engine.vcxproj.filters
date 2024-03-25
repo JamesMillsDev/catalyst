@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Engine\Utility">
       <UniqueIdentifier>{9e4689c5-341c-4b93-90f7-03a7c96ab7b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Gameplay\Actors">
+      <UniqueIdentifier>{16b57968-d9e5-4ca5-a738-0d2607874eeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gameplay\Actors">
+      <UniqueIdentifier>{e161eb2d-d63d-49a2-b00f-cdcfbc86f198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
@@ -93,6 +99,9 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp">
+      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -129,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="source\Graphics\Camera.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Actors\Transform.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

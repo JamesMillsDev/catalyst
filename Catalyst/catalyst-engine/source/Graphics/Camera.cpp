@@ -1,27 +1,22 @@
 #include <Catalyst/Graphics/Camera.hpp>
 
+#include <Catalyst/Gameplay/Actors/Transform.hpp>
+
 #include <glfw/glfw3.h>
 #include <glm/ext.hpp>
 
 namespace Catalyst
 {
 	Camera::Camera(const float _fov, const float _near, const float _far)
-		: m_fov{ _fov }, m_near{ _near }, m_far{ _far }, m_theta{ 0 }, m_phi{ 0 }
+		: m_fov{ _fov }, m_near{ _near }, m_far{ _far },
+		m_transform{ std::make_shared<Transform>(Transform({ -10.f, 2.f, 0.f }, vec3(1), vec3(0))) }
 	{
-		m_position = { -10.f, 2.f, 0.f };
-
-		const float thetaR = glm::radians(m_theta);
-		const float phiR = glm::radians(m_phi);
-		const vec3 forward(glm::cos(phiR) * glm::cos(thetaR), glm::sin(phiR), glm::cos(phiR) * glm::sin(thetaR));
-
-		m_viewMat = glm::lookAt(m_position, m_position + forward, { 0, 1, 0 });
-		m_projMat = glm::perspective(Fov(), Aspect(), m_near, m_far);
 	}
 
 	Camera::~Camera()
 	{
-		/*m_transform.reset();
-		m_frustrum.reset();*/
+		m_transform.reset();
+		/*m_frustrum.reset();*/
 	}
 
 	/*bool Camera::Visible(Volume* _volume, shared_ptr<class Transform> _transform)
@@ -29,13 +24,16 @@ namespace Catalyst
 		return _volume->Visible(m_frustrum, _transform);
 	}*/
 
-	mat4 Camera::ProjectTransform(const mat4& _mat) const
+	mat4 Camera::ProjectTransform(const mat4& _mat)
 	{
-		return m_projMat * m_viewMat * _mat;
+		return ProjectionView() * _mat;
 	}
 
-	mat4 Camera::ProjectionView() const
+	mat4 Camera::ProjectionView()
 	{
+		m_viewMat = glm::lookAt(Location(), Location() + Forward(), Up());
+		m_projMat = glm::perspective(Fov(), Aspect(), m_near, m_far);
+
 		return m_projMat * m_viewMat;
 	}
 
@@ -68,7 +66,7 @@ namespace Catalyst
 		return width / height;
 	}
 
-	/*vec3 Camera::Forward() const
+	vec3 Camera::Forward() const
 	{
 		return m_transform->Forward();
 	}
@@ -86,17 +84,5 @@ namespace Catalyst
 	vec3 Camera::Location() const
 	{
 		return m_transform->Location();
-	}*/
-
-	void Camera::Tick()
-	{
-		const float thetaR = glm::radians(m_theta);
-		const float phiR = glm::radians(m_phi);
-		const vec3 forward(glm::cos(phiR) * glm::cos(thetaR), glm::sin(phiR), glm::cos(phiR) * glm::sin(thetaR));
-
-		m_viewMat = glm::lookAt(m_position, m_position + forward, { 0, 1, 0 });
-		m_projMat = glm::perspective(Fov(), Aspect(), m_near, m_far);
-
-		/*Frustrum::Update(this, m_frustrum);*/
 	}
 }
