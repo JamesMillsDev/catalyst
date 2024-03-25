@@ -80,7 +80,7 @@ namespace Catalyst
 
 	bool UUID::operator!=(const UUID& _other)
 	{
-		return !(_other == *this);
+		return strcmp(_other.m_value, m_value) != 0 || _other.m_hashValue != m_hashValue;
 	}
 
 	void UUID::Generate()

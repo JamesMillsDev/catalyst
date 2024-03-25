@@ -49,7 +49,7 @@ namespace Catalyst
 
 	class Config
 	{
-		friend class Application;
+		friend class BaseApplication;
 
 	public:
 		DLL Config();
@@ -60,9 +60,13 @@ namespace Catalyst
 
 	public:
 		DLL class ConfigValue* GetValue(const string& _group, const string& _id);
+		DLL bool TryGetValue(const string& _group, const string& _id, class ConfigValue*& _value);
+		DLL bool HasValue(const string& _group, const string& _id);
 
 		template<typename VAL>
 		VAL GetValue(const string& _group, const string& _id);
+		template<typename VAL>
+		bool TryGetValue(const string& _group, const string& _id, VAL& _value);
 
 	public:
 		DLL Config& operator=(const Config&) = delete;
@@ -94,5 +98,17 @@ namespace Catalyst
 			return value->Get<VAL>();
 
 		return VAL();
+	}
+
+	template <typename VAL>
+	bool Config::TryGetValue(const string& _group, const string& _id, VAL& _value)
+	{
+		if(HasValue(_group, _id))
+		{
+			_value = GetValue<VAL>(_group, _id);
+			return true;
+		}
+
+		return false;
 	}
 }

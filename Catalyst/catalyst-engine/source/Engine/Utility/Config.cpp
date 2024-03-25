@@ -60,6 +60,28 @@ namespace Catalyst
 		return nullptr;
 	}
 
+	bool Config::TryGetValue(const string& _group, const string& _id, ConfigValue*& _value)
+	{
+		if(HasValue(_group, _id))
+		{
+			_value = GetValue(_group, _id);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Config::HasValue(const string& _group, const string& _id)
+	{
+		if(m_data.contains(_group))
+		{
+			const auto& set = m_data[_group];
+			return set.contains(_id);
+		}
+
+		return false;
+	}
+
 	void Config::Clear()
 	{
 		for (auto& group : m_data | std::views::values)

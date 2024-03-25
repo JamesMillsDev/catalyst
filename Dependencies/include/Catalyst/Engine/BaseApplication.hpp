@@ -26,6 +26,7 @@ namespace Catalyst
 	protected:
 		GameInstance* m_game;
 		class Screen* m_screen;
+		shared_ptr<class Config> m_config;
 
 		string m_appPath;
 
@@ -34,7 +35,8 @@ namespace Catalyst
 		bool m_manualWindowSize;
 
 	protected:
-		DLL BaseApplication(GameInstance* _game, const string& _appPath);
+		DLL BaseApplication(GameInstance* _game, string _appPath);
+		DLL virtual ~BaseApplication();
 
 	protected:
 		DLL virtual void OnApplicationOpened();
@@ -63,7 +65,7 @@ namespace Catalyst
 	{
 		if (m_appInstance == nullptr)
 		{
-			string argvStr = string(_argv[0]);
+			const string argvStr = string(_argv[0]);
 			string appPath = argvStr.substr(0, argvStr.find_last_of("\\"));
 
 			m_appInstance = shared_ptr<BaseApplication>(new APP(new GAME(), appPath));

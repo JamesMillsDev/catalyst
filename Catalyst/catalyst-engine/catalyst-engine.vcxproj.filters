@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp">
       <Filter>Header Files\Engine\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -123,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\Utility\Color.cpp">
       <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

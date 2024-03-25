@@ -7,7 +7,7 @@
       <Value name="clrCol" value="0.25,0.25,0.25,0.25" type="color"/>
     </Category>
     <Category title="application">
-      <Value name="title" value="Leviathan Test" type="string"/>
+      <Value name="title" value="Catalyst - v0.0.1" type="string"/>
       <Value name="vSync" value="true" type="bool"/>
     </Category>
     <Category title="debug">

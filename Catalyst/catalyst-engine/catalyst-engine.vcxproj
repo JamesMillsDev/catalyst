@@ -29,6 +29,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClCompile Include="source\Engine\Utility\ConfigValue.cpp" />
     <ClCompile Include="source\Engine\UUID.cpp" />
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
+    <ClCompile Include="source\Graphics\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\config\engine.xml" />
@@ -105,21 +107,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Dependencies\lib\catalyst\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Dependencies\lib\catalyst\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Dependencies\lib\catalyst\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Dependencies\lib\catalyst\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

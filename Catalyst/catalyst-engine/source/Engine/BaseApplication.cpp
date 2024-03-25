@@ -1,6 +1,7 @@
 #include <Catalyst/Engine/BaseApplication.hpp>
 
 #include <Catalyst/Engine/Screen.hpp>
+#include <Catalyst/Engine/Utility/Config.hpp>
 
 #include <GLFW/glfw3.h>
 
@@ -12,7 +13,7 @@ namespace Catalyst
 	{
 		return m_appInstance->m_appPath.c_str();
 	}
-	
+
 	void BaseApplication::GetWindowSize(int* _w, int* _h)
 	{
 		if (!m_appInstance->m_manualWindowSize)
@@ -30,14 +31,23 @@ namespace Catalyst
 	{
 		return m_appInstance->m_screen->Context();
 	}
-	
-	BaseApplication::BaseApplication(GameInstance* _game, const string& _appPath)
-		: m_game{ _game }, m_appPath{ std::move(_appPath) },
-		m_screen{ new Screen }, m_manualWindowSize{ false }, m_windowWidth{ 0 },
-		m_windowHeight{ 0 }
+
+	BaseApplication::BaseApplication(GameInstance* _game, string _appPath)
+		: m_game{ _game }, m_screen{ new Screen }, m_config{ std::make_shared<Config>() }, 
+		m_appPath{ std::move(_appPath) }, m_windowWidth{ 0 }, m_windowHeight{ 0 },
+		m_manualWindowSize{ false }
 	{
 	}
-	
+
+	BaseApplication::~BaseApplication()
+	{
+		delete m_game;
+		m_game = nullptr;
+
+		delete m_screen;
+		m_screen = nullptr;
+	}
+
 	void BaseApplication::OnApplicationOpened() { }
 
 	void BaseApplication::OnApplicationClosed() { }
@@ -48,7 +58,9 @@ namespace Catalyst
 
 	int BaseApplication::Process()
 	{
-		if (m_screen->Open() == GLFW_FALSE)
+		m_config->Load();
+
+		if (m_screen->Open(m_config) == GLFW_FALSE)
 			return GLFW_FALSE;
 
 		InitManagers();
@@ -59,16 +71,14 @@ namespace Catalyst
 
 		while (!glfwWindowShouldClose(m_screen->Context()))
 		{
-			glfwPollEvents();
+			/* Begin rendering the frame */
+			if(!m_screen->BeginFrame())
+				continue;
 
 			Tick();
 
 			if (m_game != nullptr)
 				m_game->Tick();
-
-
-			/* Begin rendering the frame */
-			m_screen->BeginFrame();
 
 			Render();
 

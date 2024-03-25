@@ -1,26 +1,10 @@
-#include <Catalyst/Engine/BaseApplication.hpp>
-#include <Catalyst/Gameplay/GameInstance.hpp>
+#include <EditorApplication.hpp>
 
 using Catalyst::BaseApplication;
-using Catalyst::GameInstance;
+using Catalyst::EditorApplication;
+using Catalyst::EditorGame;
 
-/* Used to open an application... otherwise unused */
-class EditorGame : public GameInstance
+int main(int _argc, char* _argv[])
 {
-public:
-	EditorGame() {}
-
-};
-
-class EditorApplication : public BaseApplication
-{
-public:
-	EditorApplication(GameInstance* _game, const string& _appPath)
-		: BaseApplication(_game, _appPath) {}
-
-};
-
-int main(int argc, char* argv[])
-{
-	return BaseApplication::Run<EditorGame, EditorApplication>(argv);
+	return BaseApplication::Run<EditorGame, EditorApplication>(_argv);
 }
