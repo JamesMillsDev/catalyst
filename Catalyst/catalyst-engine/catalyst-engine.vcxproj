@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp" />
@@ -39,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Engine\BaseApplication.cpp" />
+    <ClCompile Include="source\Engine\IModule.cpp" />
     <ClCompile Include="source\Engine\Object.cpp" />
     <ClCompile Include="source\Engine\Screen.cpp" />
     <ClCompile Include="source\Engine\Utility\Color.cpp" />

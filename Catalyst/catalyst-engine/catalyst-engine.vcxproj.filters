@@ -102,6 +102,9 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp">
       <Filter>Header Files\Gameplay\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -141,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="source\Gameplay\Actors\Transform.cpp">
       <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\IModule.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

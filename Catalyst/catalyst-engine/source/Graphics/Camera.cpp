@@ -8,8 +8,8 @@
 namespace Catalyst
 {
 	Camera::Camera(const float _fov, const float _near, const float _far)
-		: m_fov{ _fov }, m_near{ _near }, m_far{ _far },
-		m_transform{ std::make_shared<Transform>(Transform({ -10.f, 2.f, 0.f }, vec3(1), vec3(0))) }
+		: m_transform{ std::make_shared<Transform>(Transform({ -10.f, 2.f, 0.f }, vec3(1), vec3(0))) },
+		m_viewMat{ mat4(1) }, m_projMat{ mat4(1.f) }, m_fov{ _fov }, m_near{ _near }, m_far{ _far }
 	{
 	}
 
@@ -57,7 +57,7 @@ namespace Catalyst
 		int w = 0;
 		int h = 0;
 
-		auto context = glfwGetCurrentContext();
+		const auto context = glfwGetCurrentContext();
 		glfwGetWindowSize(context, &w, &h);
 
 		const float width = static_cast<float>(w);
