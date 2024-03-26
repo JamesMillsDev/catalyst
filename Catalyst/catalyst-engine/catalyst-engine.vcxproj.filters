@@ -105,6 +105,15 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Actor.hpp">
+      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\ActorComponent.hpp">
+      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameplayModule.hpp">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -147,6 +156,15 @@
     </ClCompile>
     <ClCompile Include="source\Engine\IModule.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Actors\Actor.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Actors\ActorComponent.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\GameplayModule.cpp">
+      <Filter>Source Files\Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
