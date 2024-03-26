@@ -28,6 +28,8 @@ namespace Catalyst
 		class Screen* m_screen;
 		shared_ptr<class Config> m_config;
 
+		list<class IModule*> m_modules;
+
 		string m_appPath;
 
 		int m_windowWidth;
@@ -55,8 +57,8 @@ namespace Catalyst
 	private:
 		DLL int Process();
 
-		DLL void InitManagers();
-		DLL void CleanupManagers();
+		DLL void InitModules();
+		DLL void CleanupModules();
 
 	};
 
