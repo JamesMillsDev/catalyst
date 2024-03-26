@@ -1,5 +1,6 @@
 #include <Catalyst/Engine/BaseApplication.hpp>
 
+#include <Catalyst/Engine/IModule.hpp>
 #include <Catalyst/Engine/Screen.hpp>
 #include <Catalyst/Engine/Utility/Config.hpp>
 
@@ -63,7 +64,7 @@ namespace Catalyst
 		if (m_screen->Open(m_config) == GLFW_FALSE)
 			return GLFW_FALSE;
 
-		InitManagers();
+		InitModules();
 		OnApplicationOpened();
 
 		if (m_game != nullptr)
@@ -75,10 +76,16 @@ namespace Catalyst
 			if(!m_screen->BeginFrame())
 				continue;
 
+			for (const auto& module : m_modules)
+				module->Tick(this);
+
 			Tick();
 
 			if (m_game != nullptr)
 				m_game->Tick();
+
+			for (const auto& module : m_modules)
+				module->Render(this);
 
 			Render();
 
@@ -88,18 +95,29 @@ namespace Catalyst
 		m_screen->Close();
 
 		OnApplicationClosed();
-		CleanupManagers();
+		CleanupModules();
 
 		return GLFW_TRUE;
 	}
 
-	void BaseApplication::InitManagers()
+	void BaseApplication::InitModules()
 	{
+		// Create module instances here
 
+		// end module creation
+
+		for (const auto& module : m_modules)
+			module->OnInitialise(this);
 	}
 
-	void BaseApplication::CleanupManagers()
+	void BaseApplication::CleanupModules()
 	{
+		for (const auto& module : m_modules)
+		{
+			module->OnShutdown(this);
+			delete module;
+		}
 
+		m_modules.clear();
 	}
 }
