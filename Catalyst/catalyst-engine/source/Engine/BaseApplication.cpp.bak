@@ -5,8 +5,11 @@
 
 #include <GLFW/glfw3.h>
 
+<<<<<<< HEAD
 #include "Catalyst/Graphics/Graphics.hpp"
+=======
 #include "Catalyst/Gameplay/GameplayModule.hpp"
+>>>>>>> feature/core
 
 namespace Catalyst
 {
@@ -105,8 +108,11 @@ namespace Catalyst
 	void BaseApplication::InitModules()
 	{
 		// Create module instances here
+<<<<<<< HEAD
 		m_modules.emplace_back(new Graphics);
+=======
 		m_modules.emplace_back(new GameplayModule);
+>>>>>>> feature/core
 
 		// end module creation
 
