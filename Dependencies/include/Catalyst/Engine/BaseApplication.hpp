@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Catalyst/Catalyst.hpp>
+#include <Catalyst/Engine/IModule.hpp>
 #include <Catalyst/Gameplay/GameInstance.hpp>
 
 #include <list>
@@ -23,12 +24,15 @@ namespace Catalyst
 		DLL static void GetWindowSize(int* _w, int* _h);
 		DLL static GLFWwindow* GetWindow();
 
+		template<Derived<IModule> MODULE>
+		static MODULE* GetModule();
+
 	protected:
 		GameInstance* m_game;
 		class Screen* m_screen;
 		shared_ptr<class Config> m_config;
 
-		list<class IModule*> m_modules;
+		list<IModule*> m_modules;
 
 		string m_appPath;
 
@@ -75,5 +79,17 @@ namespace Catalyst
 		}
 
 		return -1;
+	}
+
+	template <Derived<IModule> MODULE>
+	MODULE* BaseApplication::GetModule()
+	{
+		for(auto& module : m_appInstance->m_modules)
+		{
+			if(MODULE* m = dynamic_cast<MODULE*>(module))
+				return m;
+		}
+
+		return nullptr;
 	}
 }
