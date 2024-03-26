@@ -8,19 +8,21 @@ using std::string;
 
 namespace Catalyst
 {
-	class DLL IModule
+	class IModule
 	{
+		friend class BaseApplication;
+
 	public:
-		virtual void OnInitialise(class BaseApplication* _app);
-		virtual void OnShutdown(class BaseApplication* _app);
+		DLL virtual void OnInitialise(class BaseApplication* _app);
+		DLL virtual void OnShutdown(class BaseApplication* _app);
 
-		virtual void Tick(class BaseApplication* _app);
-		virtual void Render(class BaseApplication* _app);
+		DLL virtual void Tick(class BaseApplication* _app);
+		DLL virtual void Render(class BaseApplication* _app);
 
-		[[nodiscard]] string Name() const;
+		[[nodiscard]] DLL string Name() const;
 
 	protected:
-		IModule(string _name);
+		DLL IModule(string _name);
 		virtual ~IModule() = default;
 
 	private:

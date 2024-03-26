@@ -1,6 +1,5 @@
 #include <Catalyst/Engine/BaseApplication.hpp>
 
-#include <Catalyst/Engine/IModule.hpp>
 #include <Catalyst/Engine/Screen.hpp>
 #include <Catalyst/Engine/Utility/Config.hpp>
 
