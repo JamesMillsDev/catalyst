@@ -1,7 +1,10 @@
 #include <Catalyst/Engine/UUID.hpp>
 
-#define GROUPS 5
-#define GROUP_SIZE 5
+enum
+{
+	GROUPS = 5,
+	GROUP_SIZE = 5
+};
 
 #include <random>
 #include <string>
@@ -20,10 +23,7 @@ namespace Catalyst
 		HashUUID();
 	}
 
-	UUID::UUID(const UUID& _other)
-		: m_value{ _other.m_value }, m_hashValue{ _other.m_hashValue }
-	{
-	}
+	UUID::UUID(const UUID& _other) = default;
 
 	UUID::UUID(UUID&& _other) noexcept
 		: m_value{ _other.m_value }, m_hashValue{ _other.m_hashValue }
@@ -43,7 +43,7 @@ namespace Catalyst
 		return m_value;
 	}
 
-	const uint32 UUID::Hash() const
+	uint32 UUID::Hash() const
 	{
 		return m_hashValue;
 	}
@@ -73,12 +73,12 @@ namespace Catalyst
 		return *this;
 	}
 
-	bool UUID::operator==(const UUID& _other)
+	bool UUID::operator==(const UUID& _other) const
 	{
 		return strcmp(_other.m_value, m_value) == 0 && _other.m_hashValue == m_hashValue;
 	}
 
-	bool UUID::operator!=(const UUID& _other)
+	bool UUID::operator!=(const UUID& _other) const
 	{
 		return strcmp(_other.m_value, m_value) != 0 || _other.m_hashValue != m_hashValue;
 	}
@@ -91,16 +91,13 @@ namespace Catalyst
 		mt19937 generator(device());
 		uniform_int_distribution dist;
 
-		string value = "";
+		string value;
 
 		for (ubyte i = 0; i < GROUPS; i++)
 		{
 			for (ubyte j = 0; j < GROUP_SIZE; j++)
 			{
-				ushort16 index = (i * GROUPS) + j;
-				ushort16 type = rand() % 3;
-
-				switch (type)
+				switch (rand() % 3)  // NOLINT(concurrency-mt-unsafe)
 				{
 				case 0:
 					dist = uniform_int_distribution(48, 57);
@@ -111,10 +108,12 @@ namespace Catalyst
 				case 2:
 					dist = uniform_int_distribution(97, 122);
 					break;
-
+				default:
+					dist = uniform_int_distribution(48, 57);
+					break;
 				}
 
-				value += (char)(dist(generator));
+				value += static_cast<char>(dist(generator));
 			}
 
 			if (i + 1 < GROUPS)
@@ -127,15 +126,15 @@ namespace Catalyst
 	void UUID::HashUUID()
 	{
 		uint32 hash = 0;
-		uint32 x = 0;
-		uint32 len = GROUP_SIZE * GROUPS + GROUPS;
+		uint32 x;
+		constexpr uint32 len = GROUP_SIZE * GROUPS + GROUPS;
 
 		for (uint32 i = 0; i < len; i++)
 		{
-			hash = (hash << 4) + (m_value[i]);
+			hash = (hash << 4) + m_value[i];
 			if ((x = hash & 0xF0000000) != 0)
 			{
-				hash ^= (x >> 24);
+				hash ^= x >> 24;
 			}
 			hash &= ~x;
 		}

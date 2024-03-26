@@ -15,14 +15,14 @@ namespace Catalyst
 
 	public:
 		DLL const char* Get() const;
-		DLL const uint32 Hash() const;
+		DLL uint32 Hash() const;
 
 	public:
 		DLL UUID& operator=(const UUID& _other);
 		DLL UUID& operator=(UUID&& _other) noexcept;
 
-		DLL bool operator==(const UUID& _other);
-		DLL bool operator!=(const UUID& _other);
+		DLL bool operator==(const UUID& _other) const;
+		DLL bool operator!=(const UUID& _other) const;
 
 	private:
 		DLL void Generate();

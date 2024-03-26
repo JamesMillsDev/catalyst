@@ -1,88 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Resource Files\Shaders">
-      <UniqueIdentifier>{aae24167-fccf-4036-96bf-75d435618d34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine">
-      <UniqueIdentifier>{2ce80484-1c86-4557-a8e5-7524e83bfd89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{d3247daf-c130-4e9f-9b25-46c3819792b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Physics">
-      <UniqueIdentifier>{3f7a56e5-7ad5-4f5b-a97e-674df62b6cd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine">
-      <UniqueIdentifier>{be11c0e8-be67-4992-877a-c6df584023f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Input">
-      <UniqueIdentifier>{87674c1c-85a6-4c5a-b33b-bccb3cd2e50f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{b7606f46-da67-4337-8c44-ddb05acf7827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Input">
-      <UniqueIdentifier>{9dc9198d-a945-4ed4-a159-956471de962b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Physics">
-      <UniqueIdentifier>{5fcfc37c-ca8b-4778-91f7-722efb4070e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Gameplay">
-      <UniqueIdentifier>{3ffc4b67-7f1d-4f4c-a482-4ae353771ccc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gameplay">
-      <UniqueIdentifier>{0b95ab17-6880-4d4d-ae68-aa366aeddaff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Config">
-      <UniqueIdentifier>{93e08d57-c1a4-4e6c-8b26-92742fb5f3d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Utility">
-      <UniqueIdentifier>{0f670b21-a183-4b50-aea4-b0677505241b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Utility">
-      <UniqueIdentifier>{9e4689c5-341c-4b93-90f7-03a7c96ab7b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Gameplay\Actors">
-      <UniqueIdentifier>{16b57968-d9e5-4ca5-a738-0d2607874eeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Gameplay\Actors">
-      <UniqueIdentifier>{e161eb2d-d63d-49a2-b00f-cdcfbc86f198}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="source\Gameplay\Actors\Actor.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Actors\ActorComponent.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Actors\Transform.cpp">
+      <Filter>Source Files\Gameplay\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\GameInstance.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\GameplayModule.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Graphics.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Utility\Color.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Utility\Config.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Utility\ConfigValue.cpp">
+      <Filter>Source Files\Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\UUID.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\BaseApplication.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\IModule.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Object.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Screen.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Rendering\Shader.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Rendering\Texture.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Rendering\Material.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp">
-      <Filter>Header Files\Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Config.hpp">
       <Filter>Header Files\Engine\Utility</Filter>
@@ -90,31 +72,53 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp">
       <Filter>Header Files\Engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp">
-      <Filter>Header Files\Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp">
-      <Filter>Header Files\Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp">
-      <Filter>Header Files\Gameplay\Actors</Filter>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Graphics.hpp">
       <Filter>Header Files\Graphics</Filter>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Actor.hpp">
-      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp">
+      <Filter>Header Files\Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameplayModule.hpp">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\ActorComponent.hpp">
       <Filter>Header Files\Gameplay\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameplayModule.hpp">
-      <Filter>Header Files\Gameplay</Filter>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Actor.hpp">
+      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp">
+      <Filter>Header Files\Gameplay\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Shader.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Texture.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Material.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,50 +130,57 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Engine\UUID.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Object.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Screen.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Gameplay\GameInstance.cpp">
-      <Filter>Source Files\Gameplay</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\BaseApplication.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Utility\Config.cpp">
-      <Filter>Source Files\Engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Utility\ConfigValue.cpp">
-      <Filter>Source Files\Engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\Utility\Color.cpp">
-      <Filter>Source Files\Engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Graphics\Camera.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Gameplay\Actors\Transform.cpp">
-      <Filter>Source Files\Gameplay\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\IModule.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Graphics\Graphics.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    <ClCompile Include="source\Gameplay\Actors\Actor.cpp">
-      <Filter>Source Files\Gameplay\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Gameplay\Actors\ActorComponent.cpp">
-      <Filter>Source Files\Gameplay\Actors</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Gameplay\GameplayModule.cpp">
-      <Filter>Source Files\Gameplay</Filter>
-    </ClCompile>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{086ea539-4b4f-451b-a8eb-16b274a22a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e0266ca1-2ff0-4a55-ae90-de24f1ce4c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4b629515-f3c0-41c1-8047-df0b0e995543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Config">
+      <UniqueIdentifier>{d1c4ae06-2b80-4f5c-91fb-ec21dfe7726f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{ae5251b5-69b3-40be-9f48-75f8ec337145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{63685924-931c-4246-8d40-540b87f812ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Utility">
+      <UniqueIdentifier>{1c6fbedf-f75a-4994-b9ab-d408ead2619f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{9e095370-8b34-404f-97cb-0bc2268a7e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Utility">
+      <UniqueIdentifier>{f8147879-5956-4c2c-9457-f080637282c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{dbb259bc-d10a-49e5-9df8-a0116e144445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gameplay">
+      <UniqueIdentifier>{3993b3d7-388b-49a9-8f32-c3261c810456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gameplay\Actors">
+      <UniqueIdentifier>{023c01eb-1a36-4efa-9c89-dde41f1891cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{718b195c-a7ff-4181-84ce-17049b13f429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay">
+      <UniqueIdentifier>{ad8018d0-600d-4d7c-a62e-41c6d9367e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay\Actors">
+      <UniqueIdentifier>{c493d53c-8679-40c3-9e8f-671e50076a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering">
+      <UniqueIdentifier>{46b6198b-e07b-451c-99af-f83bfdcfa450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering">
+      <UniqueIdentifier>{c45c1edb-b8dc-46dc-9551-6319720e6513}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\config\engine.xml">
