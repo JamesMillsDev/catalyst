@@ -6,6 +6,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Catalyst/Graphics/Graphics.hpp"
+
 namespace Catalyst
 {
 	shared_ptr<BaseApplication> BaseApplication::m_appInstance;
@@ -103,6 +105,7 @@ namespace Catalyst
 	void BaseApplication::InitModules()
 	{
 		// Create module instances here
+		m_modules.emplace_back(new Graphics);
 
 		// end module creation
 

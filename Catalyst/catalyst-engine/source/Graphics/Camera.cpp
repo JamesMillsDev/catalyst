@@ -11,6 +11,7 @@ namespace Catalyst
 		: m_transform{ std::make_shared<Transform>(Transform({ -10.f, 2.f, 0.f }, vec3(1), vec3(0))) },
 		m_viewMat{ mat4(1) }, m_projMat{ mat4(1.f) }, m_fov{ _fov }, m_near{ _near }, m_far{ _far }
 	{
+
 	}
 
 	Camera::~Camera()
