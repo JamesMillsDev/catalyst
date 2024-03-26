@@ -20,5 +20,11 @@ namespace Catalyst
 		DLL virtual void Tick();
 		DLL virtual void Render();
 
+	protected:
+		DLL class Actor* GetOwner() const;
+
+	private:
+		class Actor* m_owner;
+
 	};
 }

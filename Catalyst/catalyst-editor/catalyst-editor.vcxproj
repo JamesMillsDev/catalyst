@@ -22,10 +22,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\Debug\Gizmos.cpp" />
     <ClCompile Include="source\EditorApplication.cpp" />
+    <ClCompile Include="TestActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Debug\Gizmos.hpp" />
     <ClInclude Include="source\EditorApplication.hpp" />
+    <ClInclude Include="TestActor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

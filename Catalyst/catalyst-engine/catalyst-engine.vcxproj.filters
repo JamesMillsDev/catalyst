@@ -55,6 +55,15 @@
     <ClCompile Include="source\Graphics\Rendering\Material.cpp">
       <Filter>Source Files\Graphics\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="source\Graphics\Rendering\Mesh.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Rendering\StaticMesh.cpp">
+      <Filter>Source Files\Graphics\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Components\StaticMeshComponent.cpp">
+      <Filter>Source Files\Graphics\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
@@ -120,6 +129,15 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Material.hpp">
       <Filter>Header Files\Graphics\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Mesh.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\StaticMesh.hpp">
+      <Filter>Header Files\Graphics\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\StaticMeshComponent.hpp">
+      <Filter>Header Files\Graphics\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -180,6 +198,12 @@
     </Filter>
     <Filter Include="Source Files\Graphics\Rendering">
       <UniqueIdentifier>{c45c1edb-b8dc-46dc-9551-6319720e6513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Components">
+      <UniqueIdentifier>{d1f1219d-8916-4b86-ba09-16ea30ee1706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Components">
+      <UniqueIdentifier>{4bd4d4fb-e4db-40ca-9de4-8b6f193c18c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

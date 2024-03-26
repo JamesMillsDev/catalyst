@@ -39,13 +39,13 @@ namespace Catalyst
 			actor->Render();
 	}
 
-	void GameplayModule::AddActor(shared_ptr<Actor>& _actor)
+	void GameplayModule::AddActor(shared_ptr<Actor> _actor)
 	{
 		_actor->OnBeginPlay();
 		m_actors.emplace_back(std::move(_actor));
 	}
 
-	void GameplayModule::RemoveActor(shared_ptr<Actor>& _actor)
+	void GameplayModule::RemoveActor(shared_ptr<Actor> _actor)
 	{
 		_actor->OnEndPlay();
 		m_actors.remove(_actor);

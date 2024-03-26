@@ -16,4 +16,9 @@ namespace Catalyst
 	void ActorComponent::Tick() { }
 
 	void ActorComponent::Render() { }
+
+	Actor* ActorComponent::GetOwner() const
+	{
+		return m_owner;
+	}
 }

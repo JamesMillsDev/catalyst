@@ -5,6 +5,10 @@
 #include <Catalyst/Graphics/Camera.hpp>
 #include <Debug/Gizmos.hpp>
 
+#include "../TestActor.h"
+#include "Catalyst/Gameplay/GameplayModule.hpp"
+#include "Catalyst/Graphics/Graphics.hpp"
+
 namespace Catalyst
 {
 	EditorApplication::EditorApplication(GameInstance* _game, const string& _appPath)
@@ -28,6 +32,15 @@ namespace Catalyst
 			m_config->GetValue<float>("viewport", "camera.far")
 		);
 
+		if(Graphics* graphics = GetModule<Graphics>())
+		{
+			graphics->SetMainCamera(m_camera.get());
+		}
+
+		if(GameplayModule* gameplay = GetModule<GameplayModule>())
+		{
+			gameplay->SpawnActor<TestActor>();
+		}
 	}
 
 	void EditorApplication::OnApplicationClosed()

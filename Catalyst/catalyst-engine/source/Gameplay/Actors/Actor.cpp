@@ -1,8 +1,19 @@
 #include <Catalyst/Gameplay/Actors/Actor.hpp>
 
+#include <Catalyst/Gameplay/Actors/Transform.hpp>
+
 namespace Catalyst
 {
-	Actor::Actor() = default;
+	shared_ptr<Transform> Actor::GetTransform()
+	{
+		return m_transform;
+	}
+
+	Actor::Actor()
+		: m_transform{ new Transform }
+	{
+		
+	}
 
 	Actor::~Actor()
 	{
@@ -43,12 +54,12 @@ namespace Catalyst
 			component->Render();
 	}
 
-	void Actor::AddComponent(shared_ptr<ActorComponent>& _component)
+	void Actor::AddComponent(shared_ptr<ActorComponent> _component)
 	{
 		m_components.emplace_back(std::move(_component));
 	}
 
-	void Actor::RemoveComponent(shared_ptr<ActorComponent>& _component)
+	void Actor::RemoveComponent(shared_ptr<ActorComponent> _component)
 	{
 		_component->OnEndPlay();
 		m_components.remove(_component);

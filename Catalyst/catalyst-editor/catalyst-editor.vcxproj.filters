@@ -30,12 +30,18 @@
     <ClCompile Include="source\EditorApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Debug\Gizmos.hpp">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
     <ClInclude Include="source\EditorApplication.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

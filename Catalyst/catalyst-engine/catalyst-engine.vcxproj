@@ -35,9 +35,12 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameplayModule.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\StaticMeshComponent.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Graphics.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Material.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Mesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Shader.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\StaticMesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Texture.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -60,9 +63,12 @@
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
     <ClCompile Include="source\Gameplay\GameplayModule.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
+    <ClCompile Include="source\Graphics\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="source\Graphics\Graphics.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Material.cpp" />
+    <ClCompile Include="source\Graphics\Rendering\Mesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Shader.cpp" />
+    <ClCompile Include="source\Graphics\Rendering\StaticMesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>

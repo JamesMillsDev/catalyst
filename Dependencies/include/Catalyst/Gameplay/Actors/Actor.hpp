@@ -15,7 +15,10 @@ namespace Catalyst
 	{
 		friend class GameplayModule;
 
-		typedef void(Actor::* ComponentListChange)(shared_ptr<ActorComponent>&);
+		typedef void(Actor::* ComponentListChange)(shared_ptr<ActorComponent>);
+
+	public:
+		DLL shared_ptr<class Transform> GetTransform();
 
 	protected:
 		DLL Actor();
@@ -29,32 +32,34 @@ namespace Catalyst
 		DLL virtual void Render();
 
 		template<Derived<ActorComponent> COMPONENT>
-		shared_ptr<COMPONENT>& CreateComponent();
+		shared_ptr<COMPONENT> CreateComponent();
 		template<Derived<ActorComponent> COMPONENT>
-		void DestroyComponent(shared_ptr<COMPONENT>& _component);
+		void DestroyComponent(shared_ptr<COMPONENT> _component);
 
 	private:
-		list<pair<ComponentListChange, shared_ptr<ActorComponent>&>> m_componentListChanges;
+		list<pair<ComponentListChange, shared_ptr<ActorComponent>>> m_componentListChanges;
 
+		shared_ptr<class Transform> m_transform;
 		list<shared_ptr<ActorComponent>> m_components;
 
 	private:
-		DLL void AddComponent(shared_ptr<ActorComponent>& _component);
-		DLL void RemoveComponent(shared_ptr<ActorComponent>& _component);
+		DLL void AddComponent(shared_ptr<ActorComponent> _component);
+		DLL void RemoveComponent(shared_ptr<ActorComponent> _component);
 
 	};
 
 	template <Derived<ActorComponent> COMPONENT>
-	shared_ptr<COMPONENT>& Actor::CreateComponent()
+	shared_ptr<COMPONENT> Actor::CreateComponent()
 	{
 		shared_ptr<COMPONENT> component = std::make_shared<COMPONENT>();
+		component->m_owner = this;
 
-		m_componentListChanges.emplace_back(&Actor::CreateComponent, component);
+		m_componentListChanges.emplace_back(&Actor::AddComponent, component);
 		return component;
 	}
 
 	template <Derived<ActorComponent> COMPONENT>
-	void Actor::DestroyComponent(shared_ptr<COMPONENT>& _component)
+	void Actor::DestroyComponent(shared_ptr<COMPONENT> _component)
 	{
 		if (std::ranges::find(m_components, _component) == m_components.end())
 			return;
