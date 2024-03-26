@@ -105,6 +105,9 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Graphics.hpp">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\standard.frag">
@@ -147,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\IModule.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Graphics\Graphics.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

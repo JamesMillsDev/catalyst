@@ -32,6 +32,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Transform.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Graphics.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +51,7 @@
     <ClCompile Include="source\Gameplay\Actors\Transform.cpp" />
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
+    <ClCompile Include="source\Graphics\Graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\config\engine.xml" />
