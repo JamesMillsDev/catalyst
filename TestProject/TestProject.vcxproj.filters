@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Content">
+      <UniqueIdentifier>{2e24f34e-d76c-4108-b23e-3a578462068f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{3490dc2f-be2d-4409-b2fa-c2d562ca7893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{0dec837c-b15d-4900-b609-4642724a8c31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\SoulSpear">
+      <UniqueIdentifier>{2eadf2e5-34a0-41db-90b3-20ba8ab0ea97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Shaders">
+      <UniqueIdentifier>{53189acb-d226-4b77-8aff-6f0c67119ca0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Content\SoulSpear\soulspear_diffuse.tga">
+      <Filter>Content\SoulSpear</Filter>
+    </Image>
+    <Image Include="Content\SoulSpear\soulspear_normal.tga">
+      <Filter>Content\SoulSpear</Filter>
+    </Image>
+    <Image Include="Content\SoulSpear\soulspear_specular.tga">
+      <Filter>Content\SoulSpear</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\SoulSpear\soulspear.mtl">
+      <Filter>Content\SoulSpear</Filter>
+    </None>
+    <None Include="Content\Shaders\normalLit.frag">
+      <Filter>Content\Shaders</Filter>
+    </None>
+    <None Include="Content\Shaders\normalLit.vert">
+      <Filter>Content\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Content\SoulSpear\soulspear.obj">
+      <Filter>Content\SoulSpear</Filter>
+    </Object>
+  </ItemGroup>
+</Project>
