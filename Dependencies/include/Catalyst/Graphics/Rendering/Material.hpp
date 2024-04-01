@@ -46,7 +46,7 @@ namespace Catalyst
 		DLL void LoadFromAssimp(const aiMaterial* _material, const string& _folder);
 		DLL void Bind();
 
-		DLL void SetShader(class Shader* _shader);
+		DLL void SetShader(shared_ptr<class Shader> _shader);
 		DLL void SetTexture(const string& _name, class Texture* _texture);
 
 	private:

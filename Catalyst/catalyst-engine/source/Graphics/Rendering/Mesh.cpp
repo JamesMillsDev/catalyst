@@ -68,40 +68,58 @@ namespace Catalyst
 		// Fill the vertex buffer
 		glBufferData(GL_ARRAY_BUFFER, _vertexCount * static_cast<long long>(sizeof(Vertex)), _vertices, GL_STATIC_DRAW);
 
+		int offset = 16;
+		int attribId = 0;
+
 		// Enable the first element as the position 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+		glEnableVertexAttribArray(attribId);
+		glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+
+		attribId++;
 
 		// Enable the second element as the normal
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(16));
+		glEnableVertexAttribArray(attribId);
+		glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr)
 
-		// Enable the third element as the tangent
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(32));
+		offset += 16;
+		attribId++;
 
-		// Enable the fourth element as the bi-tangent
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(48));
+		if (_vertices->hasTangents)
+		{
+			// Enable the third element as the tangent
+			glEnableVertexAttribArray(attribId);
+			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr)
+
+			offset += 16;
+			attribId++;
+
+			// Enable the fourth element as the bi-tangent
+			glEnableVertexAttribArray(attribId);
+			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr) 
+
+			offset += 16;
+			attribId++;
+		}
 
 		// Enable the fifth-twelfth elements as the texture coordinate
 		for (uint32 i = 0; i < AI_MAX_NUMBER_OF_COLOR_SETS; ++i)
 		{
-			const uint32 index = i + 4;
-			glEnableVertexAttribArray(index);
+			glEnableVertexAttribArray(attribId);
+			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));  // NOLINT(performance-no-int-to-ptr)
 
-			const uint32 pointer = 64 + i * 16;
-			glVertexAttribPointer(index, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(pointer));  // NOLINT(performance-no-int-to-ptr)
+			offset += 16;
+			attribId++;
 		}
 
 		// Enable the thirteenth-twentieth elements as the texture coordinate
 		for (uint32 i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i)
 		{
-			const uint32 index = i + 4 + AI_MAX_NUMBER_OF_COLOR_SETS;
-			glEnableVertexAttribArray(index);
+			glEnableVertexAttribArray(attribId);
 
-			const uint32 pointer = 64 + AI_MAX_NUMBER_OF_COLOR_SETS * 16 + i * 16;
-			glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(pointer));  // NOLINT(performance-no-int-to-ptr)
+			glVertexAttribPointer(attribId, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offset));  // NOLINT(performance-no-int-to-ptr)
+
+			offset += 8;
+			attribId++;
 		}
 
 		// Bind the indices if there are any defined
@@ -216,6 +234,7 @@ namespace Catalyst
 
 				newVert.tangent = { tangent.x, tangent.y, tangent.z, 1.f };
 				newVert.biTangent = { biTangent.x, biTangent.y, biTangent.z, 1.f };
+				newVert.hasTangents = true;
 			}
 
 			for (uint32 i = 0; i < _mesh->GetNumColorChannels(); ++i)

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+#include <utility>
 
 using std::tuple;
 
@@ -116,12 +117,12 @@ namespace Catalyst
 		BindTexture(GL_TEXTURE6, "displacement");
 	}
 
-	void Material::SetShader(Shader* _shader)
+	void Material::SetShader(shared_ptr<class Shader> _shader)
 	{
 		if (shader != nullptr)
 			shader.reset();
 
-		shader = shared_ptr<Shader>(_shader);
+		shader = std::move(_shader);
 	}
 
 	void Material::SetTexture(const string& _name, Texture* _texture)

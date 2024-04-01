@@ -49,6 +49,7 @@ namespace Catalyst
 					material->shader->Set("ModelMatrix", GetOwner()->GetTransform()->Global());
 					// ReSharper restore CppExpressionWithoutSideEffects
 
+					material->Bind();
 					mesh->Render();
 				}
 			}

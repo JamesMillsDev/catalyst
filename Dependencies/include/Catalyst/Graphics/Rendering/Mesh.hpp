@@ -27,6 +27,8 @@ namespace Catalyst
 			Color colors[AI_MAX_NUMBER_OF_COLOR_SETS];
 			vec2 uvs[AI_MAX_NUMBER_OF_TEXTURECOORDS];
 
+			bool hasTangents;
+
 		};
 
 	public:
