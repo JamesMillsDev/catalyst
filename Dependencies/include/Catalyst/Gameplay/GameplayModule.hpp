@@ -25,8 +25,8 @@ namespace Catalyst
 		void DestroyActor(shared_ptr<ACTOR>& _actor);
 
 	protected:
-		DLL void Tick(BaseApplication* _app) override;
-		DLL void Render(BaseApplication* _app) override;
+		DLL void Tick(Application* _app) override;
+		DLL void Render(Application* _app) override;
 
 	private:
 		list<pair<ActorListChange, shared_ptr<Actor>>> m_actorListChanges;

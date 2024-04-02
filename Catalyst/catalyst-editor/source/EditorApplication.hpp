@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Catalyst/Engine/BaseApplication.hpp>
+#include <Catalyst/Engine/Application.hpp>
 #include <Catalyst/Gameplay/GameInstance.hpp>
 
 namespace Catalyst
 {
-	class EditorApplication final : public BaseApplication
+	class EditorApplication final : public Application
 	{
 	public:
 		EditorApplication(GameInstance* _game, const string& _appPath);
@@ -18,7 +18,7 @@ namespace Catalyst
 		void Render() override;
 
 	private:
-		shared_ptr<class Camera> m_camera;
+		shared_ptr<class ViewportCamera> m_camera;
 
 	};
 

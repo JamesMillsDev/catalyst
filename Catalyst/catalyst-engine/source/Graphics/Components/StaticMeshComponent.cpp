@@ -1,6 +1,6 @@
 #include <Catalyst/Graphics/Components/StaticMeshComponent.hpp>
 
-#include <Catalyst/Engine/BaseApplication.hpp>
+#include <Catalyst/Engine/Application.hpp>
 #include <Catalyst/Gameplay/Actors/Actor.hpp>
 #include <Catalyst/Gameplay/Actors/Transform.hpp>
 #include <Catalyst/Graphics/Camera.hpp>
@@ -30,7 +30,7 @@ namespace Catalyst
 	{
 		ActorComponent::Render();
 
-		if(const Graphics* graphics = BaseApplication::GetModule<Graphics>())
+		if(const Graphics* graphics = Application::GetModule<Graphics>())
 		{
 			if(Camera* current = graphics->MainCamera())
 			{
@@ -43,13 +43,15 @@ namespace Catalyst
 					const shared_ptr<Mesh> mesh = m_mesh->GetMesh(i);
 					const shared_ptr<Material> material = m_mesh->GetMaterial(mesh->GetMaterialIndex());
 
+					material->Bind();
+
 					const auto pvm = current->ProjectTransform(GetOwner()->GetTransform()->Global());
 					// ReSharper disable CppExpressionWithoutSideEffects
 					material->shader->Set("ProjectionViewModel", pvm);
 					material->shader->Set("ModelMatrix", GetOwner()->GetTransform()->Global());
+					material->shader->Set("CameraPosition", current->Location());
 					// ReSharper restore CppExpressionWithoutSideEffects
 
-					material->Bind();
 					mesh->Render();
 				}
 			}

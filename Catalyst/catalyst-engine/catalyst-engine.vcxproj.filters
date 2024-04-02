@@ -34,7 +34,7 @@
     <ClCompile Include="source\Engine\UUID.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\BaseApplication.cpp">
+    <ClCompile Include="source\Engine\Application.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\IModule.cpp">
@@ -64,6 +64,15 @@
     <ClCompile Include="source\Graphics\Components\StaticMeshComponent.cpp">
       <Filter>Source Files\Graphics\Components</Filter>
     </ClCompile>
+    <ClCompile Include="source\Graphics\Components\LightComponent.cpp">
+      <Filter>Source Files\Graphics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\InputModule.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\Time.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
@@ -81,7 +90,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp">
       <Filter>Header Files\Engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp">
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Application.hpp">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp">
@@ -137,6 +146,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\StaticMeshComponent.hpp">
       <Filter>Header Files\Graphics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\LightComponent.hpp">
+      <Filter>Header Files\Graphics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputModule.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Time.hpp">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +222,12 @@
     </Filter>
     <Filter Include="Header Files\Graphics\Components">
       <UniqueIdentifier>{4bd4d4fb-e4db-40ca-9de4-8b6f193c18c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{461f8c46-cb25-4b44-aa7b-7318aa3d3741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{1abef970-126d-42d4-bcf9-1767c8e42828}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

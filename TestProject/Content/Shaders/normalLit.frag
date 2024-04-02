@@ -23,15 +23,19 @@ uniform vec3 Kd; // The diffuse material color
 uniform vec3 Ks; // The specular material color
 uniform float specularPower; // The specular power of Ks
 
+struct LightInfo
+{
+    vec3 Position;
+    vec3 Color;
+};
+
 // Light Data
 uniform vec3 AmbientColor;
-uniform vec3 LightColor;
-uniform vec3 LightDirection;
+uniform LightInfo globalLight;
 
 const int MAX_LIGHTS = 4;
 uniform int numLights;
-uniform vec3 PointLightColors[MAX_LIGHTS];
-uniform vec3 PointLightPositions[MAX_LIGHTS];
+uniform LightInfo lights[MAX_LIGHTS];
 
 vec3 Diffuse(vec3 direction, vec3 color, vec3 normal)
 {
@@ -46,14 +50,13 @@ vec3 Specular(vec3 direction, vec3 color, vec3 normal, vec3 view)
     return specularTerm * color;
 }
 
-
 void main() 
 {
     // Set the normal and light direction
     vec3 N = normalize(vNormal);
     vec3 T = normalize(vTangent);
     vec3 B = normalize(vBiTangent);
-    vec3 L = normalize(LightDirection);
+    vec3 L = normalize(globalLight.Position);
 
     mat3 TBN = mat3(T,B,N);
 
@@ -67,7 +70,7 @@ void main()
     float lambertTerm = max(0, min(1, dot(N, -L)));
 
     // Calculate the diffuse value of light from the global source
-    vec3 diffuseTotal = Diffuse(L, LightColor, N);
+    vec3 diffuseTotal = Diffuse(L, globalLight.Color, N);
 
     // Calculate the view vector... 
     vec3 V = normalize(CameraPosition - vPosition.xyz);
@@ -75,17 +78,17 @@ void main()
     vec3 R = reflect(L, N);
 
     // Calculate the specular value of light from the global source
-    vec3 specularTotal = Specular(L, LightColor, N, V);
+    vec3 specularTotal = Specular(L, globalLight.Color, N, V);
 
     for (int i = 0; i < numLights; i++)
     {
-        vec3 direction = vPosition.xyz - PointLightPositions[i];
+        vec3 direction = vPosition.xyz - lights[i].Position;
         float distance = length(direction);
         direction = direction / distance;
 
         // Set the lighting intensity with the inverse square law
-        vec3 color = PointLightColors[i] / (distance * distance);
-
+        vec3 color = lights[i].Color / (distance * distance);
+        
         diffuseTotal += Diffuse(direction, color, N);
         specularTotal += Specular(direction, color, N, V);
     }

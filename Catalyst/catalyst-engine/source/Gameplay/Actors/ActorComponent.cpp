@@ -2,6 +2,11 @@
 
 namespace Catalyst
 {
+	Actor* ActorComponent::GetOwner() const
+	{
+		return m_owner;
+	}
+
 	ActorComponent::ActorComponent() = default;
 
 	ActorComponent::~ActorComponent()
@@ -16,9 +21,4 @@ namespace Catalyst
 	void ActorComponent::Tick() { }
 
 	void ActorComponent::Render() { }
-
-	Actor* ActorComponent::GetOwner() const
-	{
-		return m_owner;
-	}
 }

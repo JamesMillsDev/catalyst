@@ -22,12 +22,18 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\Debug\Gizmos.cpp" />
     <ClCompile Include="source\EditorApplication.cpp" />
+    <ClCompile Include="source\ViewportCamera.cpp" />
     <ClCompile Include="TestActor.cpp" />
+    <ClCompile Include="TestLight.cpp" />
+    <ClCompile Include="TestPointLightActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Debug\Gizmos.hpp" />
     <ClInclude Include="source\EditorApplication.hpp" />
+    <ClInclude Include="source\ViewportCamera.h" />
     <ClInclude Include="TestActor.h" />
+    <ClInclude Include="TestLight.h" />
+    <ClInclude Include="TestPointLightActor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

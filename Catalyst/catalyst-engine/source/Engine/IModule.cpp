@@ -2,19 +2,19 @@
 
 namespace Catalyst
 {
-	void IModule::OnInitialise(BaseApplication* _app)
+	void IModule::OnInitialise(Application* _app)
 	{
 	}
 
-	void IModule::OnShutdown(BaseApplication* _app)
+	void IModule::OnShutdown(Application* _app)
 	{
 	}
 
-	void IModule::Tick(BaseApplication* _app)
+	void IModule::Tick(Application* _app)
 	{
 	}
 
-	void IModule::Render(BaseApplication* _app)
+	void IModule::Render(Application* _app)
 	{
 	}
 

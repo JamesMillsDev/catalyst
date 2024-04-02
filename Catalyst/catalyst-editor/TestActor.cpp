@@ -1,5 +1,6 @@
 #include "TestActor.h"
 
+#include <Catalyst/Gameplay/Actors/Transform.hpp>
 #include <Catalyst/Graphics/Components/StaticMeshComponent.hpp>
 #include <Catalyst/Graphics/Rendering/Material.hpp>
 #include <Catalyst/Graphics/Rendering/Shader.hpp>
@@ -13,7 +14,7 @@ using Catalyst::StaticMeshComponent;
 TestActor::TestActor()
 {
 	const shared_ptr<StaticMesh> mesh = std::make_shared<StaticMesh>();
-	mesh->Load("../../TestProject/Content/SoulSpear/SoulSpear.obj");
+	mesh->Load("../../TestProject/Content/SoulSpear/SoulSpear.obj", true);
 
 	const shared_ptr<StaticMeshComponent> component = CreateComponent<StaticMeshComponent>();
 	component->SetMesh(mesh);
@@ -27,5 +28,9 @@ TestActor::TestActor()
 	{
 		const shared_ptr<Material> material = mesh->GetMaterial(i);
 		material->SetShader(shader);
+
+		material->specular = { 1.f, 1.f, 1.f };
 	}
+
+	GetTransform()->TRS({ 0, 0, 0 }, { 0, 0, 0 }, { 1, 1, 1 });
 }

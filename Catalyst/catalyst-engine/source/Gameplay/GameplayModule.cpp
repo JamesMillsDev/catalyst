@@ -18,7 +18,7 @@ namespace Catalyst
 		m_actors.clear();
 	}
 
-	void GameplayModule::Tick(BaseApplication* _app)
+	void GameplayModule::Tick(Application* _app)
 	{
 		IModule::Tick(_app);
 
@@ -31,7 +31,7 @@ namespace Catalyst
 			actor->Tick();
 	}
 
-	void GameplayModule::Render(BaseApplication* _app)
+	void GameplayModule::Render(Application* _app)
 	{
 		IModule::Render(_app);
 

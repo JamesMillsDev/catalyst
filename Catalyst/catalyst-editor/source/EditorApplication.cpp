@@ -1,18 +1,25 @@
 #include "EditorApplication.hpp"
 
+#include <ViewportCamera.h>
 #include <Catalyst/Engine/Screen.hpp>
 #include <Catalyst/Engine/Utility/Config.hpp>
-#include <Catalyst/Graphics/Camera.hpp>
 #include <Debug/Gizmos.hpp>
+#include <Catalyst/Gameplay/Actors/Actor.hpp>
 
 #include "../TestActor.h"
+#include "../TestLight.h"
+#include "../TestPointLightActor.h"
 #include "Catalyst/Gameplay/GameplayModule.hpp"
+#include "Catalyst/Gameplay/Actors/Transform.hpp"
 #include "Catalyst/Graphics/Graphics.hpp"
+#include "Catalyst/Graphics/Components/LightComponent.hpp"
+
+using Catalyst::Actor;
 
 namespace Catalyst
 {
 	EditorApplication::EditorApplication(GameInstance* _game, const string& _appPath)
-		: BaseApplication(_game, _appPath), m_camera{ nullptr }
+		: Application(_game, _appPath), m_camera{ nullptr }
 	{
 
 	}
@@ -26,20 +33,28 @@ namespace Catalyst
 			m_config->GetValue<int>("debug", "2d.maxTris")
 		);
 
-		m_camera = std::make_shared<Camera>(
-			m_config->GetValue<float>("viewport", "camera.fov"),
-			m_config->GetValue<float>("viewport", "camera.near"),
-			m_config->GetValue<float>("viewport", "camera.far")
+		m_camera = std::make_shared<ViewportCamera>(
+			m_config
 		);
 
-		if(Graphics* graphics = GetModule<Graphics>())
+		if (Graphics* graphics = GetModule<Graphics>())
 		{
 			graphics->SetMainCamera(m_camera.get());
 		}
 
-		if(GameplayModule* gameplay = GetModule<GameplayModule>())
+		if (GameplayModule* gameplay = GetModule<GameplayModule>())
 		{
 			gameplay->SpawnActor<TestActor>();
+			gameplay->SpawnActor<TestLight>();
+			gameplay->SpawnActor<TestPointLightActor>();
+
+			const shared_ptr<TestPointLightActor> actor = gameplay->SpawnActor<TestPointLightActor>();
+			actor->SetupLight({ 0, 1, 0, 1 }, 25.f);
+			actor->GetTransform()->TRS({ -1.f, 0, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f });
+
+			const shared_ptr<TestPointLightActor> actor2 = gameplay->SpawnActor<TestPointLightActor>();
+			actor2->SetupLight({ 0, 0, 1, 1 }, 15.f);
+			actor2->GetTransform()->TRS({ 0.f, 5.f, -1.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f });
 		}
 	}
 
@@ -50,6 +65,8 @@ namespace Catalyst
 
 	void EditorApplication::Tick()
 	{
+		m_camera->Tick();
+
 		// Render a simple grid with gizmos
 		const Color white = { .5f, .5f, .5f, .5f };
 		const Color black = { 0, 0, 0, 1 };

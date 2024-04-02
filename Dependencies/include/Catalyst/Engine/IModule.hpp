@@ -10,14 +10,14 @@ namespace Catalyst
 {
 	class IModule
 	{
-		friend class BaseApplication;
+		friend class Application;
 
 	public:
-		DLL virtual void OnInitialise(class BaseApplication* _app);
-		DLL virtual void OnShutdown(class BaseApplication* _app);
+		DLL virtual void OnInitialise(class Application* _app);
+		DLL virtual void OnShutdown(class Application* _app);
 
-		DLL virtual void Tick(class BaseApplication* _app);
-		DLL virtual void Render(class BaseApplication* _app);
+		DLL virtual void Tick(class Application* _app);
+		DLL virtual void Render(class Application* _app);
 
 		[[nodiscard]] DLL string Name() const;
 

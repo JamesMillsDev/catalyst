@@ -265,9 +265,9 @@ namespace Catalyst
 
 		return
 		{
-			glm::cos(rot.y),
+			-glm::cos(rot.y),
 			0,
-			-glm::sin(rot.y)
+			glm::sin(rot.y)
 		};
 	}
 

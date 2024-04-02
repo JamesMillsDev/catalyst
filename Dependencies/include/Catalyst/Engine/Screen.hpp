@@ -52,7 +52,7 @@ namespace Catalyst
 		DLL void CloseWindow();
 
 	private:
-		friend class BaseApplication;
+		friend class Application;
 
 	private:
 		GLFWwindow* m_window;

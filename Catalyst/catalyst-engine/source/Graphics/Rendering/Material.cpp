@@ -2,11 +2,14 @@
 
 #include <Catalyst/Graphics/Rendering/Shader.hpp>
 #include <Catalyst/Graphics/Rendering/Texture.hpp>
+#include <Catalyst/Engine/Application.hpp>
+#include <Catalyst/Gameplay/Actors/Actor.hpp>
+#include <Catalyst/Gameplay/Actors/Transform.hpp>
+#include <Catalyst/Graphics/Graphics.hpp>
+#include <Catalyst/Graphics/Components/LightComponent.hpp>
 
 #include <assimp/material.h>
 #include <GL/glew.h>
-
-#define TO_STRING(var) #var
 
 #include <iostream>
 #include <string>
@@ -14,6 +17,8 @@
 #include <utility>
 
 using std::tuple;
+
+#define TO_STRING(var) #var
 
 namespace Catalyst
 {
@@ -115,6 +120,47 @@ namespace Catalyst
 		BindTexture(GL_TEXTURE4, "specularHighlight");
 		BindTexture(GL_TEXTURE5, "normal");
 		BindTexture(GL_TEXTURE6, "displacement");
+
+		if (Graphics* graphics = Application::GetModule<Graphics>())
+		{
+			const list<LightComponent*> lights = graphics->Lights();
+
+			const LightComponent* directional = nullptr;
+			for(const auto& light : lights)
+			{
+				if(light->directional)
+				{
+					directional = light;
+					break;
+				}
+			}
+
+			if (directional)
+			{
+				// ReSharper disable CppExpressionWithoutSideEffects
+				shader->Set("globalLight.Color", directional->RealColor());
+				shader->Set("globalLight.Position", directional->direction);
+				// ReSharper restore CppExpressionWithoutSideEffects
+			}
+			
+			// ReSharper disable once CppExpressionWithoutSideEffects
+			shader->Set("numLights", graphics->LightCount());
+			shader->Set("AmbientColor", vec3{ 0.f, 1.f, 1.f });
+
+			for (int i = 0, j = 0; i < graphics->LightCount(true); ++i)
+			{
+				const LightComponent* light = graphics->GetLight(i);
+				if(light->directional)
+					continue;
+
+				string param = "lights[" + std::to_string(j++) + "].";
+
+				// ReSharper disable CppExpressionWithoutSideEffects
+				shader->Set((param + "Position").c_str(), light->GetOwner()->GetTransform()->Location());
+				shader->Set((param + "Color").c_str(), light->RealColor());
+				// ReSharper restore CppExpressionWithoutSideEffects
+			}
+		}
 	}
 
 	void Material::SetShader(shared_ptr<class Shader> _shader)
@@ -161,9 +207,7 @@ namespace Catalyst
 		unsigned int idx;
 
 		if (!m_textures.contains(_texture))
-		{
 			m_textures[_texture] = std::make_shared<Texture>();
-		}
 
 		for (idx = 0; idx < _material->GetTextureCount(_type); idx++)
 			state = _material->GetTexture(_type, idx, &filePath);

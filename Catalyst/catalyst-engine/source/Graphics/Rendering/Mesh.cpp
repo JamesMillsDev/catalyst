@@ -9,6 +9,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/compatibility.hpp>
 
+#include <cstddef>
+
 using std::vector;
 
 using glm::vec3;
@@ -20,11 +22,7 @@ namespace Catalyst
 	{
 	}
 
-	Mesh::Mesh(const Mesh& _other)
-		: m_triCount{ _other.m_triCount }, m_vao{ _other.m_vao }, m_vbo{ _other.m_vbo },
-		m_ibo{ _other.m_ibo }, m_materialIndex{ _other.m_materialIndex }
-	{
-	}
+	Mesh::Mesh(const Mesh& _other) = default;
 
 	Mesh::~Mesh()
 	{
@@ -68,58 +66,40 @@ namespace Catalyst
 		// Fill the vertex buffer
 		glBufferData(GL_ARRAY_BUFFER, _vertexCount * static_cast<long long>(sizeof(Vertex)), _vertices, GL_STATIC_DRAW);
 
-		int offset = 16;
-		int attribId = 0;
+		int id = 0;
 
 		// Enable the first element as the position 
-		glEnableVertexAttribArray(attribId);
-		glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
-
-		attribId++;
+		glEnableVertexAttribArray(id);
+		glVertexAttribPointer(id++, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, position)));// NOLINT(performance-no-int-to-ptr)
 
 		// Enable the second element as the normal
-		glEnableVertexAttribArray(attribId);
-		glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr)
+		glEnableVertexAttribArray(id);
+		glVertexAttribPointer(id++, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normal)));// NOLINT(performance-no-int-to-ptr)
 
-		offset += 16;
-		attribId++;
+		// Enable the thirteenth-twentieth elements as the texture coordinate
+		for (uint32 i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i)
+		{
+			glEnableVertexAttribArray(id);
+
+			glVertexAttribPointer(id++, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, uvs[i])));  // NOLINT(performance-no-int-to-ptr)
+		}
 
 		if (_vertices->hasTangents)
 		{
 			// Enable the third element as the tangent
-			glEnableVertexAttribArray(attribId);
-			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr)
-
-			offset += 16;
-			attribId++;
+			glEnableVertexAttribArray(id);
+			glVertexAttribPointer(id++, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, tangent)));// NOLINT(performance-no-int-to-ptr)
 
 			// Enable the fourth element as the bi-tangent
-			glEnableVertexAttribArray(attribId);
-			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));// NOLINT(performance-no-int-to-ptr) 
-
-			offset += 16;
-			attribId++;
+			glEnableVertexAttribArray(id);
+			glVertexAttribPointer(id++, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, biTangent)));// NOLINT(performance-no-int-to-ptr) 
 		}
 
 		// Enable the fifth-twelfth elements as the texture coordinate
 		for (uint32 i = 0; i < AI_MAX_NUMBER_OF_COLOR_SETS; ++i)
 		{
-			glEnableVertexAttribArray(attribId);
-			glVertexAttribPointer(attribId, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offset));  // NOLINT(performance-no-int-to-ptr)
-
-			offset += 16;
-			attribId++;
-		}
-
-		// Enable the thirteenth-twentieth elements as the texture coordinate
-		for (uint32 i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i)
-		{
-			glEnableVertexAttribArray(attribId);
-
-			glVertexAttribPointer(attribId, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offset));  // NOLINT(performance-no-int-to-ptr)
-
-			offset += 8;
-			attribId++;
+			glEnableVertexAttribArray(id);
+			glVertexAttribPointer(id++, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, colors[i])));  // NOLINT(performance-no-int-to-ptr)
 		}
 
 		// Bind the indices if there are any defined

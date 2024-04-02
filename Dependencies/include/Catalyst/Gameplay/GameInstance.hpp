@@ -8,7 +8,7 @@ namespace Catalyst
 	class GameInstance : public Object
 	{
 	private:
-		friend class BaseApplication;
+		friend class Application;
 
 	private:
 		DLL virtual void OnGameLoaded();

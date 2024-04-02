@@ -14,10 +14,10 @@ struct GLFWwindow;
 
 namespace Catalyst
 {
-	class BaseApplication
+	class Application
 	{
 	public:
-		template<Derived<GameInstance> GAME, Derived<BaseApplication> APP>
+		template<Derived<GameInstance> GAME, Derived<Application> APP>
 		static int Run(char* _argv[]);
 
 		DLL static const char* GetApplicationDirectory();
@@ -41,8 +41,8 @@ namespace Catalyst
 		bool m_manualWindowSize;
 
 	protected:
-		DLL BaseApplication(GameInstance* _game, string _appPath);
-		DLL virtual ~BaseApplication();
+		DLL Application(GameInstance* _game, string _appPath);
+		DLL virtual ~Application();
 
 	protected:
 		DLL virtual void OnApplicationOpened();
@@ -52,7 +52,7 @@ namespace Catalyst
 		DLL virtual void Render();
 
 	private:
-		DLL static shared_ptr<BaseApplication> m_appInstance;
+		DLL static shared_ptr<Application> m_appInstance;
 
 	private:
 		friend class Object;
@@ -66,15 +66,15 @@ namespace Catalyst
 
 	};
 
-	template<Derived<GameInstance> GAME, Derived<BaseApplication> APP>
-	inline int BaseApplication::Run(char* _argv[])
+	template<Derived<GameInstance> GAME, Derived<Application> APP>
+	inline int Application::Run(char* _argv[])
 	{
 		if (m_appInstance == nullptr)
 		{
 			const string argvStr = string(_argv[0]);
 			string appPath = argvStr.substr(0, argvStr.find_last_of("\\"));
 
-			m_appInstance = shared_ptr<BaseApplication>(new APP(new GAME(), appPath));
+			m_appInstance = shared_ptr<Application>(new APP(new GAME(), appPath));
 			return m_appInstance->Process();
 		}
 
@@ -82,7 +82,7 @@ namespace Catalyst
 	}
 
 	template <Derived<IModule> MODULE>
-	MODULE* BaseApplication::GetModule()
+	MODULE* Application::GetModule()
 	{
 		for(auto& module : m_appInstance->m_modules)
 		{

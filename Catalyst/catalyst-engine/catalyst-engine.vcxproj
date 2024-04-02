@@ -20,10 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp" />
-    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\BaseApplication.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Application.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Time.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Config.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameInstance.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\GameplayModule.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Camera.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\LightComponent.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Components\StaticMeshComponent.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Graphics.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Material.hpp" />
@@ -42,6 +44,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Shader.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\StaticMesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Texture.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputModule.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -49,10 +52,11 @@
     <None Include="resources\shaders\standard.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Engine\BaseApplication.cpp" />
+    <ClCompile Include="source\Engine\Application.cpp" />
     <ClCompile Include="source\Engine\IModule.cpp" />
     <ClCompile Include="source\Engine\Object.cpp" />
     <ClCompile Include="source\Engine\Screen.cpp" />
+    <ClCompile Include="source\Engine\Time.cpp" />
     <ClCompile Include="source\Engine\Utility\Color.cpp" />
     <ClCompile Include="source\Engine\Utility\Config.cpp" />
     <ClCompile Include="source\Engine\Utility\ConfigValue.cpp" />
@@ -63,6 +67,7 @@
     <ClCompile Include="source\Gameplay\GameInstance.cpp" />
     <ClCompile Include="source\Gameplay\GameplayModule.cpp" />
     <ClCompile Include="source\Graphics\Camera.cpp" />
+    <ClCompile Include="source\Graphics\Components\LightComponent.cpp" />
     <ClCompile Include="source\Graphics\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="source\Graphics\Graphics.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Material.cpp" />
@@ -70,6 +75,7 @@
     <ClCompile Include="source\Graphics\Rendering\Shader.cpp" />
     <ClCompile Include="source\Graphics\Rendering\StaticMesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Texture.cpp" />
+    <ClCompile Include="source\Input\InputModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="resources\config\engine.xml" />

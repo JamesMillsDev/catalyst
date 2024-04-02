@@ -49,7 +49,7 @@ namespace Catalyst
 
 	class Config
 	{
-		friend class BaseApplication;
+		friend class Application;
 
 	public:
 		DLL Config();

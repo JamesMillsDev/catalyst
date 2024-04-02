@@ -1,5 +1,10 @@
 #include <Catalyst/Graphics/Graphics.hpp>
 
+#include <Catalyst/Gameplay/Actors/Actor.hpp>
+#include <Catalyst/Graphics/Components/LightComponent.hpp>
+
+using std::vector;
+
 namespace Catalyst
 {
 	Graphics::Graphics()
@@ -17,7 +22,20 @@ namespace Catalyst
 		m_main = _cam;
 	}
 
-	void Graphics::Tick(BaseApplication* _app)
+	list<LightComponent*> Graphics::Lights()
+	{
+		return m_lightComponents;
+	}
+
+	LightComponent* Graphics::GetLight(const size_t _index)
+	{
+		auto iter = m_lightComponents.begin();
+		std::advance(iter, _index);
+
+		return *iter;
+	}
+
+	void Graphics::Tick(Application* _app)
 	{
 		IModule::Tick(_app);
 
@@ -25,6 +43,11 @@ namespace Catalyst
 			std::invoke(fnc, this, cam);
 
 		m_cameraListChanges.clear();
+
+		for (auto& [fnc, light] : m_lightListChanges)
+			std::invoke(fnc, this, light);
+
+		m_lightListChanges.clear();
 	}
 
 	void Graphics::Add(Camera* _camera)
@@ -41,6 +64,44 @@ namespace Catalyst
 			return;
 
 		m_cameraListChanges.emplace_back(&Graphics::RemoveCamera, _camera);
+	}
+
+	void Graphics::Add(LightComponent* _light)
+	{
+		if (std::ranges::find(m_lightComponents, _light) != m_lightComponents.end())
+			return;
+
+		m_lightListChanges.emplace_back(&Graphics::AddLight, _light);
+	}
+
+	void Graphics::Remove(LightComponent* _light)
+	{
+		if (std::ranges::find(m_lightComponents, _light) == m_lightComponents.end())
+			return;
+
+		m_lightListChanges.emplace_back(&Graphics::RemoveLight, _light);
+	}
+
+	void Graphics::AddLight(LightComponent* _light)
+	{
+		m_lightComponents.emplace_back(_light);
+	}
+
+	void Graphics::RemoveLight(LightComponent* _light)
+	{
+		m_lightComponents.remove(_light);
+	}
+
+	int Graphics::LightCount(bool _includeDirectional) const
+	{
+		int count = 0;
+		for(auto& light : m_lightComponents)
+		{
+			if(!light->directional || _includeDirectional)
+				count++;
+		}
+
+		return count;
 	}
 
 	void Graphics::AddCamera(Camera* _camera)

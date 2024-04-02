@@ -9,6 +9,9 @@ namespace Catalyst
 	{
 		friend class Actor;
 
+	public:
+		DLL class Actor* GetOwner() const;
+
 	protected:
 		DLL ActorComponent();
 		DLL ~ActorComponent() override;
@@ -19,9 +22,6 @@ namespace Catalyst
 
 		DLL virtual void Tick();
 		DLL virtual void Render();
-
-	protected:
-		DLL class Actor* GetOwner() const;
 
 	private:
 		class Actor* m_owner;

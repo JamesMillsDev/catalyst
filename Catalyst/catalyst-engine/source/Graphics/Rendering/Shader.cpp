@@ -231,10 +231,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform1i(loc, _value);
 		return true;
@@ -246,10 +243,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform1f(loc, _value);
 		return true;
@@ -261,10 +255,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform2f(loc, _value.x, _value.y);
 		return true;
@@ -276,10 +267,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform3f(loc, _value.x, _value.y, _value.z);
 		return true;
@@ -291,10 +279,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform4f(loc, _value.x, _value.y, _value.z, _value.w);
 		return true;
@@ -306,10 +291,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix2fv(loc, 1, GL_FALSE, &_value[0][0]);
 		return true;
@@ -321,10 +303,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix3fv(loc, 1, GL_FALSE, &_value[0][0]);
 		return true;
@@ -336,10 +315,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix4fv(loc, 1, GL_FALSE, &_value[0][0]);
 		return true;
@@ -351,10 +327,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform1iv(loc, _count, _value);
 		return true;
@@ -366,10 +339,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform1fv(loc, _count, _value);
 		return true;
@@ -381,10 +351,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform2fv(loc, _count, reinterpret_cast<const float*>(_value));
 		return true;
@@ -396,10 +363,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform3fv(loc, _count, reinterpret_cast<const float*>(_value));
 		return true;
@@ -411,10 +375,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniform4fv(loc, _count, reinterpret_cast<const float*>(_value));
 		return true;
@@ -426,10 +387,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix2fv(loc, _count, GL_FALSE, reinterpret_cast<const float*>(_value));
 		return true;
@@ -441,10 +399,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix3fv(loc, _count, GL_FALSE, reinterpret_cast<const float*>(_value));
 		return true;
@@ -456,10 +411,7 @@ namespace Catalyst
 
 		const int loc = glGetUniformLocation(m_program, _name);
 		if (loc < 0)
-		{
-			printf("Shader uniform [%s] not found! Is it being used?\n", _name);
 			return false;
-		}
 
 		glUniformMatrix4fv(loc, _count, GL_FALSE, reinterpret_cast<const float*>(_value));
 		return true;

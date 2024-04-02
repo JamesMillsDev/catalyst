@@ -19,6 +19,13 @@ namespace Catalyst
 
 	public:
 		DLL shared_ptr<class Transform> GetTransform();
+		template<Derived<ActorComponent> COMPONENT>
+		shared_ptr<COMPONENT> FindComponent();
+
+		template<Derived<ActorComponent> COMPONENT>
+		shared_ptr<COMPONENT> CreateComponent();
+		template<Derived<ActorComponent> COMPONENT>
+		void DestroyComponent(shared_ptr<COMPONENT> _component);
 
 	protected:
 		DLL Actor();
@@ -31,11 +38,6 @@ namespace Catalyst
 		DLL virtual void Tick();
 		DLL virtual void Render();
 
-		template<Derived<ActorComponent> COMPONENT>
-		shared_ptr<COMPONENT> CreateComponent();
-		template<Derived<ActorComponent> COMPONENT>
-		void DestroyComponent(shared_ptr<COMPONENT> _component);
-
 	private:
 		list<pair<ComponentListChange, shared_ptr<ActorComponent>>> m_componentListChanges;
 
@@ -47,6 +49,22 @@ namespace Catalyst
 		DLL void RemoveComponent(shared_ptr<ActorComponent> _component);
 
 	};
+
+	template <Derived<ActorComponent> COMPONENT>
+	shared_ptr<COMPONENT> Actor::FindComponent()
+	{
+		shared_ptr<COMPONENT> found = nullptr;
+
+		for(auto& component : m_components)
+		{
+			if(COMPONENT* comp = dynamic_cast<COMPONENT*>(component.get()))
+			{
+				found = shared_ptr<COMPONENT>(comp);
+			}
+		}
+
+		return found;
+	}
 
 	template <Derived<ActorComponent> COMPONENT>
 	shared_ptr<COMPONENT> Actor::CreateComponent()
