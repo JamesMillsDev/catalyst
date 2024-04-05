@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Application.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Callback.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\IModule.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp" />
@@ -44,6 +45,13 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Shader.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\StaticMesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Texture.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\Bindings.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\CompositeAction1DAxis.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\CompositeAction2DAxis.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction1DAxis.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction2DAxis.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputActionButton.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputModule.hpp" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -75,6 +83,11 @@
     <ClCompile Include="source\Graphics\Rendering\Shader.cpp" />
     <ClCompile Include="source\Graphics\Rendering\StaticMesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Texture.cpp" />
+    <ClCompile Include="source\Input\CompositeAction1DAxis.cpp" />
+    <ClCompile Include="source\Input\CompositeAction2DAxis.cpp" />
+    <ClCompile Include="source\Input\InputAction1DAxis.cpp" />
+    <ClCompile Include="source\Input\InputAction2DAxis.cpp" />
+    <ClCompile Include="source\Input\InputActionButton.cpp" />
     <ClCompile Include="source\Input\InputModule.cpp" />
   </ItemGroup>
   <ItemGroup>

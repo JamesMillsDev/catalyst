@@ -9,17 +9,17 @@ namespace Catalyst
 		friend class Application;
 
 	public:
-		DLL static double DeltaTime();
-		DLL static double AppTime();
+		DLL static float DeltaTime();
+		DLL static float AppTime();
 		DLL static uint32 FPS();
 
 	private:
-		DLL static double m_currTime;
-		DLL static double m_prevTime;
+		DLL static float m_currTime;
+		DLL static float m_prevTime;
 
-		DLL static double m_deltaTime;
+		DLL static float m_deltaTime;
 		DLL static uint32 m_frames;
-		DLL static double m_fpsInterval;
+		DLL static float m_fpsInterval;
 		DLL static uint32 m_fps;
 
 	private:

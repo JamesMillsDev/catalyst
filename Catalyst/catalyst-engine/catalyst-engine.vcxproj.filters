@@ -73,6 +73,21 @@
     <ClCompile Include="source\Engine\Time.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="source\Input\InputAction1DAxis.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\InputAction2DAxis.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\InputActionButton.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\CompositeAction1DAxis.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\CompositeAction2DAxis.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Catalyst.hpp">
@@ -155,6 +170,30 @@
     </ClInclude>
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Time.hpp">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\Bindings.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Callback.hpp">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction1DAxis.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputAction2DAxis.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\InputActionButton.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\CompositeAction1DAxis.hpp">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\CompositeAction2DAxis.hpp">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

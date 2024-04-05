@@ -12,7 +12,6 @@
 #include "Catalyst/Gameplay/GameplayModule.hpp"
 #include "Catalyst/Gameplay/Actors/Transform.hpp"
 #include "Catalyst/Graphics/Graphics.hpp"
-#include "Catalyst/Graphics/Components/LightComponent.hpp"
 
 using Catalyst::Actor;
 
@@ -34,7 +33,7 @@ namespace Catalyst
 		);
 
 		m_camera = std::make_shared<ViewportCamera>(
-			m_config
+			m_config, m_screen
 		);
 
 		if (Graphics* graphics = GetModule<Graphics>())
@@ -65,8 +64,6 @@ namespace Catalyst
 
 	void EditorApplication::Tick()
 	{
-		m_camera->Tick();
-
 		// Render a simple grid with gizmos
 		const Color white = { .5f, .5f, .5f, .5f };
 		const Color black = { 0, 0, 0, 1 };

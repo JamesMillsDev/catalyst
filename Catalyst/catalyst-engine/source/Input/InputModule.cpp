@@ -1,42 +1,114 @@
 #include <Catalyst/Input/InputModule.hpp>
 
-#include <GLFW/glfw3.h>
+#include <ranges>
+#include <glfw/glfw3.h>
 
 namespace Catalyst
 {
 	InputModule* InputModule::m_instance = nullptr;
 
+	bool InputModule::AddAction(const char* _id, Action* _action)
+	{
+		if (m_instance->m_actions.contains(_id))
+			return false;
+
+		m_instance->m_actions[_id] = _action;
+		return true;
+	}
+
+	vec2 InputModule::GetMousePosition()
+	{
+		return
+		{
+			m_instance->m_mouseX,
+			m_instance->m_mouseY
+		};
+	}
+
+	vec2 InputModule::GetPrevMousePosition()
+	{
+		return
+		{
+			m_instance->m_oldMouseX,
+			m_instance->m_oldMouseY
+		};
+	}
+
+	bool InputModule::IsButtonDown(const Binding _binding)
+	{
+		const bool keyPress = m_instance->m_currentKeys[_binding] == GLFW_PRESS;
+		if (keyPress)
+			return true;
+
+		const bool mousePress = m_instance->m_currentButtons[_binding] == GLFW_PRESS;
+		return mousePress;
+	}
+
+	bool InputModule::IsButtonUp(const Binding _binding)
+	{
+		const bool keyRelease = m_instance->m_currentKeys[_binding] == GLFW_RELEASE;
+		if (keyRelease)
+			return true;
+
+		const bool mouseRelease = m_instance->m_currentButtons[_binding] == GLFW_RELEASE;
+		return mouseRelease;
+	}
+
+	bool InputModule::WasButtonPressed(const Binding _binding)
+	{
+		const bool wasKeyPressed = m_instance->m_currentKeys[_binding] == GLFW_PRESS &&
+			m_instance->m_lastKeys[_binding] == GLFW_RELEASE;
+
+		if (wasKeyPressed)
+			return true;
+
+		const bool wasMousePressed = m_instance->m_currentButtons[_binding] == GLFW_PRESS &&
+			m_instance->m_lastButtons[_binding] == GLFW_RELEASE;
+
+		if (wasMousePressed)
+			return true;
+
+		return false;
+	}
+
+	bool InputModule::WasButtonReleased(const Binding _binding)
+	{
+		const bool wasKeyReleased = m_instance->m_currentKeys[_binding] == GLFW_RELEASE &&
+			m_instance->m_lastKeys[_binding] == GLFW_PRESS;
+
+		if (wasKeyReleased)
+			return true;
+
+		const bool wasMouseReleased = m_instance->m_currentButtons[_binding] == GLFW_RELEASE &&
+			m_instance->m_lastButtons[_binding] == GLFW_PRESS;
+
+		if (wasMouseReleased)
+			return true;
+
+		return false;
+	}
+
 	InputModule::InputModule()
-		: IModule("Input"), m_mouseX{ 0 }, m_mouseY{ 0 }, m_oldMouseX{ 0 },
-		m_oldMouseY{ 0 }, m_mouseScroll{ 0 }, m_firstMouseMove{ false }
+		: m_mouseX{ 0 }, m_mouseY{ 0 }, m_oldMouseX{ 0 }, m_oldMouseY{ 0 }, m_scroll{ 0 },
+		m_firstMouseMove{ false }, m_lastKeys{ new int[GLFW_KEY_LAST + 1] },
+		m_currentKeys{ new int[GLFW_KEY_LAST + 1] }, m_lastButtons{ new int[GLFW_MOUSE_BUTTON_LAST + 1] },
+		m_currentButtons{ new int[GLFW_MOUSE_BUTTON_LAST + 1] }, IModule("Input")
 	{
 		m_instance = this;
 
-		// track current/previous key and mouse button states
-		m_lastKeys = new int[GLFW_KEY_LAST + 1];
-		m_currentKeys = new int[GLFW_KEY_LAST + 1];
-
-		const auto window = glfwGetCurrentContext();
+		GLFWwindow* window = glfwGetCurrentContext();
 
 		for (int i = GLFW_KEY_SPACE; i <= GLFW_KEY_LAST; ++i)
 			m_lastKeys[i] = m_currentKeys[i] = glfwGetKey(window, i);
 
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i <= GLFW_MOUSE_BUTTON_LAST; ++i)
 			m_lastButtons[i] = m_currentButtons[i] = glfwGetMouseButton(window, i);
 
 		// set up callbacks
 		auto keyPressCallback = [](GLFWwindow* _window, const int _key, const int _scanCode, const int _action, const int _mods)
 			{
-				for (auto& f : GetInstance()->m_keyCallbacks)
+				for (const auto& f : m_instance->m_keyCallbacks)
 					f(_window, _key, _scanCode, _action, _mods);
-			};
-
-		auto characterInputCallback = [](GLFWwindow* _window, const unsigned int _character)
-			{
-				GetInstance()->m_pressedCharacters.push_back(_character);
-
-				for (auto& f : GetInstance()->m_charCallbacks)
-					f(_window, _character);
 			};
 
 		auto mouseMoveCallback = [](GLFWwindow* _window, const double _x, const double _y)
@@ -44,34 +116,33 @@ namespace Catalyst
 				int w = 0, h = 0;
 				glfwGetWindowSize(_window, &w, &h);
 
-				GetInstance()->OnMouseMove(static_cast<int>(_x), h - static_cast<int>(_y));
+				m_instance->OnMouseMove(static_cast<float>(_x), static_cast<float>(h) - static_cast<float>(_y));
 
-				for (auto& f : InputModule::GetInstance()->m_mouseMoveCallbacks)
+				for (const auto& f : m_instance->m_mouseMoveCallbacks)
 					f(_window, _x, h - _y);
 			};
 
 		auto mouseInputCallback = [](GLFWwindow* _window, const int _button, const int _action, const int _mods)
 			{
-				for (auto& f : GetInstance()->m_mouseButtonCallbacks)
+				for (const auto& f : m_instance->m_mouseButtonCallbacks)
 					f(_window, _button, _action, _mods);
 			};
 
 		auto mouseScrollCallback = [](GLFWwindow* _window, const double _xOffset, const double _yOffset)
 			{
-				GetInstance()->m_mouseScroll += _yOffset;
+				m_instance->m_scroll += _yOffset;
 
-				for (auto& f : GetInstance()->m_mouseScrollCallbacks)
+				for (const auto& f : m_instance->m_mouseScrollCallbacks)
 					f(_window, _xOffset, _yOffset);
 			};
 
-		auto mouseEnterCallback = [](GLFWwindow* _window, int _entered)
+		auto mouseEnterCallback = [](GLFWwindow*, int)
 			{
 				// Set flag to prevent large mouse delta on entering screen
-				GetInstance()->m_firstMouseMove = true;
+				m_instance->m_firstMouseMove = true;
 			};
 
 		glfwSetKeyCallback(window, keyPressCallback);
-		glfwSetCharCallback(window, characterInputCallback);
 		glfwSetMouseButtonCallback(window, mouseInputCallback);
 		glfwSetCursorPosCallback(window, mouseMoveCallback);
 		glfwSetScrollCallback(window, mouseScrollCallback);
@@ -80,110 +151,21 @@ namespace Catalyst
 
 	InputModule::~InputModule()
 	{
-		IModule::~IModule();
-
 		delete[] m_lastKeys;
 		delete[] m_currentKeys;
+
+		for (const auto actions : m_actions | std::views::values)
+			delete actions;
 	}
 
-	bool InputModule::IsKeyDown(const int _inputKeyId) const
+	InputModule* InputModule::GetInstance()
 	{
-		return m_currentKeys[_inputKeyId] == GLFW_PRESS;
-	}
-
-	bool InputModule::IsKeyUp(const int _inputKeyId) const
-	{
-		return m_currentKeys[_inputKeyId] == GLFW_RELEASE;
-	}
-
-	bool InputModule::WasKeyPressed(const int _inputKeyId) const
-	{
-		return m_currentKeys[_inputKeyId] == GLFW_PRESS && m_lastKeys[_inputKeyId] == GLFW_RELEASE;
-	}
-
-	bool InputModule::WasKeyReleased(const int _inputKeyId) const
-	{
-		return m_currentKeys[_inputKeyId] == GLFW_RELEASE && m_lastKeys[_inputKeyId] == GLFW_PRESS;
-	}
-
-	const vector<int>& InputModule::GetPressedKeys() const
-	{
-		return m_pressedKeys;
-	}
-
-	const vector<unsigned>& InputModule::GetPressedCharacters() const
-	{
-		return m_pressedCharacters;
-	}
-
-	bool InputModule::IsMouseButtonDown(const int _inputMouseId) const
-	{
-		return m_currentButtons[_inputMouseId] == GLFW_PRESS;
-	}
-
-	bool InputModule::IsMouseButtonUp(const int _inputMouseId) const
-	{
-		return m_currentButtons[_inputMouseId] == GLFW_RELEASE;
-	}
-
-	bool InputModule::WasMouseButtonPressed(const int _inputMouseId) const
-	{
-		return m_currentButtons[_inputMouseId] == GLFW_PRESS && m_lastButtons[_inputMouseId] == GLFW_RELEASE;
-	}
-
-	bool InputModule::WasMouseButtonReleased(const int _inputMouseId) const
-	{
-		return m_currentButtons[_inputMouseId] == GLFW_RELEASE && m_lastButtons[_inputMouseId] == GLFW_PRESS;
-	}
-
-	int InputModule::GetMouseX() const
-	{
-		return m_mouseX;
-	}
-
-	int InputModule::GetMouseY() const
-	{
-		return m_mouseY;
-	}
-
-	void InputModule::GetMousePos(int* _x, int* _y) const
-	{
-		if (_x != nullptr) 
-			*_x = m_mouseX;
-
-		if (_y != nullptr) 
-			*_y = m_mouseY;
-	}
-
-	int InputModule::GetMouseDeltaX() const
-	{
-		return m_mouseX - m_oldMouseX;
-	}
-
-	int InputModule::GetMouseDeltaY() const
-	{
-		return m_mouseY - m_oldMouseY;
-	}
-
-	void InputModule::GetMouseDelta(int* _x, int* _y) const
-	{
-		if (_x != nullptr) 
-			*_x = m_mouseX - m_oldMouseX;
-
-		if (_y != nullptr) 
-			*_y = m_mouseY - m_oldMouseY;
-	}
-
-	double InputModule::GetMouseScroll() const
-	{
-		return m_mouseScroll;
+		return m_instance;
 	}
 
 	void InputModule::Tick(Application* _app)
 	{
-		m_pressedCharacters.clear();
-
-		const auto window = glfwGetCurrentContext();
+		GLFWwindow* window = glfwGetCurrentContext();
 
 		m_pressedKeys.clear();
 
@@ -197,22 +179,26 @@ namespace Catalyst
 		}
 
 		// Update mouse
-		for (int i = 0; i < 8; ++i)
+		for (int i = 0; i <= GLFW_MOUSE_BUTTON_LAST; ++i)
 		{
 			m_lastButtons[i] = m_currentButtons[i];
 			m_currentButtons[i] = glfwGetMouseButton(window, i);
 		}
+
+		for (const auto action : m_actions | std::views::values)
+			action->Tick();
 
 		// Update old mouse position
 		m_oldMouseX = m_mouseX;
 		m_oldMouseY = m_mouseY;
 	}
 
-	void InputModule::OnMouseMove(const int _newXPos, const int _newYPos)
+	void InputModule::OnMouseMove(const float _newXPos, const float _newYPos)
 	{
 		m_mouseX = _newXPos;
 		m_mouseY = _newYPos;
-		if (m_firstMouseMove) 
+
+		if (m_firstMouseMove)
 		{
 			// On first move after Startup/entering window reset old mouse position
 			m_oldMouseX = _newXPos;
