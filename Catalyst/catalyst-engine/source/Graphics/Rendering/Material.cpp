@@ -179,6 +179,166 @@ namespace Catalyst
 		m_textures[_name] = shared_ptr<Texture>(_texture);
 	}
 
+	void Material::Set(const int _id, const int _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const float _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const vec2& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const vec3& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const vec4& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const mat2& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const mat3& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const mat4& _value) const
+	{
+		shader->Set(_id, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const int* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const float* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const vec2* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const vec3* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const vec4* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const mat2* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const mat3* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	void Material::Set(const int _id, const int _count, const mat4* _value) const
+	{
+		shader->Set(_id, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const float _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const vec2& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const vec3& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const vec4& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const mat2& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const mat3& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const mat4& _value) const
+	{
+		return shader->Set(_name, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const int* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const float* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const vec2* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const vec3* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const vec4* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const mat2* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const mat3* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
+	bool Material::Set(const char* _name, const int _count, const mat4* _value) const
+	{
+		return shader->Set(_name, _count, _value);
+	}
+
 	// ReSharper disable once CppMemberFunctionMayBeStatic
 	void Material::SetProperty(const aiMaterial* _mat, const aiMaterialProperty* _property, vec3* _color)
 	{

@@ -6,10 +6,10 @@
 #include <Catalyst/Graphics/Rendering/Shader.hpp>
 #include <Catalyst/Graphics/Rendering/StaticMesh.hpp>
 
-using Catalyst::Shader;
-using Catalyst::Material;
-using Catalyst::StaticMesh;
 using Catalyst::StaticMeshComponent;
+using Catalyst::Material;
+using Catalyst::Shader;
+using Catalyst::StaticMesh;
 
 TestActor::TestActor()
 {
@@ -19,10 +19,11 @@ TestActor::TestActor()
 	const shared_ptr<StaticMeshComponent> component = CreateComponent<StaticMeshComponent>();
 	component->SetMesh(mesh);
 
-	shared_ptr<Shader> shader = std::make_shared<Shader>();
-	shader->Load(Shader::EShaderType::Vertex, "../../TestProject/Content/Shaders/normalLit.vert");
-	shader->Load(Shader::EShaderType::Fragment, "../../TestProject/Content/Shaders/normalLit.frag");
-	shader->Link();
+	/*shared_ptr<ShaderProgram> shader = std::make_shared<ShaderProgram>();
+	shader->Load(ShaderProgram::EShaderType::Vertex, "../../TestProject/Content/Shaders/normalLit.vert");
+	shader->Load(ShaderProgram::EShaderType::Fragment, "../../TestProject/Content/Shaders/normalLit.frag");
+	shader->Link();*/
+	const shared_ptr<Shader> shader = std::make_shared<Shader>("../../TestProject/Content/Shaders/Standard.shader");
 
 	for(size_t i = 0; i < mesh->GetMaterialCount(); ++i)
 	{

@@ -26,9 +26,11 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Object.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Screen.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Time.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Callback.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Color.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\Config.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\ConfigValue.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\LINQ.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\Utility\StringUtils.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Engine\UUID.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Gameplay\Actors\Actor.hpp" />
@@ -43,6 +45,7 @@
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Material.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Mesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Shader.hpp" />
+    <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\ShaderParser.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\StaticMesh.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Graphics\Rendering\Texture.hpp" />
     <ClInclude Include="..\..\Dependencies\include\Catalyst\Input\Bindings.hpp" />
@@ -68,6 +71,7 @@
     <ClCompile Include="source\Engine\Utility\Color.cpp" />
     <ClCompile Include="source\Engine\Utility\Config.cpp" />
     <ClCompile Include="source\Engine\Utility\ConfigValue.cpp" />
+    <ClCompile Include="source\Engine\Utility\StringUtils.cpp" />
     <ClCompile Include="source\Engine\UUID.cpp" />
     <ClCompile Include="source\Gameplay\Actors\Actor.cpp" />
     <ClCompile Include="source\Gameplay\Actors\ActorComponent.cpp" />
@@ -81,6 +85,7 @@
     <ClCompile Include="source\Graphics\Rendering\Material.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Mesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Shader.cpp" />
+    <ClCompile Include="source\Graphics\Rendering\ShaderParser.cpp" />
     <ClCompile Include="source\Graphics\Rendering\StaticMesh.cpp" />
     <ClCompile Include="source\Graphics\Rendering\Texture.cpp" />
     <ClCompile Include="source\Input\CompositeAction1DAxis.cpp" />

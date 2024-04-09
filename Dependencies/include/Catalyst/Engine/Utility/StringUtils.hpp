@@ -16,6 +16,9 @@ namespace Catalyst
 		template<typename TYPE>
 		static vector<TYPE> Split(const string& _string, char _delim, TYPE(*_converter)(const string&));
 
+		static void RemoveAll(string& _string, const string& _toRemove);
+		static void ReplaceAll(string& _string, const string& _toReplace, const string& _replacement);
+
 	};
 
 	template <typename TYPE>

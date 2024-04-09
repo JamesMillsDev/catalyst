@@ -21,8 +21,11 @@ namespace Catalyst
 {
 	class Shader
 	{
-	public:
-		enum EShaderType : uint32
+		friend class Material;
+		friend class ShaderParser;
+
+	private:
+		enum EShaderStage : uint32
 		{
 			Undefined = 0,
 			Vertex,
@@ -30,43 +33,41 @@ namespace Catalyst
 			TessellationControl,
 			Geometry,
 			Fragment,
-			ShaderStageCount,
+			ShaderStageCount
 		};
 
 		class SubShader
 		{
+			friend class Shader;
+			friend class ShaderParser;
+
 		public:
-			DLL SubShader();
-			DLL SubShader(uint32 _stage, const char* _fileName);
 			DLL ~SubShader();
 
-		public:
-			DLL bool Load(uint32 _stage, const char* _fileName);
-			DLL bool Create(uint32 _stage, const char* _string);
+		private:
+			DLL SubShader(uint32 _stage);
 
+		private:
 			DLL uint32 GetStage() const;
 			DLL uint32 GetHandle() const;
 
 			DLL const char* GetLastError() const;
 
-		protected:
+		private:
 			uint32 m_stage;
 			uint32 m_handle;
 			char* m_lastError;
 
+		private:
+			DLL void Create(const char* _source);
+
 		};
 
 	public:
-		DLL Shader();
+		DLL Shader(const char* _fileName);
 		DLL ~Shader();
 
-	public:
-		DLL bool Load(uint32 _stage, const char* _fileName);
-		DLL bool Create(uint32 _stage, const char* _string);
-		DLL void Attach(const shared_ptr<SubShader>& _shader);
-
-		DLL bool Link();
-
+	private:
 		DLL const char* GetLastError() const;
 
 		DLL void Bind() const;
@@ -114,6 +115,12 @@ namespace Catalyst
 		uint32 m_program;
 		shared_ptr<SubShader> m_shaders[ShaderStageCount];
 		char* m_lastError;
+		const char* m_fileName;
+
+	private:
+		DLL void Load();
+		DLL void Attach(const shared_ptr<SubShader>& _shader);
+		DLL bool Link();
 
 	};
 }

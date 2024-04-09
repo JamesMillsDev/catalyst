@@ -26,7 +26,7 @@ namespace Catalyst
 		: Camera(_config->GetValue<float>("viewport", "camera.fov"),
 			_config->GetValue<float>("viewport", "camera.near"),
 			_config->GetValue<float>("viewport", "camera.far")),
-		m_screen{ _screen }, m_theta{ 0 }, m_phi{ 0 }, m_lastMouse{ 0, 0 }, m_isCameraActive{ false }
+		m_screen{ _screen }, m_theta{ 0 }, m_phi{ 0 }, m_lastMouse{ 0, 0 }
 	{
 		m_moveSpeed = _config->GetValue<float>("viewport", "camera.moveSpeed");
 		m_turnSpeed = glm::radians(_config->GetValue<float>("viewport", "camera.turnSpeed"));
@@ -48,7 +48,15 @@ namespace Catalyst
 		}
 	}
 
-	void ViewportCamera::OnCameraActivatePerformed(const bool _perf)
+	void ViewportCamera::OnMovePerformed(bool _perf)
+	{
+	}
+
+	void ViewportCamera::OnMoveCompleted(bool _perf)
+	{
+	}
+
+	/*void ViewportCamera::OnCameraActivatePerformed(const bool _perf)
 	{
 		m_isCameraActive = true;
 
@@ -95,5 +103,5 @@ namespace Catalyst
 		rot *= quat(m_phi, vec3(1, 0, 0));
 
 		m_transform->SetRotation(rot);
-	}
+	}*/
 }

@@ -1,22 +1,19 @@
 #include <Catalyst/Graphics/Rendering/Shader.hpp>
 
-#include <cstdio>
+#include <Catalyst/Graphics/Rendering/ShaderParser.hpp>
+
 #include <cassert>
 
 #include <GL/glew.h>
 
+using std::fstream;
+
 namespace Catalyst
 {
-	Shader::SubShader::SubShader()
-		: m_stage{ 0 }, m_handle{ 0 }, m_lastError{ nullptr }
+	Shader::SubShader::SubShader(const unsigned int _stage)
+		: m_stage{ _stage }, m_handle{ 0 }, m_lastError{ nullptr }
 	{
 
-	}
-
-	Shader::SubShader::SubShader(const unsigned int _stage, const char* _fileName)
-		: m_stage{ 0 }, m_handle{ 0 }, m_lastError{ nullptr }
-	{
-		Load(_stage, _fileName);
 	}
 
 	Shader::SubShader::~SubShader()
@@ -25,13 +22,11 @@ namespace Catalyst
 		glDeleteShader(m_handle);
 	}
 
-	bool Shader::SubShader::Load(const uint32 _stage, const char* _fileName)
+	void Shader::SubShader::Create(const char* _source)
 	{
-		assert(_stage > 0 && _stage < EShaderType::ShaderStageCount);
+		assert(m_stage > 0 && m_stage < EShaderStage::ShaderStageCount);
 
-		m_stage = _stage;
-
-		switch (_stage)
+		switch (m_stage)
 		{
 		case Vertex:
 			m_handle = glCreateShader(GL_VERTEX_SHADER);
@@ -54,65 +49,7 @@ namespace Catalyst
 		}
 
 		// open file
-		FILE* file = nullptr;
-		fopen_s(&file, _fileName, "rb");  // NOLINT(cert-err33-c)
-		fseek(file, 0, SEEK_END);  // NOLINT(cert-err33-c)
-		const unsigned int size = ftell(file);
-		char* source = new char[size + 1];
-		fseek(file, 0, SEEK_SET);  // NOLINT(cert-err33-c)
-		fread_s(source, size + 1, sizeof(char), size, file);
-		fclose(file);  // NOLINT(cert-err33-c)
-		source[size] = 0;
-
-		glShaderSource(m_handle, 1, const_cast<const char**>(&source), nullptr);
-		glCompileShader(m_handle);
-
-		delete[] source;
-
-		int success = GL_TRUE;
-		glGetShaderiv(m_handle, GL_LINK_STATUS, &success);
-		if (success == GL_FALSE)
-		{
-			int infoLogLength = 0;
-			glGetShaderiv(m_handle, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-			delete[] m_lastError;
-			m_lastError = new char[infoLogLength];
-			glGetShaderInfoLog(m_handle, infoLogLength, nullptr, m_lastError);
-			return false;
-		}
-
-		return true;
-	}
-
-	bool Shader::SubShader::Create(const uint32 _stage, const char* _string)
-	{
-		assert(_stage > 0 && _stage < EShaderType::ShaderStageCount);
-
-		m_stage = _stage;
-
-		switch (_stage)
-		{
-		case Vertex:
-			m_handle = glCreateShader(GL_VERTEX_SHADER);
-			break;
-		case TessellationEvaluation:
-			m_handle = glCreateShader(GL_TESS_EVALUATION_SHADER);
-			break;
-		case TessellationControl:
-			m_handle = glCreateShader(GL_TESS_CONTROL_SHADER);
-			break;
-		case Geometry:
-			m_handle = glCreateShader(GL_GEOMETRY_SHADER);
-			break;
-		case Fragment:
-			m_handle = glCreateShader(GL_FRAGMENT_SHADER);
-			break;
-		default:
-			break;
-		}
-
-		glShaderSource(m_handle, 1, &_string, nullptr);
+		glShaderSource(m_handle, 1, &_source, nullptr);
 		glCompileShader(m_handle);
 
 		int success = GL_TRUE;
@@ -125,10 +62,7 @@ namespace Catalyst
 			delete[] m_lastError;
 			m_lastError = new char[infoLogLength];
 			glGetShaderInfoLog(m_handle, infoLogLength, nullptr, m_lastError);
-			return false;
 		}
-
-		return true;
 	}
 
 	uint32 Shader::SubShader::GetStage() const
@@ -146,62 +80,18 @@ namespace Catalyst
 		return m_lastError;
 	}
 
-	Shader::Shader()
-		: m_program{ 0 }, m_lastError{ nullptr }
+	Shader::Shader(const char* _fileName)
+		: m_program{ 0 }, m_lastError{ nullptr }, m_fileName{ _fileName }
 	{
 		m_shaders[0] = m_shaders[1] = m_shaders[2] = m_shaders[3] = m_shaders[4] = nullptr;
+
+		Load();
 	}
 
 	Shader::~Shader()
 	{
 		delete[] m_lastError;
 		glDeleteProgram(m_program);
-	}
-
-	bool Shader::Load(const uint32 _stage, const char* _fileName)
-	{
-		assert(_stage > 0 && _stage < EShaderType::ShaderStageCount);
-		m_shaders[_stage] = std::make_shared<SubShader>();
-		return m_shaders[_stage]->Load(_stage, _fileName);
-	}
-
-	bool Shader::Create(const uint32 _stage, const char* _string)
-	{
-		assert(_stage > 0 && _stage < EShaderType::ShaderStageCount);
-		m_shaders[_stage] = std::make_shared<SubShader>();
-		return m_shaders[_stage]->Create(_stage, _string);
-	}
-
-	void Shader::Attach(const shared_ptr<SubShader>& _shader)
-	{
-		assert(_shader != nullptr);
-		m_shaders[_shader->GetStage()] = _shader;
-	}
-
-	bool Shader::Link()
-	{
-		m_program = glCreateProgram();
-		for (auto& s : m_shaders)
-		{
-			if (s != nullptr)
-				glAttachShader(m_program, s->GetHandle());
-		}
-		glLinkProgram(m_program);
-
-		int success = GL_TRUE;
-		glGetProgramiv(m_program, GL_LINK_STATUS, &success);
-		if (success == GL_FALSE)
-		{
-			int infoLogLength = 0;
-			glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &infoLogLength);
-
-			delete[] m_lastError;
-			m_lastError = new char[infoLogLength + 1];
-			glGetProgramInfoLog(m_program, infoLogLength, nullptr, m_lastError);
-			return false;
-		}
-
-		return true;
 	}
 
 	const char* Shader::GetLastError() const
@@ -527,5 +417,51 @@ namespace Catalyst
 		assert(m_program > 0 && "Invalid shader program");
 		assert(_id >= 0 && "Invalid shader uniform");
 		glUniformMatrix4fv(_id, _count, GL_FALSE, reinterpret_cast<const float*>(_value));
+	}
+
+	void Shader::Load()
+	{
+		const list<SubShader*> shaders = ShaderParser::Parse(m_fileName);
+
+		for (SubShader* shader : shaders)
+		{
+			shared_ptr<SubShader> s = std::make_shared<SubShader>(*shader);
+			Attach(s);
+		}
+
+		if(!Link())
+			printf("%s", m_lastError);
+	}
+
+	void Shader::Attach(const shared_ptr<SubShader>& _shader)
+	{
+		assert(_shader != nullptr);
+		m_shaders[_shader->GetStage()] = _shader;
+	}
+
+	bool Shader::Link()
+	{
+		m_program = glCreateProgram();
+		for (auto& s : m_shaders)
+		{
+			if (s != nullptr)
+				glAttachShader(m_program, s->GetHandle());
+		}
+		glLinkProgram(m_program);
+
+		int success = GL_TRUE;
+		glGetProgramiv(m_program, GL_LINK_STATUS, &success);
+		if (success == GL_FALSE)
+		{
+			int infoLogLength = 0;
+			glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &infoLogLength);
+
+			delete[] m_lastError;
+			m_lastError = new char[infoLogLength + 1];
+			glGetProgramInfoLog(m_program, infoLogLength, nullptr, m_lastError);
+			return false;
+		}
+
+		return true;
 	}
 }

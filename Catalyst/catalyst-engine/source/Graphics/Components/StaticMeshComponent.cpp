@@ -7,7 +7,6 @@
 #include <Catalyst/Graphics/Graphics.hpp>
 #include <Catalyst/Graphics/Rendering/Material.hpp>
 #include <Catalyst/Graphics/Rendering/Mesh.hpp>
-#include <Catalyst/Graphics/Rendering/Shader.hpp>
 #include <Catalyst/Graphics/Rendering/StaticMesh.hpp>
 
 namespace Catalyst
@@ -47,9 +46,9 @@ namespace Catalyst
 
 					const auto pvm = current->ProjectTransform(GetOwner()->GetTransform()->Global());
 					// ReSharper disable CppExpressionWithoutSideEffects
-					material->shader->Set("ProjectionViewModel", pvm);
-					material->shader->Set("ModelMatrix", GetOwner()->GetTransform()->Global());
-					material->shader->Set("CameraPosition", current->Location());
+					material->Set("ProjectionViewModel", pvm);
+					material->Set("ModelMatrix", GetOwner()->GetTransform()->Global());
+					material->Set("CameraPosition", current->Location());
 					// ReSharper restore CppExpressionWithoutSideEffects
 
 					mesh->Render();
