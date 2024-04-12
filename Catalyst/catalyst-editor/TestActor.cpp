@@ -16,7 +16,7 @@ TestActor::TestActor()
 	const shared_ptr<StaticMesh> mesh = std::make_shared<StaticMesh>();
 	mesh->Load("../../TestProject/Content/SoulSpear/SoulSpear.obj", true);
 
-	const shared_ptr<StaticMeshComponent> component = CreateComponent<StaticMeshComponent>();
+	StaticMeshComponent* component = CreateComponent<StaticMeshComponent>();
 	component->SetMesh(mesh);
 
 	/*shared_ptr<ShaderProgram> shader = std::make_shared<ShaderProgram>();

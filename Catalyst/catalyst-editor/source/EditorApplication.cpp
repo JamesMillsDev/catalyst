@@ -1,17 +1,17 @@
 #include "EditorApplication.hpp"
 
 #include <ViewportCamera.h>
+#include <Debug/Gizmos.hpp>
 #include <Catalyst/Engine/Screen.hpp>
 #include <Catalyst/Engine/Utility/Config.hpp>
-#include <Debug/Gizmos.hpp>
 #include <Catalyst/Gameplay/Actors/Actor.hpp>
+#include <Catalyst/Gameplay/GameplayModule.hpp>
+#include <Catalyst/Gameplay/Actors/Transform.hpp>
+#include <Catalyst/Graphics/Graphics.hpp>
 
 #include "../TestActor.h"
 #include "../TestLight.h"
 #include "../TestPointLightActor.h"
-#include "Catalyst/Gameplay/GameplayModule.hpp"
-#include "Catalyst/Gameplay/Actors/Transform.hpp"
-#include "Catalyst/Graphics/Graphics.hpp"
 
 using Catalyst::Actor;
 
@@ -47,11 +47,11 @@ namespace Catalyst
 			gameplay->SpawnActor<TestLight>();
 			gameplay->SpawnActor<TestPointLightActor>();
 
-			const shared_ptr<TestPointLightActor> actor = gameplay->SpawnActor<TestPointLightActor>();
+			TestPointLightActor* actor = gameplay->SpawnActor<TestPointLightActor>();
 			actor->SetupLight({ 0, 1, 0, 1 }, 25.f);
 			actor->GetTransform()->TRS({ -1.f, 0, 0.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f });
 
-			const shared_ptr<TestPointLightActor> actor2 = gameplay->SpawnActor<TestPointLightActor>();
+			TestPointLightActor* actor2 = gameplay->SpawnActor<TestPointLightActor>();
 			actor2->SetupLight({ 0, 0, 1, 1 }, 15.f);
 			actor2->GetTransform()->TRS({ 0.f, 5.f, -1.f }, { 0.f, 0.f, 0.f }, { 1.f, 1.f, 1.f });
 		}

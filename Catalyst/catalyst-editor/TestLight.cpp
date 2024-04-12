@@ -8,7 +8,7 @@ using Catalyst::LightComponent;
 
 TestLight::TestLight()
 {
-	shared_ptr<LightComponent> light = CreateComponent<LightComponent>();
+	LightComponent* light = CreateComponent<LightComponent>();
 	light->directional = true;
 	light->color = Color{ 1.f, 1.f, 1.f, 1.f };
 

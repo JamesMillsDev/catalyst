@@ -11,10 +11,6 @@
 template<class T, class U>
 concept Derived = std::is_base_of<U, T>::value;
 
-#include <memory>
-
-using std::shared_ptr;
-
 typedef uint8_t ubyte;
 
 typedef uint16_t ushort16;

@@ -14,8 +14,9 @@ public:
 
 public:
 	void SetupLight(Color _color, float _intensity) const;
+	virtual void Tick() override;
 
 private:
-	shared_ptr<Catalyst::LightComponent> m_light;
+	Catalyst::LightComponent* m_light;
 
 };

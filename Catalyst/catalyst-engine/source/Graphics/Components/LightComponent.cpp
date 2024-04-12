@@ -27,7 +27,7 @@ namespace Catalyst
 	{
 		ActorComponent::Tick();
 
-		if(const shared_ptr<Transform> transform = GetOwner()->GetTransform())
+		if(Transform* transform = GetOwner()->GetTransform())
 		{
 			direction = transform->Forward();
 		}

@@ -4,7 +4,7 @@
 
 namespace Catalyst
 {
-	shared_ptr<Transform> Actor::GetTransform()
+	Transform* Actor::GetTransform()
 	{
 		return m_transform;
 	}
@@ -20,7 +20,7 @@ namespace Catalyst
 		Object::~Object();
 
 		for(auto& component : m_components)
-			component.reset();
+			delete component;
 
 		m_components.clear();
 	}
@@ -54,15 +54,15 @@ namespace Catalyst
 			component->Render();
 	}
 
-	void Actor::AddComponent(shared_ptr<ActorComponent> _component)
+	void Actor::AddComponent(ActorComponent* _component)
 	{
 		m_components.emplace_back(std::move(_component));
 	}
 
-	void Actor::RemoveComponent(shared_ptr<ActorComponent> _component)
+	void Actor::RemoveComponent(ActorComponent* _component)
 	{
 		_component->OnEndPlay();
 		m_components.remove(_component);
-		_component.reset();
+		delete _component;
 	}
 }

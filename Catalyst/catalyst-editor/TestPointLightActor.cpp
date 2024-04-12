@@ -2,8 +2,10 @@
 
 #include <Catalyst/Gameplay/Actors/Transform.hpp>
 #include <Catalyst/Graphics/Components/LightComponent.hpp>
+#include <Catalyst/Engine/Time.hpp>
 
 using Catalyst::LightComponent;
+using Catalyst::Time;
 
 TestPointLightActor::TestPointLightActor()
 {
@@ -17,4 +19,9 @@ void TestPointLightActor::SetupLight(const Color _color, const float _intensity)
 {
 	m_light->color = _color;
 	m_light->intensity = _intensity;
+}
+
+void TestPointLightActor::Tick()
+{
+	GetTransform()->UpdateLocation({ 0, Time::DeltaTime(), 0 });
 }

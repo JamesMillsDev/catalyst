@@ -3,8 +3,10 @@
 #include <Catalyst/Catalyst.hpp>
 
 #include <list>
+#include <memory>
 
 using std::list;
+using std::shared_ptr;
 
 namespace Catalyst
 {

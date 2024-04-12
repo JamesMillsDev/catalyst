@@ -5,20 +5,24 @@
 
 #include <glm/vec2.hpp>
 
+#include <memory>
+
 using Catalyst::Camera;
 using Catalyst::Config;
 
 using glm::vec2;
+
+using std::shared_ptr;
 
 namespace Catalyst
 {
 	class ViewportCamera : public Camera
 	{
 	public:
-		ViewportCamera(const shared_ptr<Config>& _config, class Screen* _screen);
+		ViewportCamera(shared_ptr<Config>& _config, class Screen* _screen);
 
 	public:
-		void Tick();
+		//void Tick();
 
 	private:
 		class Screen* m_screen;

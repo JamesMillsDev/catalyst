@@ -13,43 +13,43 @@ namespace Catalyst
 {
 	class GameplayModule final : public IModule
 	{
-		typedef void(GameplayModule::* ActorListChange)(shared_ptr<Actor>);
+		typedef void(GameplayModule::* ActorListChange)(Actor*);
 
 	public:
 		DLL GameplayModule();
 		DLL ~GameplayModule() override;
 
 		template<Derived<Actor> ACTOR>
-		shared_ptr<ACTOR> SpawnActor();
+		ACTOR* SpawnActor();
 		template<Derived<Actor> ACTOR>
-		void DestroyActor(shared_ptr<ACTOR>& _actor);
+		void DestroyActor(ACTOR*& _actor);
 
 	protected:
 		DLL void Tick(Application* _app) override;
 		DLL void Render(Application* _app) override;
 
 	private:
-		list<pair<ActorListChange, shared_ptr<Actor>>> m_actorListChanges;
+		list<pair<ActorListChange, Actor*>> m_actorListChanges;
 
-		list<shared_ptr<Actor>> m_actors;
+		list<Actor*> m_actors;
 
 	private:
-		DLL void AddActor(shared_ptr<Actor> _actor);
-		DLL void RemoveActor(shared_ptr<Actor> _actor);
+		DLL void AddActor(Actor* _actor);
+		DLL void RemoveActor(Actor* _actor);
 
 	};
 
 	template <Derived<Actor> ACTOR>
-	shared_ptr<ACTOR> GameplayModule::SpawnActor()
+	ACTOR* GameplayModule::SpawnActor()
 	{
-		shared_ptr<ACTOR> actor = std::make_shared<ACTOR>();
+		ACTOR* actor = new ACTOR;
 
 		m_actorListChanges.emplace_back(std::make_pair(&GameplayModule::AddActor, actor));
 		return actor;
 	}
 
 	template <Derived<Actor> ACTOR>
-	void GameplayModule::DestroyActor(shared_ptr<ACTOR>& _actor)
+	void GameplayModule::DestroyActor(ACTOR*& _actor)
 	{
 		m_actorListChanges.emplace_back(std::make_pair(&GameplayModule::RemoveActor, _actor));
 	}

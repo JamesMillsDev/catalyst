@@ -22,7 +22,7 @@ constexpr const char* VP_CAM_ACTIVATE = "VP_ACTIVATE";
 
 namespace Catalyst
 {
-	ViewportCamera::ViewportCamera(const shared_ptr<Config>& _config, class Screen* _screen)
+	ViewportCamera::ViewportCamera(shared_ptr<Config>& _config, class Screen* _screen)
 		: Camera(_config->GetValue<float>("viewport", "camera.fov"),
 			_config->GetValue<float>("viewport", "camera.near"),
 			_config->GetValue<float>("viewport", "camera.far")),

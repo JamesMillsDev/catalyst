@@ -46,12 +46,6 @@
     <None Include="Content\Shaders\normalLit.vert">
       <Filter>Content\Shaders</Filter>
     </None>
-    <None Include="Content\Shaders\Standard.frag">
-      <Filter>Content\Shaders</Filter>
-    </None>
-    <None Include="Content\Shaders\Standard.vert">
-      <Filter>Content\Shaders</Filter>
-    </None>
     <None Include="Content\Shaders\Standard.shader">
       <Filter>Content\Shaders</Filter>
     </None>

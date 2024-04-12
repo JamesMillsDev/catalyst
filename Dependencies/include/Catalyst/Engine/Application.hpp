@@ -6,9 +6,11 @@
 
 #include <list>
 #include <string>
+#include <memory>
 
 using std::list;
 using std::string;
+using std::shared_ptr;
 
 struct GLFWwindow;
 

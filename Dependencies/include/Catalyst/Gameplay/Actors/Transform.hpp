@@ -37,27 +37,27 @@ namespace Catalyst
 		DLL ~Transform();
 
 	public:
-		DLL mat4 Global() const;
-		DLL mat4 Local() const;
+		DLL mat4 Global();
+		DLL mat4 Local();
 
 		DLL void SetParent(const Transform* _parent);
 		DLL Transform* Parent() const;
 		DLL list<Transform*> Children();
 
-		DLL vec3 Location() const;
-		DLL vec3 LocalLocation() const;
+		DLL vec3 Location();
+		DLL vec3 LocalLocation();
 
 		DLL void SetLocation(const vec3& _newLocation);
 		DLL void UpdateLocation(const vec3& _amount);
 
-		DLL vec3 Scale() const;
-		DLL vec3 LocalScale() const;
+		DLL vec3 Scale();
+		DLL vec3 LocalScale();
 
 		DLL void SetScale(const vec3& _newScale);
 		DLL void UpdateScale(const vec3& _amount);
 
-		DLL vec3 Rotation() const;
-		DLL vec3 LocalRotation() const;
+		DLL vec3 Rotation();
+		DLL vec3 LocalRotation();
 
 		DLL void SetRotation(const vec3& _newRot);
 		DLL void SetRotation(const quat& _newRot);
@@ -65,9 +65,9 @@ namespace Catalyst
 
 		DLL void TRS(const vec3& _loc, const vec3& _angle, const vec3& _scale);
 
-		DLL vec3 Forward() const;
-		DLL vec3 Right() const;
-		DLL vec3 Up() const;
+		DLL vec3 Forward();
+		DLL vec3 Right();
+		DLL vec3 Up();
 
 	private:
 		list<tuple<ActorTransformListChange, Transform*, Transform*>> m_listChanges;
@@ -75,7 +75,7 @@ namespace Catalyst
 		list<Transform*> m_children;
 		Transform* m_parent;
 
-		mat4 m_transform;
+		mat4* m_transform;
 
 	private:
 		DLL void Tick(float _deltaTime);

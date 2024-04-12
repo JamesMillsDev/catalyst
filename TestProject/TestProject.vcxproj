@@ -157,9 +157,7 @@
   <ItemGroup>
     <None Include="Content\Shaders\normalLit.frag" />
     <None Include="Content\Shaders\normalLit.vert" />
-    <None Include="Content\Shaders\Standard.frag" />
     <None Include="Content\Shaders\Standard.shader" />
-    <None Include="Content\Shaders\Standard.vert" />
     <None Include="Content\SoulSpear\soulspear.mtl" />
   </ItemGroup>
   <ItemGroup>

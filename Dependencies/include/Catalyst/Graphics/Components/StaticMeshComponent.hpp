@@ -3,6 +3,10 @@
 #include <Catalyst/Catalyst.hpp>
 #include <Catalyst/Gameplay/Actors/ActorComponent.hpp>
 
+#include <memory>
+
+using std::shared_ptr;
+
 namespace Catalyst
 {
 	class StaticMeshComponent final : public ActorComponent

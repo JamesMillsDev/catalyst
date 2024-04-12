@@ -15,17 +15,17 @@ namespace Catalyst
 	{
 		friend class GameplayModule;
 
-		typedef void(Actor::* ComponentListChange)(shared_ptr<ActorComponent>);
+		typedef void(Actor::* ComponentListChange)(ActorComponent*);
 
 	public:
-		DLL shared_ptr<class Transform> GetTransform();
+		DLL class Transform* GetTransform();
 		template<Derived<ActorComponent> COMPONENT>
-		shared_ptr<COMPONENT> FindComponent();
+		COMPONENT* FindComponent();
 
 		template<Derived<ActorComponent> COMPONENT>
-		shared_ptr<COMPONENT> CreateComponent();
+		COMPONENT* CreateComponent();
 		template<Derived<ActorComponent> COMPONENT>
-		void DestroyComponent(shared_ptr<COMPONENT> _component);
+		void DestroyComponent(COMPONENT* _component);
 
 	protected:
 		DLL Actor();
@@ -39,27 +39,27 @@ namespace Catalyst
 		DLL virtual void Render();
 
 	private:
-		list<pair<ComponentListChange, shared_ptr<ActorComponent>>> m_componentListChanges;
+		list<pair<ComponentListChange, ActorComponent*>> m_componentListChanges;
 
-		shared_ptr<class Transform> m_transform;
-		list<shared_ptr<ActorComponent>> m_components;
+		class Transform* m_transform;
+		list<ActorComponent*> m_components;
 
 	private:
-		DLL void AddComponent(shared_ptr<ActorComponent> _component);
-		DLL void RemoveComponent(shared_ptr<ActorComponent> _component);
+		DLL void AddComponent(ActorComponent* _component);
+		DLL void RemoveComponent(ActorComponent* _component);
 
 	};
 
 	template <Derived<ActorComponent> COMPONENT>
-	shared_ptr<COMPONENT> Actor::FindComponent()
+	COMPONENT* Actor::FindComponent()
 	{
-		shared_ptr<COMPONENT> found = nullptr;
+		COMPONENT* found = nullptr;
 
 		for(auto& component : m_components)
 		{
-			if(COMPONENT* comp = dynamic_cast<COMPONENT*>(component.get()))
+			if(COMPONENT* comp = dynamic_cast<COMPONENT*>(component))
 			{
-				found = shared_ptr<COMPONENT>(comp);
+				found = comp;
 			}
 		}
 
@@ -67,9 +67,9 @@ namespace Catalyst
 	}
 
 	template <Derived<ActorComponent> COMPONENT>
-	shared_ptr<COMPONENT> Actor::CreateComponent()
+	COMPONENT* Actor::CreateComponent()
 	{
-		shared_ptr<COMPONENT> component = std::make_shared<COMPONENT>();
+		COMPONENT* component = new COMPONENT;
 		component->m_owner = this;
 
 		m_componentListChanges.emplace_back(&Actor::AddComponent, component);
@@ -77,7 +77,7 @@ namespace Catalyst
 	}
 
 	template <Derived<ActorComponent> COMPONENT>
-	void Actor::DestroyComponent(shared_ptr<COMPONENT> _component)
+	void Actor::DestroyComponent(COMPONENT* _component)
 	{
 		if (std::ranges::find(m_components, _component) == m_components.end())
 			return;

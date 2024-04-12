@@ -31,7 +31,7 @@ namespace Catalyst
 		DLL vec3 Location() const;
 
 	protected:
-		shared_ptr<class Transform> m_transform;
+		class Transform* m_transform;
 
 		mat4 m_viewMat;
 		mat4 m_projMat;

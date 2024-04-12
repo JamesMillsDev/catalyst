@@ -11,17 +11,17 @@ using glm::vec4;
 namespace Catalyst
 {
 	Transform::Transform()
-		: m_parent{ nullptr }, m_transform{ mat4{ 1.f } }
+		: m_parent{ nullptr }, m_transform{ new mat4(1.f) }
 	{
 	}
 
 	Transform::Transform(const mat4& _transform)
-		: m_parent{ nullptr }, m_transform{ _transform }
+		: m_parent{ nullptr }, m_transform{ new mat4(_transform) }
 	{
 	}
 
 	Transform::Transform(const vec3 _position, const vec3 _size, const vec3 _rotation)
-		: m_parent{ nullptr }, m_transform{ mat4{ 1.f } }
+		: m_parent{ nullptr }, m_transform{ new mat4(1.f) }
 	{
 		TRS(_position, _rotation, _size);
 	}
@@ -41,17 +41,17 @@ namespace Catalyst
 	{
 		m_parent = nullptr;
 		m_children.clear();
-		m_transform = {};
+		delete m_transform;
 	}
 
-	mat4 Transform::Global() const
+	mat4 Transform::Global()
 	{
-		return m_parent != nullptr ? m_parent->m_transform * m_transform : Local();
+		return m_parent != nullptr ? *m_parent->m_transform * Local() : Local();
 	}
 
-	mat4 Transform::Local() const
+	mat4 Transform::Local()
 	{
-		return m_transform;
+		return *m_transform;
 	}
 
 	void Transform::SetParent(const Transform* _parent)
@@ -77,7 +77,7 @@ namespace Catalyst
 		return m_children;
 	}
 
-	vec3 Transform::Location() const
+	vec3 Transform::Location()
 	{
 		vec3 scale;
 		quat rot;
@@ -90,7 +90,7 @@ namespace Catalyst
 		return trans;
 	}
 
-	vec3 Transform::LocalLocation() const
+	vec3 Transform::LocalLocation()
 	{
 		vec3 scale;
 		quat rot;
@@ -113,17 +113,27 @@ namespace Catalyst
 
 		decompose(Local(), scale, rot, trans, skew, perspective);
 
-		m_transform = translate(mat4(1.f), _newLocation) *
+		*m_transform = translate(mat4(1.f), _newLocation) *
 			toMat4(rot) *
 			glm::scale(mat4(1.f), scale);
 	}
 
 	void Transform::UpdateLocation(const vec3& _amount)
 	{
-		m_transform = glm::translate(m_transform, _amount);
+		vec3 scale;
+		quat rot;
+		vec3 trans;
+		vec3 skew;
+		vec4 perspective;
+
+		decompose(Local(), scale, rot, trans, skew, perspective);
+
+		*m_transform = translate(mat4(1.f), trans + _amount) *
+			toMat4(rot) *
+			glm::scale(mat4(1.f), scale);
 	}
 
-	vec3 Transform::Scale() const
+	vec3 Transform::Scale()
 	{
 		vec3 scale;
 		quat rot;
@@ -136,7 +146,7 @@ namespace Catalyst
 		return scale;
 	}
 
-	vec3 Transform::LocalScale() const
+	vec3 Transform::LocalScale()
 	{
 		vec3 scale;
 		quat rot;
@@ -157,9 +167,9 @@ namespace Catalyst
 		vec3 skew;
 		vec4 perspective;
 
-		decompose(m_transform, scale, rot, trans, skew, perspective);
+		decompose(Local(), scale, rot, trans, skew, perspective);
 
-		m_transform = translate(mat4(1.f), trans) *
+		*m_transform = translate(mat4(1.f), trans) *
 			toMat4(rot) *
 			glm::scale(mat4(1.f), _newScale);
 	}
@@ -172,14 +182,14 @@ namespace Catalyst
 		vec3 skew;
 		vec4 perspective;
 
-		decompose(m_transform, scale, rot, trans, skew, perspective);
+		decompose(Local(), scale, rot, trans, skew, perspective);
 
-		m_transform = translate(mat4(1.f), trans) *
+		*m_transform = translate(mat4(1.f), trans + _amount) *
 			toMat4(rot) *
-			glm::scale(mat4(1.f), scale + _amount);
+			glm::scale(mat4(1.f), scale);
 	}
 
-	vec3 Transform::Rotation() const
+	vec3 Transform::Rotation()
 	{
 		vec3 scale;
 		quat rot;
@@ -192,7 +202,7 @@ namespace Catalyst
 		return glm::degrees(eulerAngles(rot));
 	}
 
-	vec3 Transform::LocalRotation() const
+	vec3 Transform::LocalRotation()
 	{
 		vec3 scale;
 		quat rot;
@@ -213,9 +223,9 @@ namespace Catalyst
 		vec3 skew;
 		vec4 perspective;
 
-		decompose(m_transform, scale, rot, trans, skew, perspective);
+		decompose(Local(), scale, rot, trans, skew, perspective);
 
-		m_transform = translate(mat4(1.f), trans) *
+		*m_transform = translate(mat4(1.f), trans) *
 			toMat4(quat(_newRot)) *
 			glm::scale(mat4(1.f), scale);
 	}
@@ -228,16 +238,16 @@ namespace Catalyst
 		vec3 skew;
 		vec4 perspective;
 
-		decompose(m_transform, scale, rot, trans, skew, perspective);
+		decompose(Local(), scale, rot, trans, skew, perspective);
 
-		m_transform = translate(mat4(1.f), trans) *
+		*m_transform = translate(mat4(1.f), trans) *
 			toMat4(_newRot) *
 			glm::scale(mat4(1.f), scale);
 	}
 
 	void Transform::UpdateRotation(const vec3& _amount)
 	{
-		m_transform = m_transform * toMat4(quat(_amount));
+		*m_transform = *m_transform * toMat4(quat(_amount));
 	}
 
 	void Transform::TRS(const vec3& _loc, const vec3& _angle, const vec3& _scale)
@@ -247,7 +257,7 @@ namespace Catalyst
 		SetRotation(_angle);
 	}
 
-	vec3 Transform::Forward() const
+	vec3 Transform::Forward()
 	{
 		vec3 rot = glm::radians(Rotation());
 
@@ -259,7 +269,7 @@ namespace Catalyst
 		};
 	}
 
-	vec3 Transform::Right() const
+	vec3 Transform::Right()
 	{
 		vec3 rot = glm::radians(Rotation());
 
@@ -271,7 +281,7 @@ namespace Catalyst
 		};
 	}
 
-	vec3 Transform::Up() const
+	vec3 Transform::Up()
 	{
 		vec3 rot = glm::radians(Rotation());
 
