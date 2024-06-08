@@ -1,5 +1,5 @@
 #include "cacorepch.h"
-#include "StringUtils.h"
+#include "Utility/StringUtils.h"
 
 namespace Catalyst
 {
