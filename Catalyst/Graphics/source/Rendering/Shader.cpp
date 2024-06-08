@@ -1,6 +1,6 @@
 #include "cagraphicspch.h"
-#include "Shader.h"
-#include "ShaderParser.h"
+#include "Rendering/Shader.h"
+#include "Rendering/ShaderParser.h"
 
 #include <cassert>
 

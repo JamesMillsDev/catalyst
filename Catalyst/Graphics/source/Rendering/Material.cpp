@@ -1,5 +1,5 @@
 #include "cagraphicspch.h"
-#include "Material.h"
+#include "Rendering/Material.h"
 
 namespace Catalyst
 {

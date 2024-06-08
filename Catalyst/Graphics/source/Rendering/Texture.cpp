@@ -1,5 +1,5 @@
 #include "cagraphicspch.h"
-#include "Texture.h"
+#include "Rendering/Texture.h"
 
 #include <GL/glew.h>
 
