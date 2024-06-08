@@ -1,7 +1,7 @@
 #include "cagraphicspch.h"
 #include "Rendering/ShaderParser.h"
 
-#include <StringUtils.h>
+#include <Utility/StringUtils.h>
 
 #include <algorithm>
 #include <ranges>
