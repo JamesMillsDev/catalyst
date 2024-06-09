@@ -32,6 +32,7 @@ IncludeDir["stbi"] = "$(SolutionDir)%{properties.dependencies_dir}\\include\\stb
 IncludeDir["rapidyaml"] = "$(SolutionDir)%{properties.dependencies_dir}\\include\\rapidyaml"
 IncludeDir["react"] = "$(SolutionDir)%{properties.dependencies_dir}\\include\\reactphysics3d"
 IncludeDir["assimp"] = "$(SolutionDir)%{properties.dependencies_dir}\\include\\assimp"
+IncludeDir["pugi"] = "$(SolutionDir)%{properties.dependencies_dir}\\include\\pugixml"
 	
 -- Include directories relative to root folder (solution directory)
 LibDir = {}
@@ -40,6 +41,7 @@ LibDir["glew"] = "$(SolutionDir)%{properties.dependencies_dir}\\lib\\GL"
 LibDir["ImGui"] = "$(SolutionDir)%{properties.dependencies_dir}\\lib\\ImGui"
 LibDir["react"] = "$(SolutionDir)%{properties.dependencies_dir}\\lib\\reactphysics3d"
 LibDir["assimp"] = "$(SolutionDir)%{properties.dependencies_dir}\\lib\\assimp"
+LibDir["pugi"] = "$(SolutionDir)%{properties.dependencies_dir}\\lib\\pugi"
 LibDir[enginename] = ("$(SolutionDir)%{properties.dependencies_dir}\\lib\\" .. enginename)
 
 engineshort = properties.short_name
@@ -125,6 +127,7 @@ project (testbedname)
 		{ 
 			"reactphysics3d_d",
 			"ImGui_d",
+			"pugixml_d",
 			DebugLibs
 		}
 		
@@ -141,6 +144,7 @@ project (testbedname)
 		{ 
 			"reactphysics3d",
 			"ImGui",
+			"pugixml",
 			ReleaseLibs
 		}
 		
@@ -157,6 +161,7 @@ project (testbedname)
 		{ 
 			"reactphysics3d_d",
 			"ImGui_d",
+			"pugixml_d",
 			DebugLibs
 		}
 		
@@ -173,6 +178,7 @@ project (testbedname)
 		{ 
 			"reactphysics3d",
 			"ImGui",
+			"pugixml",
 			ReleaseLibs
 		}
 		
@@ -189,6 +195,7 @@ project (testbedname)
 		{ 
 			"reactphysics3d",
 			"ImGui",
+			"pugixml",
 			ReleaseLibs
 		}
 		

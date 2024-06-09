@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <Categories>
+    <Category title="window">
+      <Value name="width" value="1080" type="int"/>
+      <Value name="height" value="720" type="int"/>
+      <Value name="clrCol" value="0.25,0.25,0.25,0.25" type="color"/>
+    </Category>
+    <Category title="application">
+      <Value name="title" value="Catalyst - v0.0.1" type="string"/>
+      <Value name="vSync" value="true" type="bool"/>
+    </Category>
+    <Category title="debug">
+      <Value name="3d.maxLines" value="10000" type="int"/>
+      <Value name="3d.maxTris" value="10000" type="int"/>
+      <Value name="2d.maxLines" value="10000" type="int"/>
+      <Value name="2d.maxTris" value="10000" type="int"/>
+    </Category>
+    <Category title="viewport">
+      <Value name="camera.fov" value="60" type="float"/>
+      <Value name="camera.near" value="0.1" type="float"/>
+      <Value name="camera.far" value="1000" type="float"/>
+      <Value name="camera.turnSpeed" value="360" type="float"/>
+      <Value name="camera.moveSpeed" value="5" type="float"/>
+    </Category>
+  </Categories>
+</Config>

@@ -33,6 +33,14 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 "%{prj.location}/**.cpp"
             }
 
+            if string.find(module_name, properties.modules[0]) ~= nil then
+               files
+               {
+                    "%{prj.location}/resource.h",
+                    "%{prj.location}/Catalyst.Core.rc"
+               } 
+            end
+
             includedirs
             {
                 "%{prj.location}\\include\\",
@@ -42,11 +50,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
 
             libdirs
             {
-                "%{LibDir.glfw}",
-                "%{LibDir.glew}",
-                "%{LibDir.react}",
-                "%{LibDir.ImGui}",
-                "%{LibDir.assimp}",
                 LibDir
             }
 
@@ -71,7 +74,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 links 
                 { 
                     "reactphysics3d_d",
-                    "ImGui_d"
+                    "ImGui_d",
+                    "pugixml_d"
                 }
 
                 if string.find(module_name, properties.modules[0]) == nil then
@@ -91,7 +95,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 links 
                 { 
                     "reactphysics3d",
-                    "ImGui"
+                    "ImGui",
+                    "pugixml"
                 }
 
                 if string.find(module_name, properties.modules[0]) == nil then
@@ -110,7 +115,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 links 
                 { 
                     "reactphysics3d_d",
-                    "ImGui_d"
+                    "ImGui_d",
+                    "pugixml_d"
                 }
 
                 if string.find(module_name, properties.modules[0]) == nil then
@@ -121,7 +127,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 defines 
                 {
                     "%{properties.short_name}_RELEASE",
-                    "DLL_EXPORT"
+                    "DLL_EXPORT",
+                    "pugixml"
                 }
                 optimize "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name))
@@ -148,7 +155,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 links 
                 { 
                     "reactphysics3d",
-                    "ImGui"
+                    "ImGui",
+                    "pugixml"
                 }
 
                 if string.find(module_name, properties.modules[0]) == nil then
