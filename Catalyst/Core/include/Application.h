@@ -18,6 +18,9 @@ using std::list;
 
 namespace Catalyst
 {
+	class Screen;
+	class Config;
+
 	class DLL Application
 	{
 	public:
@@ -31,9 +34,21 @@ namespace Catalyst
 	public:
 		static int Run();
 
+		template<derived<IModule> MODULE>
+		static MODULE* GetModule();
+
+		static Screen* GetScreen();
+
 	public:
 		Application& operator=(const Application&) = delete;
 		Application& operator=(Application&&) = delete;
+
+	protected:
+		virtual void OnOpened();
+		virtual void OnClosed();
+
+		virtual void Tick();
+		virtual void Render();
 
 	private:
 		static Application* m_app;
@@ -41,9 +56,30 @@ namespace Catalyst
 	private:
 		list<IModule*> m_modules;
 
+		Screen* m_screen;
+		Config* m_config;
+
 	private:
 		friend static void IModule::AddModule(IModule* _module);
 		friend void MakeApplicationInstance();
+		friend void DestroyApplicationInstance();
+
+	private:
+		int Process();
 
 	};
+
+	template <derived<IModule> MODULE>
+	MODULE* Application::GetModule()
+	{
+		assert(m_app);
+
+		for(auto& module : m_app->m_modules)
+		{
+			if(MODULE* m = dynamic_cast<MODULE*>(module))
+				return m;
+		}
+
+		return nullptr;
+	}
 }

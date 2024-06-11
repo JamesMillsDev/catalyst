@@ -78,7 +78,7 @@ namespace Catalyst
 		m_window = nullptr;
 	}
 
-	int Screen::Open(const shared_ptr<Config>& _config)
+	int Screen::Open(Config* _config)
 	{
 		if (LoadValuesFrom(_config) != GLFW_TRUE)
 			return GLFW_FALSE;
@@ -175,7 +175,7 @@ namespace Catalyst
 		return m_window;
 	}
 
-	int Screen::LoadValuesFrom(const shared_ptr<Config>& _config)
+	int Screen::LoadValuesFrom(Config* _config)
 	{
 		if (!_config->TryGetValue<int>("window", "width", m_width))
 			return GLFW_FALSE;

@@ -61,6 +61,8 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 "opengl32.lib"
             }
 
+            disablewarnings { "4251", "4275" }
+
             filter "configurations:Debug-Editor"
                 defines
                 { 
@@ -70,7 +72,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 }
                 symbols "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name) .. "_d")
-                disablewarnings { "4251" }
                 links 
                 { 
                     "reactphysics3d_d",
@@ -91,7 +92,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 }
                 symbols "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name))
-                disablewarnings { "4251" }
                 links 
                 { 
                     "reactphysics3d",
@@ -111,7 +111,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 }
                 symbols "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name) .. "_d")
-                disablewarnings { "4251" }
                 links 
                 { 
                     "reactphysics3d_d",
@@ -132,7 +131,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 }
                 optimize "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name))
-                disablewarnings { "4251" }
                 links 
                 { 
                     "reactphysics3d",
@@ -151,7 +149,6 @@ function module_gen.generate(properties, wks, outputdir, ModuleIncludes, LibDir,
                 }
                 optimize "On"
                 targetname (string.lower(properties.name) .. properties.deliminator .. string.lower(module_name))
-                disablewarnings { "4251" }
                 links 
                 { 
                     "reactphysics3d",

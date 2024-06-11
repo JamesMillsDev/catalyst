@@ -11,33 +11,46 @@ namespace fs = std::filesystem;
 
 namespace Catalyst
 {
-    void MakeApplicationInstance()
-    {
-        Application::m_app = new Application;
-    }
+	void MakeApplicationInstance()
+	{
+		Application::m_app = new Application;
+	}
+
+	void DestroyApplicationInstance()
+	{
+		delete Application::m_app;
+		Application::m_app = nullptr;
+	}
 }
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
 )
 {
-    Catalyst::MakeApplicationInstance();
+	if (ul_reason_for_call == DLL_PROCESS_ATTACH)
+	{
+		Catalyst::MakeApplicationInstance();
 
-    char* moduleName = new char[256];
-    GetModuleFileNameA(hModule, moduleName, 256);
+		char* moduleName = new char[256];
+		GetModuleFileNameA(hModule, moduleName, 256);
 
-    string filePath = moduleName;
-    filePath = filePath.substr(0, filePath.find_last_of('\\') + 1);
-    for (const auto& entry : fs::directory_iterator(filePath.c_str()))
-    {
-        string fn = entry.path().filename().string();
-        if (fn.find("catalyst") != string::npos && fn.find("core") == string::npos)
-            LoadLibraryA(entry.path().string().c_str());
-    }
+		string filePath = moduleName;
+		filePath = filePath.substr(0, filePath.find_last_of('\\') + 1);
+		for (const auto& entry : fs::directory_iterator(filePath.c_str()))
+		{
+			string fn = entry.path().filename().string();
+			if (fn.find("catalyst") != string::npos && fn.find("core") == string::npos)
+				LoadLibraryA(entry.path().string().c_str());
+		}
 
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH)
-	    Catalyst::CoreModule* module = new Catalyst::CoreModule;
+		Catalyst::CoreModule* module = new Catalyst::CoreModule;
+	}
 
-    return TRUE;
+	if(ul_reason_for_call == DLL_PROCESS_DETACH)
+	{
+		Catalyst::DestroyApplicationInstance();
+	}
+
+	return TRUE;
 }

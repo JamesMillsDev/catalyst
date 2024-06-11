@@ -23,6 +23,8 @@ using std::shared_ptr;
 
 namespace Catalyst
 {
+	class Config;
+
 	class DLL Screen
 	{
 	public:
@@ -80,7 +82,7 @@ namespace Catalyst
 		~Screen();
 
 	private:
-		int Open(const shared_ptr<class Config>& _config);
+		int Open(Config* _config);
 		void Close() const;
 
 		bool BeginFrame();
@@ -88,7 +90,7 @@ namespace Catalyst
 
 		GLFWwindow*& Context();
 
-		int LoadValuesFrom(const shared_ptr<class Config>& _config);
+		int LoadValuesFrom(Config* _config);
 
 	};
 }

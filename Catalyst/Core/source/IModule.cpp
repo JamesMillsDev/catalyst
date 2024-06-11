@@ -12,4 +12,8 @@ namespace Catalyst
 		Application::m_app->m_modules.emplace_back(_module);
 		_module->Enter();
 	}
+
+	void IModule::Tick() { }
+
+	void IModule::Render() { }
 }

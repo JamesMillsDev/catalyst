@@ -10,6 +10,12 @@
 #define DLL __declspec(dllimport)
 #endif
 
+#include <assert.h>
+#include <concepts>
+
+template<class T, class U>
+concept derived = std::is_base_of_v<U, T>;
+
 typedef unsigned int uint;
 typedef unsigned char ubyte;
 
