@@ -11,6 +11,5 @@ ids.disabled_warnings = "disabled_warnings"
 ids.language_version = "language_version"
 ids.link_dirs = "link_dirs"
 ids.dll = "external_dll"
-ids.dll_dirs = "external_dll_dirs"
 
 return ids

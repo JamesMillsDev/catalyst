@@ -10,27 +10,25 @@ function dll:new(o)
 end
 
 function dll.parse(line)
-    if contains(line, ids.dll) then
-        line = value_from_len(line, ids.dll, 3, 2)
+    local l = split(line, ',')
 
-        line = split(line, ',')
+    local d = {}
 
-        local d = {}
-
-        for l, v in pairs(line) do
-            d[#d+1] = dll.build(v)
-        end
+    for l, v in pairs(l) do
+        d[#d+1] = dll.build(v)
     end
+
+    return d
 end
 
 function dll.build(text)
     local new_dll = dll:new{name="",mode="",dir=""}
 
-    local item = split(v, ':')
+    local item = split(no_quotes(text), ':')
 
-    local lib = no_quotes(item[1])
-    local mode = no_quotes(item[2])
-    local path = no_quotes(item[3])
+    local lib = item[1]
+    local mode = item[2]
+    local path = item[3]
 
     new_dll.name = lib
     new_dll.mode = mode

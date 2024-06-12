@@ -1,5 +1,6 @@
 require("utilities.string-utils")
 module = require("data.module")
+dll = require("data.dll")
 ids = require("utilities.ids")
 
 local properties = 
@@ -12,9 +13,7 @@ local properties =
     testbed_name = "",
     language_version = "",
     disabled_warnings = {},
-    unified_dll={},
-    split_dll={},
-    dll_dirs={}
+    dlls={}
 }
 
 function properties:new(o)
@@ -35,9 +34,7 @@ function properties.read(filepath)
         testbed_name = "",
         language_version = "",
         disabled_warnings = {},
-        unified_dll={},
-        split_dll={},
-        dll_dirs={}
+        dlls={}
     }
 
     local file = assert(io.open(filepath, "r"))
@@ -118,22 +115,10 @@ function properties:get_dlls(file)
     if contains(line, ids.dll) then
         line = value_from_len(line, ids.dll, 3, 2)
 
-        line = split(line, ',')
+        self.dll = dll.parse(line)
 
-        for l, v in pairs(line) do
-            local item = split(v, ':')
-
-            local lib = no_quotes(item[1])
-            local mode = no_quotes(item[2])
-            local path = no_quotes(item[3])
-
-            if mode == "single" then
-                self.unified_dll[l - 1] = lib
-            else
-                self.split_dll[l - 1] = lib
-            end
-
-            self.dll_dirs[l - 1] = path
+        for l, v in pairs(self.dll) do
+            print("name:"..v.name.."-mode:"..v.mode.."-dir:"..v.dir)
         end
     end
 end

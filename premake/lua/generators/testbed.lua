@@ -43,12 +43,14 @@ function testbed.generate(properties, outputdir)
             end
         end
 
-        postbuildcommands
-        {
-            ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\glfw3.dll\" \"$(OutDir)\\glfw3.dll\""),
-            ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\glew32.dll\" \"$(OutDir)\\glew32.dll\""),
-            ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\assimp-vc143-mt.dll\" \"$(OutDir)\\assimp-vc143-mt.dll\"")
-        }
+        for l, dll in pairs(properties.dll) do
+            if dll.mode == "single" then
+                postbuildcommands
+                {
+                    ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                }
+            end
+        end
 
         libdirs{ ("$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..properties.name) }
                 
@@ -83,6 +85,15 @@ function testbed.generate(properties, outputdir)
                 }
             end
 
+            for l, dll in pairs(properties.dll) do
+                if dll.mode == "split" then
+                    postbuildcommands
+                    {
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll \"$(OutDir)\\"..dll.name.."_d.dll\"")
+                    }
+                end
+            end
+
         filter "configurations:Release-Editor"
             defines
             { 
@@ -107,6 +118,15 @@ function testbed.generate(properties, outputdir)
                 {
                     ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..properties.name.."\\"..string.lower(properties.name).."."..string.lower(dependency.name)..".dll\" \"$(OutDir)"..string.lower(properties.name).."."..string.lower(dependency.name)..".dll\"")
                 }
+            end
+
+            for l, dll in pairs(properties.dll) do
+                if dll.mode == "split" then
+                    postbuildcommands
+                    {
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                    }
+                end
             end
 
         filter "configurations:Debug"
@@ -135,6 +155,15 @@ function testbed.generate(properties, outputdir)
                 }
             end
 
+            for l, dll in pairs(properties.dll) do
+                if dll.mode == "split" then
+                    postbuildcommands
+                    {
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll \"$(OutDir)\\"..dll.name.."_d.dll\"")
+                    }
+                end
+            end
+
         filter "configurations:Release"
             defines 
             {
@@ -161,6 +190,15 @@ function testbed.generate(properties, outputdir)
                 }
             end
 
+            for l, dll in pairs(properties.dll) do
+                if dll.mode == "split" then
+                    postbuildcommands
+                    {
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                    }
+                end
+            end
+
         filter "configurations:Shipping"
             defines 
             {
@@ -184,6 +222,15 @@ function testbed.generate(properties, outputdir)
                 {
                     ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..properties.name.."\\"..string.lower(properties.name).."."..string.lower(dependency.name)..".dll\" \"$(OutDir)"..string.lower(properties.name).."."..string.lower(dependency.name)..".dll\"")
                 }
+            end
+
+            for l, dll in pairs(properties.dll) do
+                if dll.mode == "split" then
+                    postbuildcommands
+                    {
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                    }
+                end
             end
 end
 
