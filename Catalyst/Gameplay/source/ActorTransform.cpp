@@ -24,11 +24,11 @@ namespace Catalyst
 		if(_newParent)
 		{
 			if (m_parent)
-				m_changes.emplace_back(&RemoveChild, m_parent, this);
+				m_changes.emplace_back(&ActorTransform::RemoveChild, m_parent, this);
 		}
 		else
 		{
-			m_changes.emplace_back(&AddChild, _newParent, this);
+			m_changes.emplace_back(&ActorTransform::AddChild, _newParent, this);
 		}
 	}
 

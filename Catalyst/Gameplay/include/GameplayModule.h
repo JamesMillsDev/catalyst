@@ -64,7 +64,7 @@ namespace Catalyst
 	{
 		ACTOR* actor = new ACTOR;
 
-		m_changes.emplace_back(&AddActor, actor);
+		m_changes.emplace_back(&GameplayModule::AddActor, actor);
 
 		return actor;
 	}
@@ -72,6 +72,6 @@ namespace Catalyst
 	template <derived<Actor> ACTOR>
 	void GameplayModule::DestroyActor(ACTOR* _actor)
 	{
-		m_changes.emplace_back(&RemoveActor, _actor);
+		m_changes.emplace_back(&GameplayModule::RemoveActor, _actor);
 	}
 }

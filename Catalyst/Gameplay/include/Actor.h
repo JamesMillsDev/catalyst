@@ -90,7 +90,7 @@ namespace Catalyst
 		COMPONENT* component = new COMPONENT;
 		component->m_owner = this;
 
-		m_changes.emplace_back(&AddComponent, component);
+		m_changes.emplace_back(&Actor::AddComponent, component);
 
 		return component;
 	}
@@ -98,6 +98,6 @@ namespace Catalyst
 	template <derived<ActorComponent> COMPONENT>
 	void Actor::DestroyComponent(COMPONENT* _component)
 	{
-		m_changes.emplace_back(&RemoveComponent, _component);
+		m_changes.emplace_back(&Actor::RemoveComponent, _component);
 	}
 }
