@@ -15,15 +15,20 @@ namespace Catalyst
 {
 	class DLL IModule
 	{
+		friend class Application;
+
 	public:
 		virtual ~IModule();
 
 	public:
 		static void AddModule(IModule* _module);
 
-	public:
+	protected:
 		virtual void Enter() = 0;
 		virtual void Exit() = 0;
+
+		virtual void Tick();
+		virtual void Render();
 
 	};
 }
