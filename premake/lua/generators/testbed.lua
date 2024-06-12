@@ -47,7 +47,7 @@ function testbed.generate(properties, outputdir)
             if dll.mode == "single" then
                 postbuildcommands
                 {
-                    ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                    ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll\" \"$(OutDir)"..dll.name..".dll\"")
                 }
             end
         end
@@ -89,7 +89,7 @@ function testbed.generate(properties, outputdir)
                 if dll.mode == "split" then
                     postbuildcommands
                     {
-                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll \"$(OutDir)\\"..dll.name.."_d.dll\"")
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll\" \"$(OutDir)"..dll.name.."_d.dll\"")
                     }
                 end
             end
@@ -124,7 +124,7 @@ function testbed.generate(properties, outputdir)
                 if dll.mode == "split" then
                     postbuildcommands
                     {
-                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll\" \"$(OutDir)"..dll.name..".dll\"")
                     }
                 end
             end
@@ -159,7 +159,7 @@ function testbed.generate(properties, outputdir)
                 if dll.mode == "split" then
                     postbuildcommands
                     {
-                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll \"$(OutDir)\\"..dll.name.."_d.dll\"")
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name.."_d.dll\" \"$(OutDir)"..dll.name.."_d.dll\"")
                     }
                 end
             end
@@ -194,7 +194,7 @@ function testbed.generate(properties, outputdir)
                 if dll.mode == "split" then
                     postbuildcommands
                     {
-                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll\" \"$(OutDir)"..dll.name..".dll\"")
                     }
                 end
             end
@@ -228,7 +228,7 @@ function testbed.generate(properties, outputdir)
                 if dll.mode == "split" then
                     postbuildcommands
                     {
-                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll \"$(OutDir)\\"..dll.name..".dll\"")
+                        ("copy /Y \"$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..dll.dir.."\\"..dll.name..".dll\" \"$(OutDir)"..dll.name..".dll\"")
                     }
                 end
             end

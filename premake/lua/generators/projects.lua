@@ -17,7 +17,7 @@ function projects.generate(properties, outputdir)
             language "C++"
             cppdialect ("C++"..properties.language_version)
     
-            targetdir ("%{wks.location}/"..properties.dependencies_dir.."/lib/%{properties.name}")
+            targetdir ("%{wks.location}/"..properties.dependencies_dir.."/lib/"..properties.name)
             objdir ("Intermediate/%{prj.name}/" .. outputdir)
 
             targetname(lower_name .. properties.deliminator .. lower_module)
@@ -56,6 +56,8 @@ function projects.generate(properties, outputdir)
             for l,v in pairs(module.link_dirs) do
                 libdirs{ ("$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..v) }
             end
+            
+            libdirs{ ("$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..properties.name) }
                 
             for l,v in pairs(properties.disabled_warnings) do
                 disablewarnings{ v }

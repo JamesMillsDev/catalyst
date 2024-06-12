@@ -116,10 +116,6 @@ function properties:get_dlls(file)
         line = value_from_len(line, ids.dll, 3, 2)
 
         self.dll = dll.parse(line)
-
-        for l, v in pairs(self.dll) do
-            print("name:"..v.name.."-mode:"..v.mode.."-dir:"..v.dir)
-        end
     end
 end
 
