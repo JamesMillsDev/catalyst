@@ -63,6 +63,10 @@ function projects.generate(properties, outputdir)
                 disablewarnings{ v }
             end
 
+            for l,v in pairs(module.packages) do
+                nuget {v}
+            end
+
             filter "configurations:Debug-Editor"
                 defines
                 { 
