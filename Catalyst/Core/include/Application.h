@@ -65,6 +65,9 @@ namespace Catalyst
 		friend void DestroyApplicationInstance();
 
 	private:
+		static Application* GetApp();
+
+	private:
 		int Process();
 
 	};
@@ -72,9 +75,9 @@ namespace Catalyst
 	template <derived<IModule> MODULE>
 	MODULE* Application::GetModule()
 	{
-		assert(m_app);
+		assert(GetApp());
 
-		for(auto& module : m_app->m_modules)
+		for(auto& module : GetApp()->m_modules)
 		{
 			if(MODULE* m = dynamic_cast<MODULE*>(module))
 				return m;

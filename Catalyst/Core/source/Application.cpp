@@ -57,6 +57,11 @@ namespace Catalyst
 
 	void Application::Render() { }
 
+	Application* Application::GetApp()
+	{
+		return m_app;
+	}
+
 	int Application::Process()
 	{
 		m_config->Load();
