@@ -45,6 +45,14 @@ namespace Catalyst
     {
     }
 
+    Vector3::Vector3(Vector3&& _other) noexcept
+        :x{ _other.x }, y{ _other.y }, z{ _other.z }
+    {
+        _other.x = 0.f;
+        _other.y = 0.f;
+        _other.z = 0.f;
+    }
+
     Vector3 Vector3::Normalised(const Vector3& _vec)
     {
         const float mag = _vec.Magnitude();

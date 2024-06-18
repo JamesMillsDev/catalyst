@@ -57,7 +57,7 @@ namespace Catalyst
 		~Vector3();
 
 		Vector3(const Vector3& _other);
-		Vector3(Vector3&&) = delete;
+		Vector3(Vector3&& _other) noexcept;
 
 	public:
 		static Vector3 Normalised(const Vector3& _vec);

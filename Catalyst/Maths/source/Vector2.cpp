@@ -74,6 +74,13 @@ namespace Catalyst
     {
     }
 
+    Vector2::Vector2(Vector2&& _other) noexcept
+        :x{ _other.x }, y{ _other.y }
+    {
+        _other.x = 0.f;
+        _other.y = 0.f;
+    }
+
     float Vector2::Magnitude() const
     {
         return sqrtf(x * x + y * y);

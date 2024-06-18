@@ -36,6 +36,7 @@ namespace Catalyst
 
 			float data[VEC_4_SIZE];
 		};
+
 	public:
 		static Vector4 zero;
 		static Vector4 one;
@@ -57,7 +58,7 @@ namespace Catalyst
 		~Vector4();
 
 		Vector4(const Vector4& _other);
-		Vector4(Vector4&&) = delete;
+		Vector4(Vector4&& _other) noexcept;
 
 	public:
 		static Vector4 Normalised(const Vector4& _vec);

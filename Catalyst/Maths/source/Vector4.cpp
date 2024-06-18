@@ -45,6 +45,15 @@ namespace Catalyst
 	{
 	}
 
+	Vector4::Vector4(Vector4&& _other) noexcept
+		:x{ _other.x }, y{ _other.y }, z{ _other.z }, w{ _other.w }
+	{
+		_other.x = 0.f;
+		_other.y = 0.f;
+		_other.z = 0.f;
+		_other.w = 0.f;
+	}
+
 	Vector4 Vector4::Normalised(const Vector4& _vec)
 	{
 		const float mag = _vec.Magnitude();

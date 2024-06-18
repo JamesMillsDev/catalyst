@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Catalyst.h"
+#include "Matrix3.h"
 
 namespace Catalyst
 {
@@ -17,6 +18,9 @@ namespace Catalyst
 	{
 	public:
 		Matrix4();
+		// ReSharper disable once CppNonExplicitConvertingConstructor
+		Matrix4(const Matrix3& _rhs);
+
 		~Matrix4();
 
 		Matrix4(const Matrix4& _other);

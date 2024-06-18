@@ -60,7 +60,7 @@ namespace Catalyst
 		~Vector2();
 
 		Vector2(const Vector2& _other);
-		Vector2(Vector2&&) = delete;
+		Vector2(Vector2&& _other) noexcept;
 
 	public:
 		[[nodiscard]] float Magnitude() const;
