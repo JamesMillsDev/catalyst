@@ -19,12 +19,12 @@ using std::pair;
 
 namespace Catalyst
 {
-	class Camera;
+	class CameraComponent;
 	class IRenderFeature;
 
 	class DLL GraphicsModule final : public IModule
 	{
-		typedef void(GraphicsModule::* CameraListChange)(Camera*);
+		typedef void(GraphicsModule::* CameraListChange)(CameraComponent*);
 		typedef void(GraphicsModule::* RenderFeatureListChange)(IRenderFeature*);
 
 	public:
@@ -36,10 +36,10 @@ namespace Catalyst
 		~GraphicsModule() override;
 
 	public:
-		Camera* Main() const;
+		CameraComponent* Main() const;
 
-		void Register(Camera* _camera);
-		void Deregister(Camera* _camera);
+		void Register(CameraComponent* _camera);
+		void Deregister(CameraComponent* _camera);
 		void Register(IRenderFeature* _renderFeature);
 		void Deregister(IRenderFeature* _renderFeature);
 
@@ -58,17 +58,17 @@ namespace Catalyst
 		void Render() override;
 
 	private:
-		list<pair<CameraListChange, Camera*>> m_cameraChanges;
+		list<pair<CameraListChange, CameraComponent*>> m_cameraChanges;
 		list<pair<RenderFeatureListChange, IRenderFeature*>> m_renderFeatureChanges;
 
-		list<Camera*> m_cameras;
+		list<CameraComponent*> m_cameras;
 		list<IRenderFeature*> m_renderFeatures;
 
-		Camera* m_main;
+		CameraComponent* m_main;
 
 	private:
-		void AddCamera(Camera* _camera);
-		void RemoveCamera(Camera* _camera);
+		void AddCamera(CameraComponent* _camera);
+		void RemoveCamera(CameraComponent* _camera);
 		void AddRenderFeature(IRenderFeature* _renderFeature);
 		void RemoveRenderFeature(IRenderFeature* _renderFeature);
 

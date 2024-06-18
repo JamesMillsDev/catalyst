@@ -1,8 +1,8 @@
 #include "EditorApplication.h"
 
-#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
+#include "Actor.h"
 #include "ActorTransform.h"
 #include "Screen.h"
 #include "Debug/Gizmos.h"
@@ -21,8 +21,7 @@ namespace Catalyst
 	}
 
 	EditorApplication::EditorApplication()
-		: m_editorConfig{ nullptr }, m_fov{ 0 }, m_near{ 0 }, m_far{ 0 },
-		m_transform{ new ActorTransform }
+		: m_editorConfig{ nullptr }, m_vpCam{ nullptr }, m_vpCamComponent{ nullptr }
 	{
 	}
 
@@ -30,6 +29,9 @@ namespace Catalyst
 	{
 		delete m_editorConfig;
 		m_editorConfig = nullptr;
+
+		delete m_vpCam;
+		m_vpCam = nullptr;
 	}
 
 	int EditorApplication::RunEditor()
@@ -45,12 +47,18 @@ namespace Catalyst
 
 		m_editorConfig->Load();
 
-		m_transform->TRS({ 0, 2.f, -10.f }, vec3(0), vec3(1));
-		m_transform->SetRotation(
-			quat(
-				lookAt(m_transform->Location(), vec3(0), { 0, 1, 0 })
-			)
-		);
+		m_vpCam = new Actor;
+		m_vpCamComponent = m_vpCam->CreateComponent<CameraComponent>();
+
+		if(const ActorTransform* transform = m_vpCam->Transform())
+		{
+			transform->TRS({ 0, 2.f, -10.f }, vec3(0), vec3(1));
+			transform->SetRotation(
+				quat(
+					lookAt(transform->Location(), vec3(0), { 0, 1, 0 })
+				)
+			);
+		}
 
 		Gizmos::Create(
 			m_editorConfig->GetValue<int>("debug", "3d.maxLines"),
@@ -59,14 +67,16 @@ namespace Catalyst
 			m_editorConfig->GetValue<int>("debug", "2d.maxTris")
 		);
 
-		m_fov = m_editorConfig->GetValue<float>("viewport", "camera.fov");
-		m_near = m_editorConfig->GetValue<float>("viewport", "camera.near");
-		m_far = m_editorConfig->GetValue<float>("viewport", "camera.far");
+		m_vpCamComponent->SetFovAngle(m_editorConfig->GetValue<float>("viewport", "camera.fov"));
+		m_vpCamComponent->SetNearPlane(m_editorConfig->GetValue<float>("viewport", "camera.near"));
+		m_vpCamComponent->SetFarPlane(m_editorConfig->GetValue<float>("viewport", "camera.far"));
 	}
 
 	void EditorApplication::OnClosed()
 	{
 		Application::OnClosed();
+
+		Gizmos::Destroy();
 	}
 
 	void EditorApplication::Tick()
@@ -85,10 +95,7 @@ namespace Catalyst
 	{
 		if (const Screen* screen = GetScreen())
 		{
-			const mat4 viewMat = glm::lookAt(m_transform->Location(), m_transform->Location() + m_transform->Forward(), m_transform->Up());
-			const mat4 projMat = glm::perspective(Fov(), Aspect(), m_near, m_far);
-
-			Gizmos::Draw(projMat * viewMat);
+			Gizmos::Draw(m_vpCamComponent->ProjectionView());
 			Gizmos::Draw2D(static_cast<float>(screen->Width()), static_cast<float>(screen->Height()));
 		}
 	}
@@ -98,24 +105,5 @@ namespace Catalyst
 		Application::GenerateConfigFiles();
 
 		m_editorConfig = new Config(GetHandle());
-	}
-
-	float EditorApplication::Fov() const
-	{
-		return m_fov * (glm::pi<float>() / 180.f);
-	}
-
-	float EditorApplication::Aspect() const
-	{
-		int w = 0;
-		int h = 0;
-
-		const auto context = glfwGetCurrentContext();
-		glfwGetWindowSize(context, &w, &h);
-
-		const float width = static_cast<float>(w);
-		const float height = static_cast<float>(h);
-
-		return width / height;
 	}
 }

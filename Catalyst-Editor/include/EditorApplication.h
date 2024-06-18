@@ -9,9 +9,12 @@
 
 #pragma once
 #include "Application.h"
+#include "Components/CameraComponent.h"
 
 namespace Catalyst
 {
+	class Actor;
+
 	class EditorApplication final : public Application
 	{
 	public:
@@ -40,15 +43,8 @@ namespace Catalyst
 	private:
 		Config* m_editorConfig;
 
-		float m_fov;
-		float m_near;
-		float m_far;
-
-		class ActorTransform* m_transform;
-
-	private:
-		float Fov() const;
-		float Aspect() const;
+		Actor* m_vpCam;
+		CameraComponent* m_vpCamComponent;
 
 	};
 }

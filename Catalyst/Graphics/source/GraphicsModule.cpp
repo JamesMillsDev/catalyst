@@ -22,12 +22,12 @@ namespace Catalyst
 		m_main = nullptr;
 	}
 
-	Camera* GraphicsModule::Main() const
+	CameraComponent* GraphicsModule::Main() const
 	{
 		return m_main;
 	}
 
-	void GraphicsModule::Register(Camera* _camera)
+	void GraphicsModule::Register(CameraComponent* _camera)
 	{
 		if(std::ranges::find(m_cameras, _camera) != m_cameras.end())
 			return;
@@ -35,7 +35,7 @@ namespace Catalyst
 		m_cameraChanges.emplace_back(&GraphicsModule::AddCamera, _camera);
 	}
 
-	void GraphicsModule::Deregister(Camera* _camera)
+	void GraphicsModule::Deregister(CameraComponent* _camera)
 	{
 		if(std::ranges::find(m_cameras, _camera) == m_cameras.end())
 			return;
@@ -84,12 +84,12 @@ namespace Catalyst
 		IModule::Render();
 	}
 
-	void GraphicsModule::AddCamera(Camera* _camera)
+	void GraphicsModule::AddCamera(CameraComponent* _camera)
 	{
 		m_cameras.emplace_back(_camera);
 	}
 
-	void GraphicsModule::RemoveCamera(Camera* _camera)
+	void GraphicsModule::RemoveCamera(CameraComponent* _camera)
 	{
 		m_cameras.remove(_camera);
 	}

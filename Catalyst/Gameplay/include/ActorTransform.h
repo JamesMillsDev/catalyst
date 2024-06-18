@@ -58,7 +58,10 @@ namespace Catalyst
 	class DLL ActorTransform
 	{
 		friend class Actor;
+
+#ifdef IS_EDITOR
 		friend class EditorApplication;
+#endif
 
 		typedef void(ActorTransform::* HierarchyChange)(ActorTransform*);
 
