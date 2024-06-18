@@ -104,6 +104,8 @@ namespace Catalyst
 		void TRS(vec3 _loc, const quat& _rot, const vec3& _scale) const;
 		void TRS(vec3 _loc, const vec3& _euler, const vec3& _scale) const;
 
+		void LookAt(vec3 _loc) const;
+
 		vec3 Forward() const;
 		vec3 Right() const;
 		vec3 Up() const;

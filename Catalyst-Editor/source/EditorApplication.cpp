@@ -1,7 +1,5 @@
 #include "EditorApplication.h"
 
-#include <glm/ext/matrix_transform.hpp>
-
 #include "Actor.h"
 #include "ActorTransform.h"
 #include "Screen.h"
@@ -53,11 +51,7 @@ namespace Catalyst
 		if(const ActorTransform* transform = m_vpCam->Transform())
 		{
 			transform->TRS({ 0, 2.f, -10.f }, vec3(0), vec3(1));
-			transform->SetRotation(
-				quat(
-					lookAt(transform->Location(), vec3(0), { 0, 1, 0 })
-				)
-			);
+			transform->LookAt(vec3(0));
 		}
 
 		Gizmos::Create(

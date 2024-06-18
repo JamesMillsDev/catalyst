@@ -259,9 +259,16 @@ namespace Catalyst
 		SetRotation(_euler);
 	}
 
+	void ActorTransform::LookAt(const vec3 _loc) const
+	{
+		SetRotation(
+			quat(lookAt(Location(), _loc, Up()))
+		);
+	}
+
 	vec3 ActorTransform::Forward() const
 	{
-		vec3 rot = glm::radians(EulerAngles());
+		const vec3 rot = glm::radians(EulerAngles());
 
 		return
 		{
@@ -273,7 +280,7 @@ namespace Catalyst
 
 	vec3 ActorTransform::Right() const
 	{
-		vec3 rot = glm::radians(EulerAngles());
+		const vec3 rot = glm::radians(EulerAngles());
 
 		return
 		{
@@ -285,7 +292,7 @@ namespace Catalyst
 
 	vec3 ActorTransform::Up() const
 	{
-		vec3 rot = glm::radians(EulerAngles());
+		const vec3 rot = glm::radians(EulerAngles());
 
 		return
 		{
