@@ -5,6 +5,7 @@
 #include "Screen.h"
 #include "Debug/Gizmos.h"
 #include "Utility/Config.h"
+#include "Viewport/ViewportCameraActor.h"
 
 namespace Catalyst
 {
@@ -19,7 +20,7 @@ namespace Catalyst
 	}
 
 	EditorApplication::EditorApplication()
-		: m_editorConfig{ nullptr }, m_vpCam{ nullptr }, m_vpCamComponent{ nullptr }
+		: m_editorConfig{ nullptr }, m_vpCam{ nullptr }
 	{
 	}
 
@@ -45,14 +46,8 @@ namespace Catalyst
 
 		m_editorConfig->Load();
 
-		m_vpCam = new Actor;
-		m_vpCamComponent = m_vpCam->CreateComponent<CameraComponent>();
-
-		if(const ActorTransform* transform = m_vpCam->Transform())
-		{
-			transform->TRS({ 0, 2.f, -10.f }, vec3(0), vec3(1));
-			transform->LookAt(vec3(0));
-		}
+		m_vpCam = new ViewportCameraActor;
+		m_vpCam->Initialise(m_editorConfig);
 
 		Gizmos::Create(
 			m_editorConfig->GetValue<int>("debug", "3d.maxLines"),
@@ -60,10 +55,6 @@ namespace Catalyst
 			m_editorConfig->GetValue<int>("debug", "2d.maxLines"),
 			m_editorConfig->GetValue<int>("debug", "2d.maxTris")
 		);
-
-		m_vpCamComponent->SetFovAngle(m_editorConfig->GetValue<float>("viewport", "camera.fov"));
-		m_vpCamComponent->SetNearPlane(m_editorConfig->GetValue<float>("viewport", "camera.near"));
-		m_vpCamComponent->SetFarPlane(m_editorConfig->GetValue<float>("viewport", "camera.far"));
 	}
 
 	void EditorApplication::OnClosed()
@@ -75,6 +66,8 @@ namespace Catalyst
 
 	void EditorApplication::Tick()
 	{
+		m_vpCam->Tick();
+
 		const Color white = { .5f, .5f, .5f, .5f };
 		const Color black = { 0, 0, 0, 1 };
 
@@ -89,7 +82,7 @@ namespace Catalyst
 	{
 		if (const Screen* screen = GetScreen())
 		{
-			Gizmos::Draw(m_vpCamComponent->ProjectionView());
+			Gizmos::Draw(m_vpCam->ProjectionView());
 			Gizmos::Draw2D(static_cast<float>(screen->Width()), static_cast<float>(screen->Height()));
 		}
 	}
