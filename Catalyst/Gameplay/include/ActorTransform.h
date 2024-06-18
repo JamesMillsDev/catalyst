@@ -17,6 +17,35 @@
 
 #include <list>
 
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+#include "ActorTransform.h"
+
 using glm::mat4;
 using glm::vec3;
 using glm::quat;
@@ -29,6 +58,7 @@ namespace Catalyst
 	class DLL ActorTransform
 	{
 		friend class Actor;
+		friend class EditorApplication;
 
 		typedef void(ActorTransform::* HierarchyChange)(ActorTransform*);
 
@@ -48,8 +78,8 @@ namespace Catalyst
 		vec3 Location() const;
 		vec3 LocalLocation() const;
 
-		void SetLocation(const vec3& _new) const;
-		void UpdateLocation(const vec3& _delta) const;
+		void SetLocation(vec3& _new) const;
+		void UpdateLocation(vec3& _delta) const;
 
 		vec3 Scale() const;
 		vec3 LocalScale() const;
@@ -68,8 +98,8 @@ namespace Catalyst
 		void SetEulerAngles(const vec3& _new) const;
 		void UpdateEulerAngles(const vec3& _delta) const;
 
-		void TRS(const vec3& _loc, const quat& _rot, const vec3& _scale) const;
-		void TRS(const vec3& _loc, const vec3& _euler, const vec3& _scale) const;
+		void TRS(vec3 _loc, const quat& _rot, const vec3& _scale) const;
+		void TRS(vec3 _loc, const vec3& _euler, const vec3& _scale) const;
 
 		vec3 Forward() const;
 		vec3 Right() const;

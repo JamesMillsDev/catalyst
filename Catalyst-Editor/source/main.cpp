@@ -1,8 +1,8 @@
-#include "Application.h"
+#include "EditorApplication.h"
 
-using Catalyst::Application;
+using Catalyst::EditorApplication;
 
 int main()
 {
-   return Application::Run();
+   return EditorApplication::RunEditor();
 }

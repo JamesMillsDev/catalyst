@@ -9,10 +9,20 @@
 
 namespace Catalyst
 {
+	HMODULE GetHandle()
+	{
+		HMODULE hModule = nullptr;
+		GetModuleHandleEx(
+			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+			(LPCTSTR)GetHandle, &hModule);
+
+		return hModule;
+	}
+
 	Application* Application::m_app = nullptr;
 
 	Application::Application()
-		: m_screen{ new Screen }, m_config{ new Config }
+		: m_screen{ new Screen }, m_config{ nullptr }
 	{
 		
 	}
@@ -49,6 +59,11 @@ namespace Catalyst
 		return m_app->m_screen;
 	}
 
+	void Application::AssignInstance(Application* _app)
+	{
+		m_app = _app;
+	}
+
 	void Application::OnOpened() { }
 
 	void Application::OnClosed() { }
@@ -57,11 +72,20 @@ namespace Catalyst
 
 	void Application::Render() { }
 
+	void Application::GenerateConfigFiles()
+	{
+		m_config = new Config(GetHandle());
+	}
+
 	int Application::Process()
 	{
+		GenerateConfigFiles();
+
 		m_config->Load();
 
 		m_screen->Open(m_config);
+
+		OnOpened();
 
 		CatalystTime::Init();
 
@@ -81,6 +105,8 @@ namespace Catalyst
 
 			m_screen->EndFrame();
 		}
+
+		OnClosed();
 
 		m_screen->Close();
 

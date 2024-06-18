@@ -44,11 +44,21 @@ namespace Catalyst
 		Application& operator=(Application&&) = delete;
 
 	protected:
+		static void AssignInstance(Application* _app);
+
+	protected:
 		virtual void OnOpened();
 		virtual void OnClosed();
 
 		virtual void Tick();
 		virtual void Render();
+
+		virtual void GenerateConfigFiles();
+
+	private:
+		friend static void IModule::AddModule(IModule* _module);
+		friend void MakeApplicationInstance();
+		friend void DestroyApplicationInstance();
 
 	private:
 		static Application* m_app;
@@ -58,11 +68,6 @@ namespace Catalyst
 
 		Screen* m_screen;
 		Config* m_config;
-
-	private:
-		friend static void IModule::AddModule(IModule* _module);
-		friend void MakeApplicationInstance();
-		friend void DestroyApplicationInstance();
 
 	private:
 		int Process();
