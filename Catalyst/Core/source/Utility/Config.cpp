@@ -33,8 +33,8 @@ namespace Catalyst
 		return value.c_str();
 	}
 
-	Config::Config()
-		: m_doc{ new xml_document }
+	Config::Config(const HMODULE _module)
+		: m_doc{ new xml_document }, m_module{ _module }
 	{
 	}
 
@@ -88,16 +88,16 @@ namespace Catalyst
 	{
 		for (auto& group : m_data | std::views::values)
 		{
-			for (auto iter = group.begin(); iter != group.end(); ++iter)
-				delete iter->second;
+			for (const auto& val : group | std::views::values)
+				delete val;
 		}
 
 		m_data.clear();
 	}
 
-	void Config::Load(const bool _initialise)
+	void Config::Load()
 	{
-		if (_initialise && !Initialise())
+		if (!Initialise())
 			return;
 
 		for (const xml_node& category : m_doc->child("Config").child("Categories").children("Category"))
@@ -143,6 +143,35 @@ namespace Catalyst
 		}
 	}
 
+	string Config::GetConfigData(const int _id) const
+	{
+		string result;
+
+		const HRSRC hRes = FindResource(m_module, MAKEINTRESOURCE(_id), MAKEINTRESOURCE(TEXTFILE));
+
+		if (hRes != nullptr)
+		{
+			const HGLOBAL hData = LoadResource(m_module, hRes);
+			const DWORD hSize = SizeofResource(m_module, hRes);
+
+			if (hData != nullptr)
+			{
+				const char* hFinal = static_cast<char*>(LockResource(hData));
+
+				result.assign(hFinal, hSize);
+			}
+		}
+
+		return result;
+	}
+
+	bool Config::Initialise() const
+	{
+		const xml_parse_result result = m_doc->load_string(GetConfigData(CONFIG_FILE).c_str());
+
+		return result;
+	}
+
 	void Config::HandleVector(const string& _category, const string& _name, const string& _value)
 	{
 		auto converter = [](const string& _val) -> float
@@ -171,46 +200,6 @@ namespace Catalyst
 				values[2],
 				values[3]
 			});
-	}
-
-	HMODULE GetHandle()
-	{
-		HMODULE hModule = nullptr;
-		GetModuleHandleEx(
-			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-			(LPCTSTR)GetHandle, &hModule);
-
-		return hModule;
-	}
-
-	string Config::GetConfigData(const int _id)
-	{
-		string result;
-
-		const HMODULE handle = GetHandle();
-		const HRSRC hRes = FindResource(handle, MAKEINTRESOURCE(_id), MAKEINTRESOURCE(TEXTFILE));
-
-		if (hRes != nullptr)
-		{
-			const HGLOBAL hData = LoadResource(handle, hRes);
-			const DWORD hSize = SizeofResource(handle, hRes);
-
-			if (hData != nullptr)
-			{
-				const char* hFinal = static_cast<char*>(LockResource(hData));
-
-				result.assign(hFinal, hSize);
-			}
-		}
-
-		return result;
-	}
-
-	bool Config::Initialise() const
-	{
-		const xml_parse_result result = m_doc->load_string(GetConfigData(CONFIG_FILE).c_str());
-
-		return result;
 	}
 
 	EValType Config::StringToType(const string& _type)

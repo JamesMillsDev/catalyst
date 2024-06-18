@@ -68,7 +68,7 @@ namespace Catalyst
 		return trans;
 	}
 
-	void ActorTransform::SetLocation(const vec3& _new) const
+	void ActorTransform::SetLocation(vec3& _new) const
 	{
 		vec3 scale;
 		quat rot;
@@ -77,13 +77,15 @@ namespace Catalyst
 		vec4 perspective;
 
 		decompose(LocalTransform(), scale, rot, trans, skew, perspective);
+
+		_new.y *= -1.f;
 
 		*m_transform = translate(mat4(1.f), _new) *
 			toMat4(rot) *
 			glm::scale(mat4(1.f), scale);
 	}
 
-	void ActorTransform::UpdateLocation(const vec3& _delta) const
+	void ActorTransform::UpdateLocation(vec3& _delta) const
 	{
 		vec3 scale;
 		quat rot;
@@ -92,6 +94,8 @@ namespace Catalyst
 		vec4 perspective;
 
 		decompose(LocalTransform(), scale, rot, trans, skew, perspective);
+
+		_delta.y *= -1.f;
 
 		*m_transform = translate(mat4(1.f), trans + _delta) *
 			toMat4(rot) *
@@ -241,14 +245,14 @@ namespace Catalyst
 		*m_transform = *m_transform * toMat4(quat(_delta));
 	}
 
-	void ActorTransform::TRS(const vec3& _loc, const quat& _rot, const vec3& _scale) const
+	void ActorTransform::TRS(vec3 _loc, const quat& _rot, const vec3& _scale) const
 	{
 		SetLocation(_loc);
 		SetScale(_scale);
 		SetRotation(_rot);
 	}
 
-	void ActorTransform::TRS(const vec3& _loc, const vec3& _euler, const vec3& _scale) const
+	void ActorTransform::TRS(vec3 _loc, const vec3& _euler, const vec3& _scale) const
 	{
 		SetLocation(_loc);
 		SetScale(_scale);

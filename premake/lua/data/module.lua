@@ -100,7 +100,7 @@ function module:get_link_dirs(lines)
     end
 end
 
-function get_remaining_data(file)
+function module.get_remaining_data(file)
     local data = {}
 
     while true do
@@ -118,9 +118,8 @@ function get_remaining_data(file)
 end
 
 function module.read_modules(file)
-    local lines = get_remaining_data(file)
+    local lines = module.get_remaining_data(file)
 
-    table.remove(lines, 1)
     table.remove(lines, 1)
     table.remove(lines, 1)
 

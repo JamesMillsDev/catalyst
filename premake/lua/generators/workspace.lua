@@ -13,7 +13,11 @@ function ws.generate(engine_props)
 		"Shipping"
 	}
 
-	startproject (engine_props.testbed_name)
+	if engine_props.testbed_mode == true then
+		startproject (engine_props.testbed_name)
+	else
+		startproject (engine_props.name .. "-Editor")
+	end
 end
 
 return ws

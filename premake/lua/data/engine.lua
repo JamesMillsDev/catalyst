@@ -1,5 +1,6 @@
 require("utilities.string-utils")
 module = require("data.module")
+editor = require("data.editor")
 dll = require("data.dll")
 ids = require("utilities.ids")
 
@@ -7,13 +8,15 @@ local properties =
 { 
     name = "", 
     modules = {}, 
+    editor = {},
     short_name = "", 
     dependencies_dir = "", 
     deliminator = '.', 
     testbed_name = "",
+    testbed_mode = "",
     language_version = "",
     disabled_warnings = {},
-    dlls={}
+    dlls = {}
 }
 
 function properties:new(o)
@@ -28,13 +31,15 @@ function properties.read(filepath)
     { 
         name = "", 
         modules = {}, 
+        editor = {},
         short_name = "", 
         dependencies_dir = "", 
         deliminator = '.', 
         testbed_name = "",
+        testbed_mode = "",
         language_version = "",
         disabled_warnings = {},
-        dlls={}
+        dlls = {}
     }
 
     local file = assert(io.open(filepath, "r"))
@@ -43,10 +48,12 @@ function properties.read(filepath)
     new_properties:get_deliminator(file)
     new_properties:get_dependencies_dir(file)
     new_properties:get_testbed_name(file)
+    new_properties:get_testbed_mode(file)
     new_properties:get_language_version(file)
     new_properties:get_disabled_warnings(file)
     new_properties:get_dlls(file)
 
+    new_properties.editor = editor.read(file)
     new_properties.modules = module.read_modules(file)
     new_properties.short_name = upper_partial(new_properties.name, 2)
 
@@ -84,6 +91,14 @@ function properties:get_testbed_name(file)
 
     if contains(line, ids.testbed_name) then
         self.testbed_name = value_from(line, ids.testbed_name)
+    end
+end
+
+function properties:get_testbed_mode(file)
+    line = assert(file:read())
+
+    if contains(line, ids.testbed_mode) then
+        self.testbed_mode = value_from(line, ids.testbed_mode)
     end
 end
 

@@ -13,7 +13,8 @@ namespace Catalyst
 {
 	void MakeApplicationInstance()
 	{
-		Application::m_app = new Application;
+		if (Application::m_app == nullptr)
+			Application::AssignInstance(new Application);
 	}
 
 	void DestroyApplicationInstance()

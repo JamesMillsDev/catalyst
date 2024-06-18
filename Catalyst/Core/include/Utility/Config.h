@@ -62,7 +62,7 @@ namespace Catalyst
 		friend class Application;
 
 	public:
-		Config();
+		explicit Config(HMODULE _module);
 		~Config();
 
 		Config(const Config&) = delete;
@@ -78,6 +78,8 @@ namespace Catalyst
 		template<typename VAL>
 		bool TryGetValue(const string& _group, const string& _id, VAL& _value);
 
+		void Load();
+
 	public:
 		Config& operator=(const Config&) = delete;
 		Config& operator=(Config&&) = delete;
@@ -87,16 +89,17 @@ namespace Catalyst
 
 		map<string, map<string, class ConfigValue*>> m_data;
 
+		HMODULE m_module;
+
 	private:
+		string GetConfigData(int _id) const;
 		bool Initialise() const;
 		void Clear();
-		void Load(bool _initialise = true);
 
 		void HandleVector(const string& _category, const string& _name, const string& _value);
 		void HandleColor(const string& _category, const string& _name, const string& _value);
 
 	private:
-		static string GetConfigData(int _id);
 		static EValType StringToType(const string& _type);
 
 	};
