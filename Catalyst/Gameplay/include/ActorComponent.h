@@ -9,13 +9,20 @@
 
 #pragma once
 
+#include "Catalyst.h"
+#include "Object.h"
+
 namespace Catalyst
 {
-	class ActorComponent
+	class Actor;
+
+	class DLL ActorComponent : public Object
 	{
+		friend class GameplayModule;
+		friend class Actor;
+
 	public:
-		ActorComponent();
-		virtual ~ActorComponent();
+		Actor* Owner() const;
 
 	public:
 		ActorComponent(const ActorComponent&) = delete;
@@ -24,6 +31,19 @@ namespace Catalyst
 	public:
 		ActorComponent& operator=(const ActorComponent&) = delete;
 		ActorComponent& operator=(ActorComponent&&) = delete;
+
+	protected:
+		ActorComponent();
+		~ActorComponent() override;
+
+	protected:
+		virtual void OnBeginPlay();
+		virtual void OnEndPlay();
+		virtual void Tick();
+		virtual void Render();
+
+	private:
+		Actor* m_owner;
 
 	};
 }

@@ -9,9 +9,11 @@
 
 #pragma once
 
+#include "Catalyst.h"
+
 namespace Catalyst
 {
-	class Object
+	class DLL Object
 	{
 	public:
 		Object();
