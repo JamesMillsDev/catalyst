@@ -4,13 +4,21 @@
 
 #include "InputModule.h"
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
+namespace Catalyst
+{
+	void MakeInputModuleInstance()
+	{
+		InputModule* module = new InputModule;
+	}
+}
+
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
 )
 {
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH)
-	    Catalyst::InputModule* module = new Catalyst::InputModule;
+	if (ul_reason_for_call == DLL_PROCESS_ATTACH)
+		Catalyst::MakeInputModuleInstance();
 
-    return TRUE;
+	return TRUE;
 }
