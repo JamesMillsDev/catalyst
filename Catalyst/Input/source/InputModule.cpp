@@ -99,6 +99,25 @@ namespace Catalyst
 	{
 		m_instance = this;
 
+		AddModule(this);
+	}
+
+	InputModule::~InputModule()
+	{
+		delete[] m_lastKeys;
+		delete[] m_currentKeys;
+
+		for (const auto actions : m_actions | std::views::values)
+			delete actions;
+	}
+
+	InputModule* InputModule::GetInstance()
+	{
+		return m_instance;
+	}
+
+	void InputModule::BeginPlay()
+	{
 		GLFWwindow* window = glfwGetCurrentContext();
 
 		for (int i = GLFW_KEY_SPACE; i <= GLFW_KEY_LAST; ++i)
@@ -150,22 +169,6 @@ namespace Catalyst
 		glfwSetCursorPosCallback(window, mouseMoveCallback);
 		glfwSetScrollCallback(window, mouseScrollCallback);
 		glfwSetCursorEnterCallback(window, mouseEnterCallback);
-
-		AddModule(this);
-	}
-
-	InputModule::~InputModule()
-	{
-		delete[] m_lastKeys;
-		delete[] m_currentKeys;
-
-		for (const auto actions : m_actions | std::views::values)
-			delete actions;
-	}
-
-	InputModule* InputModule::GetInstance()
-	{
-		return m_instance;
 	}
 
 	void InputModule::Enter() { }

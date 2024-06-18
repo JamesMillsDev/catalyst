@@ -87,19 +87,9 @@ namespace Catalyst
 
 	void ActorTransform::UpdateLocation(vec3& _delta) const
 	{
-		vec3 scale;
-		quat rot;
-		vec3 trans;
-		vec3 skew;
-		vec4 perspective;
-
-		decompose(LocalTransform(), scale, rot, trans, skew, perspective);
-
 		_delta.y *= -1.f;
 
-		*m_transform = translate(mat4(1.f), trans + _delta) *
-			toMat4(rot) *
-			glm::scale(mat4(1.f), scale);
+		*m_transform = translate(*m_transform, _delta);
 	}
 
 	vec3 ActorTransform::Scale() const

@@ -9,11 +9,10 @@
 
 #pragma once
 #include "Application.h"
-#include "Components/CameraComponent.h"
 
 namespace Catalyst
 {
-	class Actor;
+	class ViewportCameraActor;
 
 	class EditorApplication final : public Application
 	{
@@ -43,8 +42,7 @@ namespace Catalyst
 	private:
 		Config* m_editorConfig;
 
-		Actor* m_vpCam;
-		CameraComponent* m_vpCamComponent;
+		ViewportCameraActor* m_vpCam;
 
 	};
 }

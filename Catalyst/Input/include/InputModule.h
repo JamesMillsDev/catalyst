@@ -98,9 +98,10 @@ namespace Catalyst
 		~InputModule() override;
 
 	private:
-		// only want the Application class to be able to create / destroy
 		static InputModule* GetInstance();
 
+	private:
+		void BeginPlay() override;
 		void Enter() override;
 		void Exit() override;
 		void Tick() override;

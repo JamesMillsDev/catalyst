@@ -26,10 +26,6 @@ namespace Catalyst
 	{
 		friend class GameplayModule;
 
-#ifdef IS_EDITOR
-		friend class EditorApplication;
-#endif
-
 		typedef void(Actor::* ComponentListChange)(ActorComponent*);
 
 	public:

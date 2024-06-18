@@ -14,7 +14,7 @@ namespace Catalyst
 		HMODULE hModule = nullptr;
 		GetModuleHandleEx(
 			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-			(LPCTSTR)GetHandle, &hModule);
+			reinterpret_cast<LPCTSTR>(GetHandle), &hModule);
 
 		return hModule;
 	}
@@ -61,6 +61,16 @@ namespace Catalyst
 
 	void Application::AssignInstance(Application* _app)
 	{
+		// To handle the incoming being an editor
+		if(m_app)
+		{
+			_app->m_modules = m_app->m_modules;
+			_app->m_screen = m_app->m_screen;
+			_app->m_config = m_app->m_config;
+
+			m_app->m_modules.clear();
+		}
+
 		m_app = _app;
 	}
 
@@ -94,15 +104,18 @@ namespace Catalyst
 
 		CatalystTime::Init();
 
+		for (const auto& module : m_modules)
+			module->BeginPlay();
+
 		while(!m_screen->WindowShouldClose())
 		{
 			CatalystTime::Tick();
 
-			m_screen->BeginFrame();
-
 			Tick();
 			for(const auto& module : m_modules)
 				module->Tick();
+
+			m_screen->BeginFrame();
 
 			Render();
 			for(const auto& module : m_modules)
@@ -110,6 +123,9 @@ namespace Catalyst
 
 			m_screen->EndFrame();
 		}
+
+		for (const auto& module : m_modules)
+			module->EndPlay();
 
 		OnClosed();
 
