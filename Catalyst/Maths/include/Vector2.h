@@ -88,7 +88,7 @@ namespace Catalyst
 		Vector2& operator*=(float _rhs);
 
 		Vector2& operator=(const Vector2& _other);
-		Vector2& operator=(Vector2&&) = delete;
+		Vector2& operator=(Vector2&& _rhs) noexcept;
 
 	protected:
 

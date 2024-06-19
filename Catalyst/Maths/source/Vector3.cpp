@@ -220,6 +220,14 @@ namespace Catalyst
         return *this;
     }
 
+    float Vector3::operator[](const int _index) const
+    {
+        if (_index < 0 || _index >= VEC_3_SIZE)
+            return INFINITY;
+
+        return data[_index];
+    }
+
     Vector3& Vector3::operator=(const Vector3& _rhs)
     {
         if (*this == _rhs)
@@ -228,6 +236,22 @@ namespace Catalyst
         x = _rhs.x;
         y = _rhs.y;
         z = _rhs.z;
+
+        return *this;
+    }
+
+    Vector3& Vector3::operator=(Vector3&& _rhs) noexcept
+    {
+        if (*this == _rhs)
+            return *this;
+
+        x = _rhs.x;
+        y = _rhs.y;
+        z = _rhs.z;
+
+        _rhs.x = 0.f;
+        _rhs.y = 0.f;
+        _rhs.z = 0.f;
 
         return *this;
     }

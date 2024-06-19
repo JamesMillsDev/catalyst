@@ -15,6 +15,8 @@
 #include <initializer_list>
 
 #include "Vector3.h"
+#include "Matrix3.h"
+#include "Matrix4.h"
 
 using std::string;
 using std::initializer_list;
@@ -44,16 +46,14 @@ namespace Catalyst
 		Quaternion(float _x, float _y, float _z, float _w);
 		// ReSharper disable once CppNonExplicitConvertingConstructor
 		Quaternion(const Vector3& _euler);
+		Quaternion(Matrix3& _matrix);
+		Quaternion(Matrix4& _matrix);
 		Quaternion(float _pitch, float _yaw, float _roll);
 
 		~Quaternion();
 
 		Quaternion(const Quaternion& _other);
 		Quaternion(Quaternion&& _other) noexcept;
-
-	public:
-		static Quaternion FromEuler(const Vector3& _euler);
-		static Quaternion FromEuler(float _pitch, float _yaw, float _roll);
 
 	public:
 		[[nodiscard]] Vector3 Euler() const;

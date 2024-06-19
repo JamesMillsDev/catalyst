@@ -94,8 +94,10 @@ namespace Catalyst
 		Vector4 operator *(float _rhs) const;
 		Vector4& operator *=(float _rhs);
 
+		float operator[](int _index) const;
+
 		Vector4& operator=(const Vector4& _other);
-		Vector4& operator=(Vector4&&) = delete;
+		Vector4& operator=(Vector4&& _rhs) noexcept;
 
 	protected:
 

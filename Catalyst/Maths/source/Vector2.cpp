@@ -194,4 +194,18 @@ namespace Catalyst
 
         return *this;
     }
+
+    Vector2& Vector2::operator=(Vector2&& _rhs) noexcept
+    {
+        if (*this == _rhs)
+            return *this;
+
+        x = _rhs.x;
+        y = _rhs.y;
+
+        _rhs.x = 0.f;
+        _rhs.y = 0.f;
+
+        return *this;
+    }
 }

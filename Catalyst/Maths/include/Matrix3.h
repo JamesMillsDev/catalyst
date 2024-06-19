@@ -11,12 +11,30 @@
 
 #include "Catalyst.h"
 
+#include "Vector3.h"
+
 namespace Catalyst
 {
+	class Quaternion;
+
 	class DLL Matrix3
 	{
 	public:
+		union
+		{
+			struct  // NOLINT(clang-diagnostic-nested-anon-types)
+			{
+				Vector3 xAxis;
+				Vector3 yAxis;
+				Vector3 zAxis;
+			};
+
+			float data[VEC_3_SIZE][VEC_3_SIZE];
+		};
+
+	public:
 		Matrix3();
+		Matrix3(const Quaternion& _quat);
 		~Matrix3();
 
 		Matrix3(const Matrix3& _other);
@@ -25,6 +43,8 @@ namespace Catalyst
 	public:
 		Matrix3& operator=(const Matrix3& _rhs);
 		Matrix3& operator=(Matrix3&&) = delete;
+
+		Vector3& operator[](int _index);
 
 	protected:
 

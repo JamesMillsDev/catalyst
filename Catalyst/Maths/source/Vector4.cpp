@@ -147,9 +147,9 @@ namespace Catalyst
 
 	bool Vector4::operator==(const Vector4& _rhs) const
 	{
-		return CatalystMath::Compare(x, _rhs.x) && 
-			CatalystMath::Compare(y, _rhs.y) && 
-			CatalystMath::Compare(z, _rhs.z) && 
+		return CatalystMath::Compare(x, _rhs.x) &&
+			CatalystMath::Compare(y, _rhs.y) &&
+			CatalystMath::Compare(z, _rhs.z) &&
 			CatalystMath::Compare(w, _rhs.w);
 	}
 
@@ -216,6 +216,14 @@ namespace Catalyst
 		return *this;
 	}
 
+	float Vector4::operator[](const int _index) const
+	{
+		if (_index < 0 || _index >= VEC_4_SIZE)
+			return INFINITY;
+
+		return data[_index];
+	}
+
 	Vector4& Vector4::operator=(const Vector4& _other)
 	{
 		if (*this == _other)
@@ -225,6 +233,24 @@ namespace Catalyst
 		y = _other.y;
 		z = _other.z;
 		w = _other.w;
+
+		return *this;
+	}
+
+	Vector4& Vector4::operator=(Vector4&& _rhs) noexcept
+	{
+		if (*this == _rhs)
+			return *this;
+
+		x = _rhs.x;
+		y = _rhs.y;
+		z = _rhs.z;
+		w = _rhs.w;
+
+		_rhs.x = 0.f;
+		_rhs.y = 0.f;
+		_rhs.z = 0.f;
+		_rhs.w = 0.f;
 
 		return *this;
 	}

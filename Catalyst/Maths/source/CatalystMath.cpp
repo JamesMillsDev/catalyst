@@ -5,6 +5,8 @@
 
 namespace Catalyst
 {
+	float CatalystMath::pi = 3.1415926535f;
+
 	bool CatalystMath::Compare(const float _x, const float _y)
 	{
 		return fabsf(_x - _y) <= (FLT_EPSILON + 0.000001f) * fmaxf(1.f, fmaxf(fabsf(_x), fabsf(_y)));
@@ -24,5 +26,15 @@ namespace Catalyst
 	float CatalystMath::Clamp01(const float _val)
 	{
 		return Clamp(_val, 0.f, 1.f);
+	}
+
+	float CatalystMath::Radians(const float _deg)
+	{
+		return _deg * pi / 180.f;
+	}
+
+	float CatalystMath::Degrees(const float _rad)
+	{
+		return _rad * 180.f / pi;
 	}
 }

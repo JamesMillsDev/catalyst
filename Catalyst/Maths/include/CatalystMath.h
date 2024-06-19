@@ -16,10 +16,16 @@ namespace Catalyst
 	class DLL CatalystMath
 	{
 	public:
+		static float pi;
+
+	public:
 		static bool Compare(float _x, float _y);
 
 		static float Clamp(float _val, float _min, float _max);
 		static float Clamp01(float _val);
+
+		static float Radians(float _deg);
+		static float Degrees(float _rad);
 
 	};
 }
