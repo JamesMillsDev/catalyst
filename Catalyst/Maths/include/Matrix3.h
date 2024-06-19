@@ -24,8 +24,11 @@ namespace Catalyst
 		{
 			struct  // NOLINT(clang-diagnostic-nested-anon-types)
 			{
+				// x = 11 y = 12 z = 13
 				Vector3 xAxis;
+				// x = 21 y = 22 z = 23
 				Vector3 yAxis;
+				// x = 31 y = 32 z = 33
 				Vector3 zAxis;
 			};
 
@@ -35,16 +38,26 @@ namespace Catalyst
 	public:
 		Matrix3();
 		Matrix3(const Quaternion& _quat);
+		Matrix3(Vector3 _xAxis, Vector3 _yAxis, Vector3 _zAxis);
+		Matrix3(float _11, float _12, float _13, 
+			float _21, float _22, float _23, 
+			float _31, float _32, float _33);
 		~Matrix3();
 
 		Matrix3(const Matrix3& _other);
 		Matrix3(Matrix3&&) = delete;
 
 	public:
-		Matrix3& operator=(const Matrix3& _rhs);
-		Matrix3& operator=(Matrix3&&) = delete;
+		bool operator==(const Matrix3& _rhs) const;
+		bool operator!=(const Matrix3& _rhs) const;
 
-		Vector3& operator[](int _index);
+		Matrix3 operator*(const Matrix3& _rhs) const;
+		Vector3 operator*(const Vector3& _rhs) const;
+
+		Vector3 operator[](int _index) const;
+
+		Matrix3& operator=(const Matrix3& _rhs);
+		Matrix3& operator=(Matrix3&& _rhs) noexcept;
 
 	protected:
 

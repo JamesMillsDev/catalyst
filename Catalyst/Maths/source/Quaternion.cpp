@@ -5,8 +5,48 @@
 
 namespace Catalyst
 {
+	Quaternion Quaternion::Identity()
+	{
+		return { 0.f, 0.f, 0.f, 1.f };
+	}
+
+	float Quaternion::Dot(const Quaternion& _a, const Quaternion& _b)
+	{
+		return _a.x * _b.x + _a.y * _b.y + _a.z * _b.z + _a.w * _b.w;
+	}
+
+	Quaternion Quaternion::LookRotation(const Vector3& _viewDir, const Vector3& _forward, const Vector3& _up)
+	{
+		Vector3 forward = _viewDir.Normalised();
+
+		Vector3 rotAxis = Vector3::Cross(_forward, forward).Normalised();
+		if (CatalystMath::Compare(rotAxis.MagnitudeSqr(), 0.f))
+			rotAxis = _up;
+
+		float dot = Vector3::Dot(Vector3::forward, _forward);
+		float angle = acosf(dot);
+
+		return AxisAngle(rotAxis, angle);
+	}
+
+	Quaternion Quaternion::AxisAngle(const Vector3& _axis, const float _angle)
+	{
+		const float halfAngle = _angle * .5f;
+		const float sin = sinf(halfAngle);
+
+		Vector3 axis = _axis.Normalised();
+
+		return
+		{
+			axis.x * sin,
+			axis.y * sin,
+			axis.z * sin,
+			cosf(halfAngle)
+		};
+	}
+
 	Quaternion::Quaternion()
-		: x{ 0 }, y{ 0 }, z{ 0 }, w{ 1 }
+		: x{ 0.f }, y{ 0.f }, z{ 0.f }, w{ 0.f }
 	{
 
 	}
@@ -17,7 +57,7 @@ namespace Catalyst
 	}
 
 	Quaternion::Quaternion(const Vector3& _euler)
-		: x{ 0 }, y{ 0 }, z{ 0 }, w{ 1 }
+		: x{ 0 }, y{ 0 }, z{ 0 }, w{ 0.f }
 	{
 		EulerAngles(_euler);
 	}
@@ -138,6 +178,51 @@ namespace Catalyst
 		return !(*this == _rhs);
 	}
 
+	Quaternion Quaternion::operator*(const Quaternion& _rhs) const
+	{
+		return
+		{
+			w * _rhs.w - x * _rhs.x - y * _rhs.y - z * _rhs.z,
+			w * _rhs.x + x * _rhs.w + y * _rhs.z - z * _rhs.y,
+			w * _rhs.y - x * _rhs.z + y * _rhs.w + z * _rhs.x,
+			w * _rhs.z + x * _rhs.y - y * _rhs.x + z * _rhs.w 
+		};
+	}
+
+	Quaternion Quaternion::operator*(const Vector3& _rhs) const
+	{
+		float x = this->x * 2.f;
+		float y = this->y * 2.f;
+		float z = this->z * 2.f;
+
+		float xx = this->x * x;
+		float yy = this->y * y;
+		float zz = this->z * z;
+
+		float xy = this->x * y;
+		float xz = this->x * z;
+		float yz = this->y * z;
+
+		float wx = this->w * x;
+		float wy = this->w * y;
+		float wz = this->w * z;
+
+		return
+		{
+			(1.f - (yy + zz)) * _rhs.x + (xy - wz) * _rhs.y + (xz + wy) * _rhs.z,
+			(xy + wz) * _rhs.x + (1.f - (xx + zz)) * _rhs.y + (yz - wx) * _rhs.z,
+			(xz - wy) * _rhs.x + (yz + wx) * _rhs.y + (1.f - (xx + yy)) * _rhs.z
+		};
+	}
+
+	float Quaternion::operator[](const int _index) const
+	{
+		if (_index < 0 || _index >= VEC_4_SIZE)
+			return INFINITY;
+
+		return data[_index];
+	}
+
 	Quaternion& Quaternion::operator=(const Quaternion& _other)
 	{
 		if (*this == _other)
@@ -147,6 +232,24 @@ namespace Catalyst
 		y = _other.y;
 		z = _other.z;
 		w = _other.w;
+
+		return *this;
+	}
+
+	Quaternion& Quaternion::operator=(Quaternion&& _rhs) noexcept
+	{
+		if (*this == _rhs)
+			return *this;
+
+		x = _rhs.x;
+		y = _rhs.y;
+		z = _rhs.z;
+		w = _rhs.w;
+
+		_rhs.x = 0.f;
+		_rhs.y = 0.f;
+		_rhs.z = 0.f;
+		_rhs.w = 0.f;
 
 		return *this;
 	}

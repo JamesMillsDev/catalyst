@@ -17,6 +17,7 @@ namespace Catalyst
 	{
 	public:
 		static float pi;
+		static float threshold;
 
 	public:
 		static bool Compare(float _x, float _y);

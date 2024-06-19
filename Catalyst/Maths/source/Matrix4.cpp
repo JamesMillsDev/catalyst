@@ -1,13 +1,14 @@
 #include "camathspch.h"
 #include "Matrix4.h"
 
+#include "Matrix3.h"
 #include "Quaternion.h"
 
 namespace Catalyst
 {
 	Matrix4::Matrix4()
-		: xAxis{ 1.f, 0.f, 0.f, 0.f }, yAxis{ 0.f, 1.f, 0.f, 0.f },
-		zAxis{ 0.f, 0.f, 1.f, 0.f }, wAxis{ 0.f, 0.f, 0.f, 1.f }
+		: xAxis{ 0.f, 0.f, 0.f, 0.f }, yAxis{ 0.f, 0.f, 0.f, 0.f },
+		zAxis{ 0.f, 0.f, 0.f, 0.f }, wAxis{ 0.f, 0.f, 0.f, 0.f }
 	{
 
 	}
@@ -53,18 +54,104 @@ namespace Catalyst
 		wAxis = { 0.f, 0.f, 0.f, 1.f };
 	}
 
+	Matrix4::Matrix4(Vector4 _xAxis, Vector4 _yAxis, Vector4 _zAxis, Vector4 _wAxis)
+		: xAxis{ std::move(_xAxis) }, yAxis{ std::move(_yAxis) }, zAxis{ std::move(_zAxis) }, wAxis{ std::move(_wAxis) }
+	{
+	}
+
+	Matrix4::Matrix4(const float _11, const float _12, const float _13, const float _14, 
+		const float _21, const float _22, const float _23, const float _24,
+		const float _31, const float _32, const float _33, const float _34,
+		const float _41, const float _42, const float _43, const float _44)
+	{
+		data[0][0] = _11;
+		data[0][1] = _12;
+		data[0][2] = _13;
+		data[0][3] = _14;
+
+		data[1][0] = _21;
+		data[1][1] = _22;
+		data[1][2] = _23;
+		data[1][3] = _24;
+
+		data[2][0] = _31;
+		data[2][1] = _32;
+		data[2][2] = _33;
+		data[2][3] = _34;
+
+		data[3][0] = _41;
+		data[3][1] = _42;
+		data[3][2] = _43;
+		data[3][3] = _44;
+	}
+
 	Matrix4::~Matrix4() = default;
 
 	Matrix4::Matrix4(const Matrix4& _other)
+		: xAxis{ _other.xAxis }, yAxis{ _other.yAxis }, zAxis{ _other.zAxis }, wAxis{ _other.wAxis }
 	{
 	}
 
-	Matrix4& Matrix4::operator=(const Matrix4& _other)
+	bool Matrix4::operator==(const Matrix4& _rhs) const
 	{
-		return *this;
+		for (int i = 0; i < VEC_4_SIZE; ++i)
+		{
+			if ((*this)[i] != _rhs[i])
+				return false;
+		}
+
+		return true;
 	}
 
-	Vector4& Matrix4::operator[](const int _index)
+	bool Matrix4::operator!=(const Matrix4& _rhs) const
+	{
+		return !(*this == _rhs);
+	}
+
+	//todo: this
+	Matrix4 Matrix4::operator*(const Matrix4& _rhs) const
+	{
+		return
+		{
+			{
+				data[0][0] * _rhs[0][0] + data[0][1] * _rhs[1][0] + data[0][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
+				data[0][0] * _rhs[0][1] + data[0][1] * _rhs[1][1] + data[0][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
+				data[0][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
+				data[0][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2]
+			},
+			{
+				data[1][0] * _rhs[0][0] + data[1][1] * _rhs[1][0] + data[1][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
+				data[1][0] * _rhs[0][1] + data[1][1] * _rhs[1][1] + data[1][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
+				data[1][0] * _rhs[0][2] + data[1][1] * _rhs[1][2] + data[1][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
+				data[1][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2]
+			},
+			{
+				data[2][0] * _rhs[0][0] + data[2][1] * _rhs[1][0] + data[2][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
+				data[2][0] * _rhs[0][1] + data[2][1] * _rhs[1][1] + data[2][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
+				data[2][0] * _rhs[0][2] + data[2][1] * _rhs[1][2] + data[2][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
+				data[2][0] * _rhs[0][3] + data[2][1] * _rhs[1][3] + data[2][2] * _rhs[2][3] + data[0][2] * _rhs[2][2]
+			},
+			{
+				data[3][0] * _rhs[0][0] + data[3][1] * _rhs[1][0] + data[3][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
+				data[3][0] * _rhs[0][1] + data[3][1] * _rhs[1][1] + data[3][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
+				data[3][0] * _rhs[0][2] + data[3][1] * _rhs[1][2] + data[3][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
+				data[3][0] * _rhs[0][3] + data[3][1] * _rhs[1][3] + data[3][2] * _rhs[2][3] + data[0][2] * _rhs[2][2]
+			}
+		};
+	}
+
+	Vector4 Matrix4::operator*(const Vector4& _rhs) const
+	{
+		return
+		{
+			data[0][0] * _rhs[0] + data[0][1] * _rhs[1] + data[0][2] * _rhs[2] + data[0][3] * _rhs[3],
+			data[1][0] * _rhs[0] + data[1][1] * _rhs[1] + data[1][2] * _rhs[2] + data[1][3] * _rhs[3],
+			data[2][0] * _rhs[0] + data[2][1] * _rhs[1] + data[2][2] * _rhs[2] + data[2][3] * _rhs[3],
+			data[3][0] * _rhs[0] + data[3][1] * _rhs[1] + data[3][2] * _rhs[2] + data[3][3] * _rhs[3]
+		};
+	}
+
+	Vector4 Matrix4::operator[](const int _index) const
 	{
 		switch (_index)
 		{
@@ -80,5 +167,36 @@ namespace Catalyst
 			return Vector4::zero;
 
 		}
+	}
+
+	Matrix4& Matrix4::operator=(const Matrix4& _rhs)
+	{
+		if (*this == _rhs)
+			return *this;
+
+		xAxis = _rhs.xAxis;
+		yAxis = _rhs.yAxis;
+		zAxis = _rhs.zAxis;
+		wAxis = _rhs.wAxis;
+
+		return *this;
+	}
+
+	Matrix4& Matrix4::operator=(Matrix4&& _rhs) noexcept
+	{
+		if (*this == _rhs)
+			return *this;
+
+		xAxis = _rhs.xAxis;
+		yAxis = _rhs.yAxis;
+		zAxis = _rhs.zAxis;
+		wAxis = _rhs.wAxis;
+
+		_rhs.xAxis = {};
+		_rhs.yAxis = {};
+		_rhs.zAxis = {};
+		_rhs.wAxis = {};
+
+		return *this;
 	}
 }

@@ -15,8 +15,6 @@
 #include <initializer_list>
 
 #include "Vector3.h"
-#include "Matrix3.h"
-#include "Matrix4.h"
 
 using std::string;
 using std::initializer_list;
@@ -25,6 +23,9 @@ constexpr int QUAT_SIZE = 4;
 
 namespace Catalyst
 {
+	class Matrix3;
+	class Matrix4;
+
 	class DLL Quaternion
 	{
 	public:
@@ -40,6 +41,13 @@ namespace Catalyst
 
 			float data[QUAT_SIZE];
 		};
+
+	public:
+		static Quaternion Identity();
+
+		static float Dot(const Quaternion& _a, const Quaternion& _b);
+		static Quaternion LookRotation(const Vector3& _viewDir, const Vector3& _forward, const Vector3& _up);
+		static Quaternion AxisAngle(const Vector3& _axis, float _angle);
 
 	public:
 		Quaternion();
@@ -64,10 +72,13 @@ namespace Catalyst
 		bool operator ==(const Quaternion& _rhs) const;
 		bool operator !=(const Quaternion& _rhs) const;
 
-		Quaternion& operator=(const Quaternion& _other);
-		Quaternion& operator=(Quaternion&&) = delete;
+		Quaternion operator*(const Quaternion& _rhs) const;
+		Quaternion operator*(const Vector3& _rhs) const;
 
-	protected:
+		float operator[](int _index) const;
+
+		Quaternion& operator=(const Quaternion& _other);
+		Quaternion& operator=(Quaternion&& _rhs) noexcept;
 
 	};
 }

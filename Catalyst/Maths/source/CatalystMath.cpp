@@ -6,10 +6,11 @@
 namespace Catalyst
 {
 	float CatalystMath::pi = 3.1415926535f;
+	float CatalystMath::threshold = 0.000001f;
 
 	bool CatalystMath::Compare(const float _x, const float _y)
 	{
-		return fabsf(_x - _y) <= (FLT_EPSILON + 0.000001f) * fmaxf(1.f, fmaxf(fabsf(_x), fabsf(_y)));
+		return fabsf(_x - _y) <= (FLT_EPSILON + threshold) * fmaxf(1.f, fmaxf(fabsf(_x), fabsf(_y)));
 	}
 
 	float CatalystMath::Clamp(float _val, const float _min, const float _max)

@@ -39,6 +39,11 @@ namespace Catalyst
 		// ReSharper disable once CppNonExplicitConvertingConstructor
 		Matrix4(const Matrix3& _rhs);
 		Matrix4(const Quaternion& _quat);
+		Matrix4(Vector4 _xAxis, Vector4 _yAxis, Vector4 _zAxis, Vector4 _wAxis);
+		Matrix4(float _11, float _12, float _13, float _14, 
+			float _21, float _22, float _23, float _24, 
+			float _31, float _32, float _33, float _34,
+			float _41, float _42, float _43, float _44);
 
 		~Matrix4();
 
@@ -46,12 +51,16 @@ namespace Catalyst
 		Matrix4(Matrix4&&) = delete;
 
 	public:
-		Matrix4& operator=(const Matrix4& _other);
-		Matrix4& operator=(Matrix4&&) = delete;
+		bool operator==(const Matrix4& _rhs) const;
+		bool operator!=(const Matrix4& _rhs) const;
 
-		Vector4& operator[](int _index);
+		Matrix4 operator*(const Matrix4& _rhs) const;
+		Vector4 operator*(const Vector4& _rhs) const;
 
-	protected:
+		Vector4 operator[](int _index) const;
+
+		Matrix4& operator=(const Matrix4& _rhs);
+		Matrix4& operator=(Matrix4&& _rhs) noexcept;
 
 	};
 }
