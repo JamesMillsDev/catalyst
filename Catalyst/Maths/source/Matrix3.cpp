@@ -131,11 +131,13 @@ namespace Catalyst
 
 	void Matrix3::SetPitch(const float _pitch)
 	{
+		// Get the magnitude of the y and z-axis
 		const float yLen = yAxis.Magnitude();
 		const float zLen = zAxis.Magnitude();
 
-		yAxis.x = cosf(_pitch) * yLen;
-		zAxis.x = sinf(_pitch) * zLen;
+		// Assign the y and z-axis' y and z values to the new rotation
+		yAxis.y = cosf(_pitch) * yLen;
+		zAxis.y = sinf(_pitch) * zLen;
 		yAxis.z = -sinf(_pitch) * yLen;
 		zAxis.z = cosf(_pitch) * zLen;
 	}
@@ -147,9 +149,11 @@ namespace Catalyst
 
 	void Matrix3::SetYaw(const float _yaw)
 	{
+		// Get the magnitude of the x and z-axis
 		const float xLen = xAxis.Magnitude();
 		const float zLen = zAxis.Magnitude();
 
+		// Assign the x and z-axis' x and z values to the new rotation
 		xAxis.x = cosf(_yaw) * xLen;
 		zAxis.x = -sinf(_yaw) * zLen;
 		xAxis.z = sinf(_yaw) * xLen;
@@ -163,13 +167,15 @@ namespace Catalyst
 
 	void Matrix3::SetRoll(const float _roll)
 	{
+		// Get the magnitude of the x and y-axis
 		const float xLen = xAxis.Magnitude();
 		const float yLen = yAxis.Magnitude();
 
+		// Assign the x and y-axis' x and y values to the new rotation
 		xAxis.x = cosf(_roll) * xLen;
 		yAxis.x = sinf(_roll) * yLen;
-		xAxis.z = -sinf(_roll) * xLen;
-		yAxis.z = cosf(_roll) * yLen;
+		xAxis.y = -sinf(_roll) * xLen;
+		yAxis.y = cosf(_roll) * yLen;
 	}
 
 	float Matrix3::Roll() const
@@ -208,13 +214,16 @@ namespace Catalyst
 	{
 		const Vector3 rotation = Euler();
 
-		if(_pitch)
+		// Assign the incoming pitch pointer to the pitch rotation provided it is not nullptr
+		if (_pitch)
 			*_pitch = rotation.x;
 
-		if(_yaw)
+		// Assign the incoming yaw pointer to the yaw rotation provided it is not nullptr
+		if (_yaw)
 			*_yaw = rotation.y;
 
-		if(_roll)
+		// Assign the incoming roll pointer to the roll rotation provided it is not nullptr
+		if (_roll)
 			*_roll = rotation.z;
 	}
 
@@ -230,23 +239,32 @@ namespace Catalyst
 
 	string Matrix3::ToString() const
 	{
+		// Begin the building of a string stream with an opening bracket
 		stringstream stream;
-
 		stream << "(";
 
-		for (const auto row : data)
+		// Cycle through the rows and columns
+		for (int r = 0; r < VEC_3_SIZE; ++r)
 		{
+			auto& row = data[r];
+
 			for (int c = 0; c < VEC_3_SIZE; ++c)
 			{
+				// Push the value into the stream
 				stream << row[c];
 
+				// If the current column is not the final one, add a ','
 				if (c + 1 < VEC_3_SIZE)
 					stream << ", ";
 			}
+
+			// If the current row is not the final one, add a ','
+			if (r + 1 < VEC_3_SIZE)
+				stream << ", ";
 		}
 
+		// Finalise the stream using a closing bracket
 		stream << ")";
-
 		return stream.str();
 	}
 
