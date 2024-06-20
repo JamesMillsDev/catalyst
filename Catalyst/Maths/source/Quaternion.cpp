@@ -2,6 +2,8 @@
 #include "Quaternion.h"
 
 #include "CatalystMath.h"
+#include "Matrix3.h"
+#include "Matrix4.h"
 
 namespace Catalyst
 {
@@ -45,6 +47,26 @@ namespace Catalyst
 		};
 	}
 
+	Quaternion Quaternion::From(const float _pitch, const float _yaw, const float _roll)
+	{
+		return { _pitch, _yaw, _roll };
+	}
+
+	Quaternion Quaternion::From(const Vector3& _euler)
+	{
+		return { _euler };
+	}
+
+	Quaternion Quaternion::From(const Matrix3& _matrix)
+	{
+		return { _matrix };
+	}
+
+	Quaternion Quaternion::From(const Matrix4& _matrix)
+	{
+		return { _matrix };
+	}
+
 	Quaternion::Quaternion()
 		: x{ 0.f }, y{ 0.f }, z{ 0.f }, w{ 0.f }
 	{
@@ -62,7 +84,7 @@ namespace Catalyst
 		EulerAngles(_euler);
 	}
 
-	Quaternion::Quaternion(Matrix3& _matrix)
+	Quaternion::Quaternion(const Matrix3& _matrix)
 	{
 		w = sqrtf(1 + _matrix[0][0] + _matrix[1][1] + _matrix[2][2]) / 2.f;
 
@@ -73,7 +95,7 @@ namespace Catalyst
 		z = (_matrix[1][0] - _matrix[0][1]) / w4;
 	}
 
-	Quaternion::Quaternion(Matrix4& _matrix)
+	Quaternion::Quaternion(const Matrix4& _matrix)
 	{
 		w = sqrtf(1 + _matrix[0][0] + _matrix[1][1] + _matrix[2][2]) / 2.f;
 

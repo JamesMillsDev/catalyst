@@ -4,6 +4,10 @@
 #include "Matrix3.h"
 #include "Quaternion.h"
 
+#include <sstream>
+
+using std::stringstream;
+
 namespace Catalyst
 {
 	Matrix4::Matrix4()
@@ -92,6 +96,322 @@ namespace Catalyst
 	{
 	}
 
+	Matrix4 Matrix4::Identity()
+	{
+		return
+		{
+			1.f, 0.f, 0.f, 0.f,
+			0.f, 1.f, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			0.f, 0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeTranslation(const float _x, const float _y, const float _z)
+	{
+		return
+		{
+			1.f, 0.f, 0.f, 0.f,
+			0.f, 1.f, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			_x, _y, _z, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeTranslation(const Vector3& _translation)
+	{
+		return MakeTranslation(_translation.x, _translation.y, _translation.z);
+	}
+
+	Matrix4 Matrix4::MakePitch(const float _pitch)
+	{
+		return
+		{
+			1.f, 0.f, 0.f, 0.f,
+			0.f, cosf(_pitch), sinf(_pitch), 0.f,
+			0.f, -sinf(_pitch), cosf(_pitch), 0.f,
+			0.f, 0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeYaw(const float _yaw)
+	{
+		return
+		{
+			cosf(_yaw), 0.f, -sinf(_yaw), 0.f,
+			0.f, 1.f, 0.f, 0.f,
+			sinf(_yaw), 0.f, cosf(_yaw), 0.f,
+			0.f, 0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeRoll(const float _roll)
+	{
+		return
+		{
+			cosf(_roll), sinf(_roll), 0.f, 0.f,
+			-sinf(_roll), cosf(_roll), 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			0.f, 0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeRotation(const Quaternion& _rotation)
+	{
+		return { _rotation };
+	}
+
+	Matrix4 Matrix4::MakeRotation(const float _pitch, const float _yaw, const float _roll)
+	{
+		return MakeRotation(Vector3{ _pitch, _yaw, _roll });
+	}
+
+	Matrix4 Matrix4::MakeRotation(const Vector3& _euler)
+	{
+		return MakeRotation({ _euler });
+	}
+
+	Matrix4 Matrix4::MakeScale(float _x, float _y, float _z)
+	{
+		return
+		{
+			_x, 0.f, 0.f, 0.f,
+			0.f, _y, 0.f, 0.f,
+			0.f, 0.f, _z, 0.f,
+			0.f, 0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix4 Matrix4::MakeScale(const Vector3& _scale)
+	{
+		return MakeScale(_scale.x, _scale.y, _scale.z);
+	}
+
+	void Matrix4::SetTranslation(const float _x, const float _y, const float _z)
+	{
+		wAxis.x = _x;
+		wAxis.y = _y;
+		wAxis.z = _z;
+	}
+
+	void Matrix4::SetTranslation(const Vector3& _translation)
+	{
+		SetTranslation(_translation.x, _translation.y, _translation.z);
+	}
+
+	void Matrix4::Translate(const float _x, const float _y, const float _z)
+	{
+		wAxis.x += _x;
+		wAxis.y += _y;
+		wAxis.z += _z;
+	}
+
+	void Matrix4::Translate(const Vector3& _translation)
+	{
+		Translate(_translation.x, _translation.y, _translation.z);
+	}
+
+	Vector3 Matrix4::Translation() const
+	{
+		return { wAxis.x, wAxis.y, wAxis.z };
+	}
+
+	void Matrix4::Translation(float* _x, float* _y, float* _z) const
+	{
+		// Assign the incoming x pointer to the x translation provided it is not nullptr
+		if (_x)
+			*_x = wAxis.x;
+
+		// Assign the incoming y pointer to the y translation provided it is not nullptr
+		if (_y)
+			*_y = wAxis.y;
+
+		// Assign the incoming z pointer to the z translation provided it is not nullptr
+		if (_z)
+			*_z = wAxis.z;
+	}
+
+	void Matrix4::SetPitch(const float _pitch)
+	{
+		// Get the magnitude of the y and z axis
+		const float yLen = yAxis.Magnitude();
+		const float zLen = zAxis.Magnitude();
+
+		// Assign the y and z axis' y and z values to the new rotation
+		yAxis.y = cosf(_pitch) * yLen;
+		zAxis.y = sinf(_pitch) * zLen;
+		yAxis.z = -sinf(_pitch) * yLen;
+		zAxis.z = cosf(_pitch) * zLen;
+	}
+
+	float Matrix4::Pitch() const
+	{
+		return atan2f(xAxis.y, xAxis.x);
+	}
+
+	void Matrix4::SetYaw(const float _yaw)
+	{
+		const float xLen = xAxis.Magnitude();
+		const float zLen = zAxis.Magnitude();
+
+		xAxis.x = cosf(_yaw) * xLen;
+		zAxis.x = -sinf(_yaw) * zLen;
+		xAxis.z = sinf(_yaw) * xLen;
+		zAxis.z = cosf(_yaw) * zLen;
+	}
+
+	float Matrix4::Yaw() const
+	{
+		return atan2f(-yAxis.x, yAxis.y);
+	}
+
+	void Matrix4::SetRoll(const float _roll)
+	{
+		const float xLen = xAxis.Magnitude();
+		const float yLen = yAxis.Magnitude();
+
+		xAxis.x = cosf(_roll) * xLen;
+		yAxis.x = sinf(_roll) * yLen;
+		xAxis.z = -sinf(_roll) * xLen;
+		yAxis.z = cosf(_roll) * yLen;
+	}
+
+	float Matrix4::Roll() const
+	{
+		return atan2f(zAxis.x, zAxis.z);
+	}
+
+	void Matrix4::SetRotation(const float _pitch, const float _yaw, const float _roll)
+	{
+		SetPitch(_pitch);
+		SetYaw(_yaw);
+		SetRoll(_roll);
+	}
+
+	void Matrix4::SetRotation(const Vector3& _euler)
+	{
+		SetRotation(_euler.x, _euler.y, _euler.z);
+	}
+
+	void Matrix4::SetRotation(const Quaternion& _quat)
+	{
+		SetRotation(_quat.Euler());
+	}
+
+	Quaternion Matrix4::Rotation() const
+	{
+		return { *this };
+	}
+
+	Vector3 Matrix4::Euler() const
+	{
+		return Quaternion(*this).Euler();
+	}
+
+	void Matrix4::Rotation(float* _pitch, float* _yaw, float* _roll) const
+	{
+		const Vector3 rotation = Euler();
+
+		if (_pitch)
+			*_pitch = rotation.x;
+
+		if (_yaw)
+			*_yaw = rotation.y;
+
+		if (_roll)
+			*_roll = rotation.z;
+	}
+
+	void Matrix4::SetScale(const float _x, const float _y, const float _z)
+	{
+		const float xLen = xAxis.Magnitude();
+		const float yLen = yAxis.Magnitude();
+		const float zLen = zAxis.Magnitude();
+
+		if(xLen > 0.f)
+		{
+			xAxis.x /= xLen * _x;
+			xAxis.y /= xLen * _x;
+			xAxis.z /= xLen * _x;
+		}
+
+		if (yLen > 0.f)
+		{
+			yAxis.x /= yLen * _y;
+			yAxis.y /= yLen * _y;
+			yAxis.z /= yLen * _y;
+		}
+
+		if (zLen > 0.f)
+		{
+			zAxis.x /= zLen * _z;
+			zAxis.y /= zLen * _z;
+			zAxis.z /= zLen * _z;
+		}
+	}
+
+	void Matrix4::SetScale(const Vector3& _scale)
+	{
+		SetScale(_scale.x, _scale.y, _scale.z);
+	}
+
+	Vector3 Matrix4::Scale() const
+	{
+		return
+		{
+			xAxis.Magnitude(),
+			yAxis.Magnitude(),
+			zAxis.Magnitude()
+		};
+	}
+
+	void Matrix4::Scale(float* _x, float* _y, float* _z) const
+	{
+		const Vector3 scale = Scale();
+
+		if (_x)
+			*_x = scale.x;
+
+		if (_y)
+			*_y = scale.y;
+
+		if (_z)
+			*_z = scale.z;
+	}
+
+	Matrix4 Matrix4::Transposed()
+	{
+		return
+		{
+			data[0][0], data[1][0], data[2][0], data[3][0],
+			data[0][1], data[1][1], data[2][1], data[3][1],
+			data[0][2], data[1][2], data[2][2], data[3][2],
+			data[0][3], data[1][3], data[2][3], data[3][3]
+		};
+	}
+
+	string Matrix4::ToString() const
+	{
+		stringstream stream;
+
+		stream << "(";
+
+		for (const auto row : data)
+		{
+			for (int c = 0; c < VEC_4_SIZE; ++c)
+			{
+				stream << row[c];
+
+				if (c + 1 < VEC_4_SIZE)
+					stream << ", ";
+			}
+		}
+
+		stream << ")";
+
+		return stream.str();
+	}
+
 	bool Matrix4::operator==(const Matrix4& _rhs) const
 	{
 		for (int i = 0; i < VEC_4_SIZE; ++i)
@@ -108,34 +428,33 @@ namespace Catalyst
 		return !(*this == _rhs);
 	}
 
-	//todo: this
 	Matrix4 Matrix4::operator*(const Matrix4& _rhs) const
 	{
 		return
 		{
 			{
-				data[0][0] * _rhs[0][0] + data[0][1] * _rhs[1][0] + data[0][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
-				data[0][0] * _rhs[0][1] + data[0][1] * _rhs[1][1] + data[0][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
-				data[0][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
-				data[0][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2]
+				data[0][0] * _rhs[0][0] + data[0][1] * _rhs[1][0] + data[0][2] * _rhs[2][0] + data[0][3] * _rhs[3][0],
+				data[0][0] * _rhs[0][1] + data[0][1] * _rhs[1][1] + data[0][2] * _rhs[2][1] + data[0][3] * _rhs[3][1],
+				data[0][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][3] * _rhs[3][2],
+				data[0][0] * _rhs[0][3] + data[0][1] * _rhs[1][3] + data[0][2] * _rhs[2][3] + data[0][3] * _rhs[3][3]
 			},
 			{
-				data[1][0] * _rhs[0][0] + data[1][1] * _rhs[1][0] + data[1][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
-				data[1][0] * _rhs[0][1] + data[1][1] * _rhs[1][1] + data[1][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
-				data[1][0] * _rhs[0][2] + data[1][1] * _rhs[1][2] + data[1][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
-				data[1][0] * _rhs[0][2] + data[0][1] * _rhs[1][2] + data[0][2] * _rhs[2][2] + data[0][2] * _rhs[2][2]
+				data[1][0] * _rhs[0][0] + data[1][1] * _rhs[1][0] + data[1][2] * _rhs[2][0] + data[1][3] * _rhs[3][0],
+				data[1][0] * _rhs[0][1] + data[1][1] * _rhs[1][1] + data[1][2] * _rhs[2][1] + data[1][3] * _rhs[3][1],
+				data[1][0] * _rhs[0][2] + data[1][1] * _rhs[1][2] + data[1][2] * _rhs[2][2] + data[1][3] * _rhs[3][2],
+				data[1][0] * _rhs[0][2] + data[1][1] * _rhs[1][3] + data[1][2] * _rhs[2][2] + data[1][3] * _rhs[3][2]
 			},
 			{
-				data[2][0] * _rhs[0][0] + data[2][1] * _rhs[1][0] + data[2][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
-				data[2][0] * _rhs[0][1] + data[2][1] * _rhs[1][1] + data[2][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
-				data[2][0] * _rhs[0][2] + data[2][1] * _rhs[1][2] + data[2][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
-				data[2][0] * _rhs[0][3] + data[2][1] * _rhs[1][3] + data[2][2] * _rhs[2][3] + data[0][2] * _rhs[2][2]
+				data[2][0] * _rhs[0][0] + data[2][1] * _rhs[1][0] + data[2][2] * _rhs[2][0] + data[2][3] * _rhs[3][0],
+				data[2][0] * _rhs[0][1] + data[2][1] * _rhs[1][1] + data[2][2] * _rhs[2][1] + data[2][3] * _rhs[3][1],
+				data[2][0] * _rhs[0][2] + data[2][1] * _rhs[1][2] + data[2][2] * _rhs[2][2] + data[2][3] * _rhs[3][2],
+				data[2][0] * _rhs[0][3] + data[2][1] * _rhs[1][3] + data[2][2] * _rhs[2][3] + data[2][3] * _rhs[3][2]
 			},
 			{
-				data[3][0] * _rhs[0][0] + data[3][1] * _rhs[1][0] + data[3][2] * _rhs[2][0] + data[0][2] * _rhs[2][0],
-				data[3][0] * _rhs[0][1] + data[3][1] * _rhs[1][1] + data[3][2] * _rhs[2][1] + data[0][2] * _rhs[2][1],
-				data[3][0] * _rhs[0][2] + data[3][1] * _rhs[1][2] + data[3][2] * _rhs[2][2] + data[0][2] * _rhs[2][2],
-				data[3][0] * _rhs[0][3] + data[3][1] * _rhs[1][3] + data[3][2] * _rhs[2][3] + data[0][2] * _rhs[2][2]
+				data[3][0] * _rhs[0][0] + data[3][1] * _rhs[1][0] + data[3][2] * _rhs[2][0] + data[3][3] * _rhs[3][0],
+				data[3][0] * _rhs[0][1] + data[3][1] * _rhs[1][1] + data[3][2] * _rhs[2][1] + data[3][3] * _rhs[3][1],
+				data[3][0] * _rhs[0][2] + data[3][1] * _rhs[1][2] + data[3][2] * _rhs[2][2] + data[3][3] * _rhs[3][2],
+				data[3][0] * _rhs[0][3] + data[3][1] * _rhs[1][3] + data[3][2] * _rhs[2][3] + data[3][3] * _rhs[3][3]
 			}
 		};
 	}

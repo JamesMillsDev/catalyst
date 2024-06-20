@@ -49,13 +49,18 @@ namespace Catalyst
 		static Quaternion LookRotation(const Vector3& _viewDir, const Vector3& _forward, const Vector3& _up);
 		static Quaternion AxisAngle(const Vector3& _axis, float _angle);
 
+		static Quaternion From(float _pitch, float _yaw, float _roll);
+		static Quaternion From(const Vector3& _euler);
+		static Quaternion From(const Matrix3& _matrix);
+		static Quaternion From(const Matrix4& _matrix);
+
 	public:
 		Quaternion();
 		Quaternion(float _x, float _y, float _z, float _w);
 		// ReSharper disable once CppNonExplicitConvertingConstructor
 		Quaternion(const Vector3& _euler);
-		Quaternion(Matrix3& _matrix);
-		Quaternion(Matrix4& _matrix);
+		Quaternion(const Matrix3& _matrix);
+		Quaternion(const Matrix4& _matrix);
 		Quaternion(float _pitch, float _yaw, float _roll);
 
 		~Quaternion();

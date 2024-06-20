@@ -3,8 +3,67 @@
 
 #include "Quaternion.h"
 
+#include <sstream>
+
+using std::stringstream;
+
 namespace Catalyst
 {
+	Matrix3 Matrix3::Identity()
+	{
+		return
+		{
+			1.f, 0.f, 0.f,
+			0.f, 1.f, 0.f,
+			0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix3 Matrix3::MakePitch(const float _pitch)
+	{
+		return
+		{
+			1.f, 0.f, 0.f,
+			0.f, cosf(_pitch), sinf(_pitch),
+			0.f, -sinf(_pitch), cosf(_pitch)
+		};
+	}
+
+	Matrix3 Matrix3::MakeYaw(const float _yaw)
+	{
+		return
+		{
+			cosf(_yaw), 0.f, -sinf(_yaw),
+			0.f, 1.f, 0.f,
+			sinf(_yaw), 0.f, cosf(_yaw)
+		};
+	}
+
+	Matrix3 Matrix3::MakeRoll(const float _roll)
+	{
+		return
+		{
+			cosf(_roll), sinf(_roll), 0.f,
+			-sinf(_roll), cosf(_roll), 0.f,
+			0.f, 0.f, 1.f
+		};
+	}
+
+	Matrix3 Matrix3::MakeRotation(const Quaternion& _rotation)
+	{
+		return { _rotation };
+	}
+
+	Matrix3 Matrix3::MakeRotation(const float _pitch, const float _yaw, const float _roll)
+	{
+		return MakeRotation(Quaternion::From(_pitch, _yaw, _roll));
+	}
+
+	Matrix3 Matrix3::MakeRotation(const Vector3& _euler)
+	{
+		return MakeRotation(Quaternion::From(_euler));
+	}
+
 	Matrix3::Matrix3()
 		: xAxis{ Vector3::zero }, yAxis{ Vector3::zero }, zAxis{ Vector3::zero }
 	{
@@ -68,6 +127,127 @@ namespace Catalyst
 	Matrix3::Matrix3(const Matrix3& _other)
 		: xAxis{ _other.xAxis }, yAxis{ _other.yAxis }, zAxis{ _other.zAxis }
 	{
+	}
+
+	void Matrix3::SetPitch(const float _pitch)
+	{
+		const float yLen = yAxis.Magnitude();
+		const float zLen = zAxis.Magnitude();
+
+		yAxis.x = cosf(_pitch) * yLen;
+		zAxis.x = sinf(_pitch) * zLen;
+		yAxis.z = -sinf(_pitch) * yLen;
+		zAxis.z = cosf(_pitch) * zLen;
+	}
+
+	float Matrix3::Pitch() const
+	{
+		return atan2f(xAxis.y, xAxis.x);
+	}
+
+	void Matrix3::SetYaw(const float _yaw)
+	{
+		const float xLen = xAxis.Magnitude();
+		const float zLen = zAxis.Magnitude();
+
+		xAxis.x = cosf(_yaw) * xLen;
+		zAxis.x = -sinf(_yaw) * zLen;
+		xAxis.z = sinf(_yaw) * xLen;
+		zAxis.z = cosf(_yaw) * zLen;
+	}
+
+	float Matrix3::Yaw() const
+	{
+		return atan2f(-yAxis.x, yAxis.y);
+	}
+
+	void Matrix3::SetRoll(const float _roll)
+	{
+		const float xLen = xAxis.Magnitude();
+		const float yLen = yAxis.Magnitude();
+
+		xAxis.x = cosf(_roll) * xLen;
+		yAxis.x = sinf(_roll) * yLen;
+		xAxis.z = -sinf(_roll) * xLen;
+		yAxis.z = cosf(_roll) * yLen;
+	}
+
+	float Matrix3::Roll() const
+	{
+		return atan2f(zAxis.x, zAxis.z);
+	}
+
+	void Matrix3::SetRotation(const float _pitch, const float _yaw, const float _roll)
+	{
+		SetPitch(_pitch);
+		SetYaw(_yaw);
+		SetRoll(_roll);
+	}
+
+	void Matrix3::SetRotation(const Vector3& _euler)
+	{
+		SetRotation(_euler.x, _euler.y, _euler.z);
+	}
+
+	void Matrix3::SetRotation(const Quaternion& _quat)
+	{
+		SetRotation(_quat.Euler());
+	}
+
+	Quaternion Matrix3::Rotation() const
+	{
+		return { *this };
+	}
+
+	Vector3 Matrix3::Euler() const
+	{
+		return Quaternion(*this).Euler();
+	}
+
+	void Matrix3::Rotation(float* _pitch, float* _yaw, float* _roll) const
+	{
+		const Vector3 rotation = Euler();
+
+		if(_pitch)
+			*_pitch = rotation.x;
+
+		if(_yaw)
+			*_yaw = rotation.y;
+
+		if(_roll)
+			*_roll = rotation.z;
+	}
+
+	Matrix3 Matrix3::Transposed()
+	{
+		return
+		{
+			data[0][0], data[1][0], data[2][0],
+			data[0][1], data[1][1], data[2][1],
+			data[0][2], data[1][2], data[2][2]
+		};
+	}
+
+	string Matrix3::ToString() const
+	{
+		stringstream stream;
+
+		stream << "(";
+
+		for (const auto row : data)
+		{
+			for (int c = 0; c < VEC_3_SIZE; ++c)
+			{
+				stream << row[c];
+
+				if (c + 1 < VEC_3_SIZE)
+					stream << ", ";
+			}
+		}
+
+		stream << ")";
+
+		return stream.str();
 	}
 
 	bool Matrix3::operator==(const Matrix3& _rhs) const

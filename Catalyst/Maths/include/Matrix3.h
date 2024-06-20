@@ -36,6 +36,18 @@ namespace Catalyst
 		};
 
 	public:
+		static Matrix3 Identity();
+
+		static Matrix3 MakePitch(float _pitch);
+		static Matrix3 MakeYaw(float _yaw);
+		static Matrix3 MakeRoll(float _roll);
+
+		static Matrix3 MakeRotation(const Quaternion& _rotation);
+
+		static Matrix3 MakeRotation(float _pitch, float _yaw, float _roll);
+		static Matrix3 MakeRotation(const Vector3& _euler);
+
+	public:
 		Matrix3();
 		Matrix3(const Quaternion& _quat);
 		Matrix3(Vector3 _xAxis, Vector3 _yAxis, Vector3 _zAxis);
@@ -46,6 +58,28 @@ namespace Catalyst
 
 		Matrix3(const Matrix3& _other);
 		Matrix3(Matrix3&&) = delete;
+
+	public:
+		void SetPitch(float _pitch);
+		[[nodiscard]] float Pitch() const;
+
+		void SetYaw(float _yaw);
+		[[nodiscard]] float Yaw() const;
+
+		void SetRoll(float _roll);
+		[[nodiscard]] float Roll() const;
+
+		void SetRotation(float _pitch, float _yaw, float _roll);
+		void SetRotation(const Vector3& _euler);
+		void SetRotation(const Quaternion& _quat);
+
+		[[nodiscard]] Quaternion Rotation() const;
+		[[nodiscard]] Vector3 Euler() const;
+		void Rotation(float* _pitch, float* _yaw, float* _roll) const;
+
+		Matrix3 Transposed();
+
+		[[nodiscard]] string ToString() const;
 
 	public:
 		bool operator==(const Matrix3& _rhs) const;
