@@ -5,6 +5,8 @@
 
 #include <sstream>
 
+#include "CatalystMath.h"
+
 using std::stringstream;
 
 namespace Catalyst
@@ -19,8 +21,10 @@ namespace Catalyst
 		};
 	}
 
-	Matrix3 Matrix3::MakePitch(const float _pitch)
+	Matrix3 Matrix3::MakePitch(float _pitch)
 	{
+		_pitch = CatalystMath::Radians(_pitch);
+
 		return
 		{
 			1.f, 0.f, 0.f,
@@ -29,8 +33,10 @@ namespace Catalyst
 		};
 	}
 
-	Matrix3 Matrix3::MakeYaw(const float _yaw)
+	Matrix3 Matrix3::MakeYaw(float _yaw)
 	{
+		_yaw = CatalystMath::Radians(_yaw);
+
 		return
 		{
 			cosf(_yaw), 0.f, -sinf(_yaw),
@@ -39,8 +45,10 @@ namespace Catalyst
 		};
 	}
 
-	Matrix3 Matrix3::MakeRoll(const float _roll)
+	Matrix3 Matrix3::MakeRoll(float _roll)
 	{
+		_roll = CatalystMath::Radians(_roll);
+
 		return
 		{
 			cosf(_roll), sinf(_roll), 0.f,

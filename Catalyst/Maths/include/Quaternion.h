@@ -73,6 +73,8 @@ namespace Catalyst
 		void EulerAngles(const Vector3& _euler);
 		void EulerAngles(float _pitch, float _yaw, float _roll);
 
+		[[nodiscard]] string ToString() const;
+
 	public:
 		bool operator ==(const Quaternion& _rhs) const;
 		bool operator !=(const Quaternion& _rhs) const;

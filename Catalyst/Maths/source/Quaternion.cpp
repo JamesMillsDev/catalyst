@@ -1,4 +1,4 @@
-#include "camathspch.h"
+﻿#include "camathspch.h"
 #include "Quaternion.h"
 
 #include "CatalystMath.h"
@@ -171,20 +171,22 @@ namespace Catalyst
 		_roll = CatalystMath::Radians(_roll);
 
 		// Assuming the angles are in radians.
-		const float cosYaw = cosf(_yaw / 2);
-		const float sinYaw = sinf(_yaw / 2);
-		const float cosPitch = cosf(_pitch / 2);
-		const float sinPitch = sinf(_pitch / 2);
-		const float cosRoll = cosf(_roll / 2);
-		const float sinRoll = sinf(_roll / 2);
+		const float cr = cosf(_roll * 0.5f);
+		const float sr = sinf(_roll * 0.5f);
+		const float cp = cosf(_pitch * 0.5f);
+		const float sp = sinf(_pitch * 0.5f);
+		const float cy = cosf(_yaw * 0.5f);
+		const float sy = sinf(_yaw * 0.5f);
 
-		const float cosYawPitch = cosYaw * cosPitch;
-		const float sinYawPitch = sinYaw * sinPitch;
+		w = cr * cp * cy + sr * sp * sy;
+		x = sr * cp * cy - cr * sp * sy;
+		y = cr * sp * cy + sr * cp * sy;
+		z = cr * cp * sy - sr * sp * cy;
+	}
 
-		w = cosYawPitch * cosRoll - sinYawPitch * sinRoll;
-		x = cosYawPitch * sinRoll + sinYawPitch * cosRoll;
-		y = sinYaw * cosPitch * cosRoll + cosYaw * sinPitch * sinRoll;
-		z = cosYaw * sinPitch * cosRoll - sinYaw * cosPitch * sinRoll;
+	string Quaternion::ToString() const
+	{
+		return string("(") + std::to_string(x) + string(", ") + std::to_string(y) + string(", ") + std::to_string(z) + string(", ") + std::to_string(w) + string(")");
 	}
 
 	bool Quaternion::operator==(const Quaternion& _rhs) const

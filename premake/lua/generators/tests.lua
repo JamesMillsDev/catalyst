@@ -30,6 +30,8 @@ function tests.generate(properties, outputdir)
                     dependson{(lower_name .. properties.deliminator .. string.lower(dependency))}
                 end
 
+                dependson{(lower_name .. properties.deliminator .. lower_module)}
+
                 files
                 {
                     "%{prj.location}/**.h",

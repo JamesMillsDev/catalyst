@@ -7,6 +7,22 @@
 #ifndef PCH_H
 #define PCH_H
 
-// add headers that you want to pre-compile here
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Vector4.h"
+
+#include "Matrix3.h"
+#include "Matrix4.h"
+
+#include "Quaternion.h"
+
+#include "CatalystMath.h"
+
+using Catalyst::Vector2;
+using Catalyst::Vector3;
+using Catalyst::Vector4;
+using Catalyst::Matrix3;
+using Catalyst::Matrix4;
+using Catalyst::Quaternion;
 
 #endif //PCH_H
