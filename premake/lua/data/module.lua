@@ -1,7 +1,7 @@
 require("utilities.string-utils")
 ids = require("utilities.ids")
 
-local module = {name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={}}
+local module = {name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},testing_enabled=false}
 
 function module:new(o)
     o = o or {}
@@ -11,7 +11,7 @@ function module:new(o)
 end
 
 function module.parse(lines)
-    local new_module = module:new{name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={}}
+    local new_module = module:new{name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},testing_enabled=false}
 
     new_module:get_name(lines)
     table.remove(lines, 1)
@@ -22,6 +22,8 @@ function module.parse(lines)
     new_module:get_links(lines)
     table.remove(lines, 1)
     new_module:get_link_dirs(lines)
+    table.remove(lines, 1)
+    new_module:get_testing_enabled(lines)
     table.remove(lines, 1)
 
     return new_module
@@ -97,6 +99,14 @@ function module:get_link_dirs(lines)
         for l, v in pairs(line) do
             self.link_dirs[l - 1] = no_quotes(v)
         end
+    end
+end
+
+function module:get_testing_enabled(lines)
+    line = remove_tab(lines[1])
+
+    if contains(line, ids.testing_enabled) then
+        self.testing_enabled = value_from_len(line, ids.testing_enabled, 3, 1)
     end
 end
 

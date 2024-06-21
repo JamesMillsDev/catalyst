@@ -9,6 +9,7 @@ tb = require("generators.testbed")
 ed = require("generators.editor")
 ws = require("generators.workspace")
 pj = require("generators.projects")
+ts = require("generators.tests")
 
 ws.generate(engine_props)
 ed.generate(engine_props, outputdir)
@@ -16,3 +17,6 @@ tb.generate(engine_props, outputdir)
 
 group (engine_props.name)
 pj.generate(engine_props, outputdir)
+
+group ("Tests")
+ts.generate(engine_props, outputdir)
