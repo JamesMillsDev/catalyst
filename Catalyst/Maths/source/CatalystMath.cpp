@@ -2,6 +2,7 @@
 #include "CatalystMath.h"
 
 #include <cfloat>
+#include <corecrt_math.h>
 
 namespace Catalyst
 {
