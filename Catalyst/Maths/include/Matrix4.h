@@ -27,11 +27,11 @@ namespace Catalyst
 		{
 			struct  // NOLINT(clang-diagnostic-nested-anon-types)
 			{
-				/* The x-axis component of the matrix. */
+				/* The forward axis component of the matrix. */
 				Vector4 xAxis;
-				/* The y-axis component of the matrix. */
+				/* The right axis component of the matrix. */
 				Vector4 yAxis;
-				/* The z-axis component of the matrix. */
+				/* The up axis component of the matrix. */
 				Vector4 zAxis;
 				/* The w-axis (translation) component of the matrix. */
 				Vector4 wAxis;

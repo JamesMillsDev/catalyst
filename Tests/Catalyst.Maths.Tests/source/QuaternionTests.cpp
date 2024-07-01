@@ -32,7 +32,7 @@ namespace Catalyst
 		TEST_METHOD(EulerConstructor)
 		{
 			const Quaternion actual = Quaternion(Vector3{ 45.f, 80.f, 35.f });
-			const Quaternion expected = { 0.1010079f, 0.6545254f, 0.4474186f, 0.6010079f };
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
 
 			Assert::AreEqual(expected, actual);
 		}
@@ -47,9 +47,12 @@ namespace Catalyst
 			Assert::Fail(L"Not yet implemented");
 		}
 
-		TEST_METHOD(PitchYawRollConstructor)
+		TEST_METHOD(RollPitchYawConstructor)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion actual = Quaternion(45.f, 80.f, 35.f);
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+
+			Assert::AreEqual(expected, actual);
 		}
 
 		TEST_METHOD(Identity)
@@ -64,7 +67,15 @@ namespace Catalyst
 
 		TEST_METHOD(Dot)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion a = { 0.458f, 0.478f, 0.447f, 0.601f };
+			const Quaternion b = { 0.447f, 0.101f, 0.654f, 0.601f };
+
+			const float expected = 0.906543f;
+			const float actual = Quaternion::Dot(a, b);
+
+			const std::wstring str = std::to_wstring(actual);
+
+			Assert::IsTrue(CatalystMath::Compare(expected, actual), str.c_str());
 		}
 
 		TEST_METHOD(LookRotation)
@@ -74,17 +85,26 @@ namespace Catalyst
 
 		TEST_METHOD(AxisAngle)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion actual = Quaternion({ -.69f, -.29f, 0.66f }, 45.f);
+			const Quaternion expected = { -0.2646078f, -0.111212f, 0.2531031f, 0.9238795f };
+
+			Assert::AreEqual(expected, actual);
 		}
 
-		TEST_METHOD(FromPitchRollYawRoll)
+		TEST_METHOD(FromRollPitchYaw)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion actual = Quaternion::From(45.f, 80.f, 35.f);
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+
+			Assert::AreEqual(expected, actual);
 		}
 
 		TEST_METHOD(FromEuler)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion actual = Quaternion::From(Vector3{ 45.f, 80.f, 35.f });
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+
+			Assert::AreEqual(expected, actual);
 		}
 
 		TEST_METHOD(FromRotationMatrix)
@@ -99,17 +119,30 @@ namespace Catalyst
 
 		TEST_METHOD(GetEuler)
 		{
-			Assert::Fail(L"Not yet implemented");
+			const Quaternion actual = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+			const Vector3 expected = { 45.f, 80.f, 35.f };
+
+			Assert::AreEqual(expected, actual.Euler());
 		}
 
 		TEST_METHOD(SetEulerVector)
 		{
-			Assert::Fail(L"Not yet implemented");
+			Quaternion actual = Quaternion::Identity();
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+
+			actual.EulerAngles({ 45.f, 80.f, 35.f });
+
+			Assert::AreEqual(expected, actual);
 		}
 
 		TEST_METHOD(SetEulerPitchYawRoll)
 		{
-			Assert::Fail(L"Not yet implemented");
+			Quaternion actual = Quaternion::Identity();
+			const Quaternion expected = { 0.101008f, 0.654525f, -0.021780f, 0.748946f };
+
+			actual.EulerAngles(45.f, 80.f, 35.f);
+
+			Assert::AreEqual(expected, actual);
 		}
 
 	};

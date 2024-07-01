@@ -61,7 +61,8 @@ namespace Catalyst
 		Quaternion(const Vector3& _euler);
 		Quaternion(const Matrix3& _matrix);
 		Quaternion(const Matrix4& _matrix);
-		Quaternion(float _pitch, float _yaw, float _roll);
+		Quaternion(float _roll, float _pitch, float _yaw);
+		Quaternion(const Vector3& _axis, float _angle);
 
 		~Quaternion();
 
@@ -71,7 +72,7 @@ namespace Catalyst
 	public:
 		[[nodiscard]] Vector3 Euler() const;
 		void EulerAngles(const Vector3& _euler);
-		void EulerAngles(float _pitch, float _yaw, float _roll);
+		void EulerAngles(float _roll, float _pitch, float _yaw);
 
 		[[nodiscard]] string ToString() const;
 

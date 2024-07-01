@@ -106,10 +106,22 @@ namespace Catalyst
 		z = (_matrix[1][0] - _matrix[0][1]) / w4;
 	}
 
-	Quaternion::Quaternion(const float _pitch, const float _yaw, const float _roll)
+	Quaternion::Quaternion(const float _roll, const float _pitch, const float _yaw)
 		: x{ 0 }, y{ 0 }, z{ 0 }, w{ 1 }
 	{
-		EulerAngles(_pitch, _yaw, _roll);
+		EulerAngles(_roll, _pitch, _yaw);
+	}
+
+	Quaternion::Quaternion(const Vector3& _axis, const float _angle)
+	{
+		const Vector3 axis = _axis.Normalised();
+
+		const float s = sinf(CatalystMath::Radians(_angle) * .5f);
+		x = axis.x * s;
+		y = axis.y * s;
+		z = axis.z * s;
+
+		w = cosf(CatalystMath::Radians(_angle) * .5f);
 	}
 
 	Quaternion::~Quaternion() = default;
@@ -130,33 +142,27 @@ namespace Catalyst
 
 	Vector3 Quaternion::Euler() const
 	{
-		Vector3 euler = { 0 };
+		// roll (x-axis rotation)
+		const float sinRCosP = 2.f * (w * x + y * z);
+		const float cosRCosP = 1.f - 2.f * (x * x + y * y);
+		const float roll = atan2f(sinRCosP, cosRCosP);
 
-		euler.x = asinf(2.f * x * y + 2.f * z * w);
+		// pitch (y-axis rotation)
+		const float sinP = sqrtf(1 + 2 * (w * y - x * z));
+		const float cosP = sqrtf(1 - 2 * (w * y - x * z));
+		const float pitch = 2 * atan2f(sinP, cosP) - CatalystMath::pi / 2;
 
-		// North Pole calculation
-		if (CatalystMath::Compare(x * y + z * w, .5f))
+		// yaw (z-axis rotation)
+		const float sinYCosP = 2 * (w * z + x * y);
+		const float cosYCosP = 1 - 2 * (y * y + z * z);
+		const float yaw = atan2f(sinYCosP, cosYCosP);
+
+		return
 		{
-			euler.y = 2.f * atan2f(x, w);
-			euler.z = 0.f;
-		}
-		// South Pole calculation
-		else if (CatalystMath::Compare(x * y + z * w, -.5f))
-		{
-			euler.y = -2.f * atan2f(x, w);
-			euler.z = 0.f;
-		}
-		else
-		{
-			euler.y = atan2f(2.f * y * w - 2.f * x * z, 1.f - 2.f * powf(y, 2) - 2 * powf(z, 2));
-			euler.z = atan2f(2.f * x * w - 2.f * y * z, 1.f - 2.f * powf(x, 2) - 2 * powf(z, 2));
-		}
-
-		euler.x = CatalystMath::Degrees(euler.x);
-		euler.y = CatalystMath::Degrees(euler.y);
-		euler.z = CatalystMath::Degrees(euler.z);
-
-		return euler;
+			ceilf(CatalystMath::Degrees(roll) * 100.f) / 100.f,
+			ceilf(CatalystMath::Degrees(pitch) * 100.f) / 100.f,
+			ceilf(CatalystMath::Degrees(yaw) * 100.f) / 100.f
+		};
 	}
 
 	void Quaternion::EulerAngles(const Vector3& _euler)
@@ -164,11 +170,11 @@ namespace Catalyst
 		EulerAngles(_euler.x, _euler.y, _euler.z);
 	}
 
-	void Quaternion::EulerAngles(float _pitch, float _yaw, float _roll)
+	void Quaternion::EulerAngles(float _roll, float _pitch, float _yaw)
 	{
+		_roll = CatalystMath::Radians(_roll);
 		_pitch = CatalystMath::Radians(_pitch);
 		_yaw = CatalystMath::Radians(_yaw);
-		_roll = CatalystMath::Radians(_roll);
 
 		// Assuming the angles are in radians.
 		const float cr = cosf(_roll * 0.5f);
@@ -209,7 +215,7 @@ namespace Catalyst
 			w * _rhs.w - x * _rhs.x - y * _rhs.y - z * _rhs.z,
 			w * _rhs.x + x * _rhs.w + y * _rhs.z - z * _rhs.y,
 			w * _rhs.y - x * _rhs.z + y * _rhs.w + z * _rhs.x,
-			w * _rhs.z + x * _rhs.y - y * _rhs.x + z * _rhs.w 
+			w * _rhs.z + x * _rhs.y - y * _rhs.x + z * _rhs.w
 		};
 	}
 
