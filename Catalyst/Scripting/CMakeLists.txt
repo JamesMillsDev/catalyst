@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(catalyst.scripting)
+
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
+    source/*.cpp
+    include/*.h
+)
+
+add_library(catalyst.scripting SHARED ${SOURCE_FILES})
+
+target_include_directories(catalyst.scripting PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/Catalyst/Core/include
+)
+
+target_compile_definitions(catalyst.scripting PRIVATE DLL_EXPORT)
+
+target_link_libraries(catalyst.scripting
+    PRIVATE
+        catalyst.core
+)
+
+set_target_properties(catalyst.scripting PROPERTIES FOLDER "Modules")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
