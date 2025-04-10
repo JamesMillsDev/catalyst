@@ -1,9 +1,5 @@
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-// Windows Header Files
-#include <windows.h>
-
 #if DLL_EXPORT
 #define DLL __declspec(dllexport)
 #else
@@ -18,6 +14,45 @@ concept derived = std::is_base_of_v<U, T>;
 
 typedef unsigned int uint;
 typedef unsigned char ubyte;
+
+// Macro to enable bitwise operators for strongly-typed enums (enum class)
+#define ENABLE_ENUM_FLAGS(ENUM_TYPE) \
+	inline constexpr ENUM_TYPE operator|(ENUM_TYPE lhs, ENUM_TYPE rhs) { \
+		return static_cast<ENUM_TYPE>( \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(lhs) | \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(rhs) \
+		); \
+	} \
+	inline constexpr ENUM_TYPE operator&(ENUM_TYPE lhs, ENUM_TYPE rhs) { \
+		return static_cast<ENUM_TYPE>( \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(lhs) & \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(rhs) \
+		); \
+	} \
+	inline constexpr ENUM_TYPE operator^(ENUM_TYPE lhs, ENUM_TYPE rhs) { \
+		return static_cast<ENUM_TYPE>( \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(lhs) ^ \
+			static_cast<std::underlying_type_t<ENUM_TYPE>>(rhs) \
+		); \
+	} \
+	inline constexpr ENUM_TYPE operator~(ENUM_TYPE lhs) { \
+		return static_cast<ENUM_TYPE>( \
+			~static_cast<std::underlying_type_t<ENUM_TYPE>>(lhs) \
+		); \
+	} \
+	inline ENUM_TYPE& operator|=(ENUM_TYPE& lhs, ENUM_TYPE rhs) { \
+		lhs = lhs | rhs; \
+		return lhs; \
+	} \
+	inline ENUM_TYPE& operator&=(ENUM_TYPE& lhs, ENUM_TYPE rhs) { \
+		lhs = lhs & rhs; \
+		return lhs; \
+	} \
+	inline ENUM_TYPE& operator^=(ENUM_TYPE& lhs, ENUM_TYPE rhs) { \
+		lhs = lhs ^ rhs; \
+		return lhs; \
+	}
+
 
 namespace Catalyst
 {

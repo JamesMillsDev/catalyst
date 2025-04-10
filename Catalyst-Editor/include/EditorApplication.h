@@ -17,12 +17,9 @@ using std::string;
 
 namespace Catalyst
 {
-	class Shader;
-	class Texture;
-	class Mesh;
-
 	class ViewportCameraActor;
 	class EditorWindow;
+	class ViewportRenderer;
 
 	class EditorApplication final : public Application
 	{
@@ -46,6 +43,7 @@ namespace Catalyst
 		char* m_projectPath;
 
 		ViewportCameraActor* m_vpCam;
+		ViewportRenderer* m_renderer;
 
 		list<EditorWindow*> m_editors;
 

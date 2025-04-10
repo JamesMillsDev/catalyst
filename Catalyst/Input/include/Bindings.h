@@ -136,7 +136,7 @@ namespace Catalyst
 		RightAlt = 346
 	};
 
-	DEFINE_ENUM_FLAG_OPERATORS(EKey);
+	ENABLE_ENUM_FLAGS(EKey);
 
 	enum class EMouseButton : Binding
 	{
@@ -151,7 +151,7 @@ namespace Catalyst
 		Button8 = 7,
 	};
 
-	DEFINE_ENUM_FLAG_OPERATORS(EMouseButton);
+	ENABLE_ENUM_FLAGS(EMouseButton);
 
 	enum class EAxis : Binding
 	{

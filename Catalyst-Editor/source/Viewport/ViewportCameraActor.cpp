@@ -80,11 +80,13 @@ namespace Catalyst
 		{
 			if (!m_isCursorHidden)
 			{
-				glfwSetInputMode(context, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+				glfwSetInputMode(context, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 				m_isCursorHidden = true;
 
 				if (glfwRawMouseMotionSupported())
+				{
 					glfwSetInputMode(context, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+				}
 			}
 
 			Vector3 movement = Vector3::zero;
@@ -139,7 +141,7 @@ namespace Catalyst
 
 			transform->SetEulerAngles({ 0.f, m_phi, m_theta });
 
-			ConfineMouse();
+			//ConfineMouse();
 		}
 	}
 

@@ -7,18 +7,10 @@
 #include "Screen.h"
 #include "Utility/Config.h"
 
+#include "EngineConfig.h"
+
 namespace Catalyst
 {
-	HMODULE GetHandle()
-	{
-		HMODULE hModule = nullptr;
-		GetModuleHandleEx(
-			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-			reinterpret_cast<LPCTSTR>(GetHandle), &hModule);
-
-		return hModule;
-	}
-
 	Application* Application::m_app = nullptr;
 
 	Application::Application()
@@ -95,7 +87,7 @@ namespace Catalyst
 
 	void Application::GenerateConfigFiles()
 	{
-		m_config = new Config(GetHandle());
+		m_config = new Config(embedded_file, embedded_file_size);
 	}
 
 	void Application::TickModules()

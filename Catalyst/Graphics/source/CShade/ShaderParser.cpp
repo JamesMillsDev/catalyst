@@ -440,7 +440,7 @@ namespace Catalyst
 
 		return stream.str();
 	}
-	
+
 #ifdef _DEBUG
 	void ShaderParser::OutputCodeToFile(const string& _code, const Shader::EShaderStage& _stage)
 	{

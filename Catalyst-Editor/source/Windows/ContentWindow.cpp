@@ -79,6 +79,13 @@ namespace Catalyst
 		{
 			m_observerThread.join();
 		}
+
+		for (auto& [id, tree] : m_directoryTree)
+		{
+			tree.clear();
+		}
+
+		m_directoryTree.clear();
 	}
 
 	void DirectoryObserver::ScanDirectory()

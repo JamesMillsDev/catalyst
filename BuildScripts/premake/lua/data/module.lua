@@ -1,7 +1,7 @@
 require("utilities.string-utils")
 ids = require("utilities.ids")
 
-local module = {name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},packages={},testing_enabled=false}
+local module = {name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},packages={},config_name="",testing_enabled=false}
 
 function module:new(o)
     o = o or {}
@@ -11,7 +11,7 @@ function module:new(o)
 end
 
 function module.parse(lines)
-    local new_module = module:new{name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},packages={},testing_enabled=false}
+    local new_module = module:new{name="",prj_dependencies={},includes={},additional_files={},unified_links={},split_links={},link_dirs={},packages={},config_name="",testing_enabled=false}
 
     new_module:get_name(lines)
     table.remove(lines, 1)
@@ -24,6 +24,8 @@ function module.parse(lines)
     new_module:get_link_dirs(lines)
     table.remove(lines, 1)
     new_module:get_packages(lines)
+    table.remove(lines, 1)
+    new_module:get_config_name(lines)
     table.remove(lines, 1)
     new_module:get_testing_enabled(lines)
     table.remove(lines, 1)
@@ -115,6 +117,14 @@ function module:get_packages(lines)
         for l, v in pairs(line) do
             self.packages[l - 1] = no_quotes(v)
         end
+    end
+end
+
+function module:get_config_name(lines)
+    line = remove_tab(lines[1])
+
+    if contains(line, ids.config_name) then
+        self.config_name = value_from_len(line, ids.config_name, 3, 2)
     end
 end
 

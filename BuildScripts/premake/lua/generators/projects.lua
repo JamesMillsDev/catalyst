@@ -67,6 +67,13 @@ function projects.generate(properties, outputdir)
                 nuget {v}
             end
 
+            if (module.config_name ~= nil and module.config_name ~= '') then
+                prebuildcommands
+                {
+                    ("python \"$(SolutionDir)BuildScripts\\embed_file.py\" \"$(ProjectDir)Config\\"..module.config_name..".xml\" \"$(ProjectDir)\\include\\"..module.config_name.."Config.h\"")
+                }
+            end
+
             filter "configurations:Debug-Editor"
                 defines
                 { 

@@ -64,7 +64,7 @@ namespace Catalyst
 		friend class Application;
 
 	public:
-		explicit Config(HMODULE _module);
+		explicit Config(const uint8_t* data, size_t length);
 		~Config();
 
 		Config(const Config&) = delete;
@@ -91,10 +91,10 @@ namespace Catalyst
 
 		map<string, map<string, ConfigValue*>> m_data;
 
-		HMODULE m_module;
+		const uint8_t* m_content;
+		size_t m_length;
 
 	private:
-		string GetConfigData(int _id) const;
 		bool Initialise() const;
 		void Clear();
 
@@ -112,13 +112,9 @@ namespace Catalyst
 	VAL Config::GetValue(const string& _group, const string& _id)
 	{
 		if (ConfigValue* value = GetValue(_group, _id))
-<<<<<<< HEAD
 		{
 			return value->Get<VAL>();
 		}
-=======
-			return value->Get<VAL>();
->>>>>>> develop
 
 		return VAL();
 	}

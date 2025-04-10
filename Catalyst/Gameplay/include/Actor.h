@@ -13,17 +13,11 @@
 #include "Object.h"
 
 #include <list>
-<<<<<<< HEAD
 #include <string>
 
 using std::list;
 using std::pair;
 using std::string;
-=======
-
-using std::list;
-using std::pair;
->>>>>>> develop
 
 namespace Catalyst
 {
@@ -36,14 +30,11 @@ namespace Catalyst
 
 		typedef void(Actor::* ComponentListChange)(ActorComponent*);
 
-<<<<<<< HEAD
 #if IS_EDITOR
 		friend class HierarchyWindow;
 		friend class InspectorWindow;
 #endif
 
-=======
->>>>>>> develop
 	public:
 		Actor(const Actor&) = delete;
 		Actor(Actor&&) = delete;
@@ -51,15 +42,12 @@ namespace Catalyst
 	public:
 		ActorTransform* Transform() const;
 
-<<<<<<< HEAD
 		string GetName() const;
 		void SetName(const string& _newName); 
 
 		bool Enabled() const;
 		void SetEnabled(bool newState);
 
-=======
->>>>>>> develop
 		template<derived<ActorComponent> COMPONENT>
 		COMPONENT* FindComponent();
 		template<derived<ActorComponent> COMPONENT>
@@ -70,14 +58,11 @@ namespace Catalyst
 	public:
 		Actor& operator=(const Actor&) = delete;
 		Actor& operator=(Actor&&) = delete;
-<<<<<<< HEAD
 		
 	protected:
 #if IS_EDITOR
 		bool m_hideFromHierarchy;
 #endif
-=======
->>>>>>> develop
 
 	protected:
 		Actor();
@@ -94,12 +79,9 @@ namespace Catalyst
 		list<ActorComponent*> m_components;
 
 		ActorTransform* m_transform;
-<<<<<<< HEAD
 		string m_name;
 
 		bool m_isEnabled;
-=======
->>>>>>> develop
 
 	private:
 		void AddComponent(ActorComponent* _component);

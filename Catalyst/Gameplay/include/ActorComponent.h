@@ -12,13 +12,10 @@
 #include "Catalyst.h"
 #include "Object.h"
 
-<<<<<<< HEAD
 #include "GameplayModule.h"
 
 #include <iostream>
 
-=======
->>>>>>> develop
 namespace Catalyst
 {
 	class Actor;
@@ -28,13 +25,10 @@ namespace Catalyst
 		friend class GameplayModule;
 		friend class Actor;
 
-<<<<<<< HEAD
 #if IS_EDITOR
 		friend class InspectorWindow;
 #endif
 
-=======
->>>>>>> develop
 	public:
 		Actor* Owner() const;
 
@@ -60,7 +54,6 @@ namespace Catalyst
 		Actor* m_owner;
 
 	};
-<<<<<<< HEAD
 }
 
 #define GENERATED_COMPONENT(TYPE) \
@@ -72,6 +65,3 @@ namespace Catalyst
 			Catalyst::GameplayModule::ComponentRegistry::Register(#TYPE, &TYPE::CreateInstance); \
 		} \
 	} s_##TYPE##Register;
-=======
-}
->>>>>>> develop

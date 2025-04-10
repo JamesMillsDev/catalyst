@@ -14,7 +14,8 @@ function editor.generate(properties, outputdir)
         files
         {
             "%{prj.location}\\**.h",
-            "%{prj.location}\\**.cpp"
+            "%{prj.location}\\**.cpp",
+            "%{prj.location}\\**.c"
         }
 
         for l, file in pairs(properties.editor.additional_files) do
@@ -46,6 +47,14 @@ function editor.generate(properties, outputdir)
                 libdirs{ ("$(SolutionDir)"..properties.dependencies_dir.."\\lib\\"..v) }
             end
         end
+        
+
+        if (properties.editor.config_name ~= nil and properties.editor.config_name ~= '') then
+            prebuildcommands
+            {
+                ("python \"$(SolutionDir)BuildScripts\\embed_file.py\" \"$(ProjectDir)Config\\"..properties.editor.config_name..".xml\" \"$(ProjectDir)\\include\\"..properties.editor.config_name.."Config.h\"")
+            }
+        end
 
         for l, dll in pairs(properties.dll) do
             if dll.mode == "single" then
@@ -61,6 +70,11 @@ function editor.generate(properties, outputdir)
         for l,v in pairs(properties.disabled_warnings) do
             disablewarnings{ v }
         end
+
+        filter { "system:windows" }
+            kind "WindowedApp" -- This hides the console window
+            entrypoint "mainCRTStartup" -- Ensures proper execution
+        filter {}
 
         filter "configurations:Debug-Editor"
             defines

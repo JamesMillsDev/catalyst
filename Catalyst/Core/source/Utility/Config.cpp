@@ -13,12 +13,9 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <pugixml/pugixml.hpp>
-#include <windows.h>
 
-#include "../resource.h"
-
+using pugi::char_t;
 using pugi::xml_parse_result;
-using pugi::xml_node;
 using pugi::xml_node;
 
 using glm::vec2;
@@ -36,8 +33,8 @@ namespace Catalyst
 		return value.c_str();
 	}
 
-	Config::Config(const HMODULE _module)
-		: m_doc{ new xml_document }, m_module{ _module }
+	Config::Config(const uint8_t* data, size_t length)
+		: m_doc{ new xml_document }, m_content{ data }, m_length{ length }
 	{
 	}
 
@@ -50,11 +47,8 @@ namespace Catalyst
 		}
 
 		m_data.clear();
-<<<<<<< HEAD
 
 		delete m_doc;
-=======
->>>>>>> develop
 	}
 
 	ConfigValue* Config::GetValue(const string& _group, const string& _id)
@@ -159,31 +153,9 @@ namespace Catalyst
 		}
 	}
 
-	string Config::GetConfigData(const int _id) const
-	{
-		string result;
-
-		const HRSRC hRes = FindResource(m_module, MAKEINTRESOURCE(_id), MAKEINTRESOURCE(TEXTFILE));
-
-		if (hRes != nullptr)
-		{
-			const HGLOBAL hData = LoadResource(m_module, hRes);
-			const DWORD hSize = SizeofResource(m_module, hRes);
-
-			if (hData != nullptr)
-			{
-				const char* hFinal = static_cast<char*>(LockResource(hData));
-
-				result.assign(hFinal, hSize);
-			}
-		}
-
-		return result;
-	}
-
 	bool Config::Initialise() const
 	{
-		const xml_parse_result result = m_doc->load_string(GetConfigData(CONFIG_FILE).c_str());
+		const xml_parse_result result = m_doc->load_string(reinterpret_cast<const char_t*>(m_content));
 
 		return result;
 	}

@@ -4,6 +4,7 @@ ids = require("utilities.ids")
 local editor=
 {
     name = "",
+    config_name="",
     additional_files={}
 }
 
@@ -15,9 +16,11 @@ function editor:new(o)
 end
 
 function editor.parse(lines)
-    local new_editor = editor:new{name = "",additional_files={}}
+    local new_editor = editor:new{name = "",config_name="",additional_files={}}
 
     new_editor:get_name(lines)
+    table.remove(lines, 1)
+    new_editor:get_config_name(lines)
     table.remove(lines, 1)
     new_editor:get_additional_files(lines)
 
@@ -29,6 +32,14 @@ function editor:get_name(lines)
 
     if contains(line, ids.name) then
         self.name = value_from_len(line, ids.name, 3, 2)
+    end
+end
+
+function editor:get_config_name(lines)
+    line = remove_tab(lines[1])
+
+    if contains(line, ids.config_name) then
+        self.config_name = value_from_len(line, ids.config_name, 3, 2)
     end
 end
 

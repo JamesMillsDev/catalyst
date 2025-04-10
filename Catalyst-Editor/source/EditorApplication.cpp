@@ -30,6 +30,7 @@
 
 #include "Debug/Gizmos.h"
 #include "Viewport/ViewportCameraActor.h"
+#include "Viewport/ViewportRenderer.h"
 
 #include "tinyfiledialogs.h"
 
@@ -37,6 +38,9 @@
 #include "Windows/EditorWindow.h"
 #include "Windows/HierarchyWindow.h"
 #include "Windows/InspectorWindow.h"
+#include "Windows/ViewportWindow.h"
+
+#include "EditorConfig.h"
 
 using std::filesystem::path;
 
@@ -44,16 +48,6 @@ using std::filesystem::path;
 
 namespace Catalyst
 {
-	HMODULE GetHandle()
-	{
-		HMODULE hModule = nullptr;
-		GetModuleHandleEx(
-			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-			reinterpret_cast<LPCTSTR>(GetHandle), &hModule);
-
-		return hModule;
-	}
-
 	EditorApplication::EditorApplication(const char* projectPath)
 		: m_editorConfig{ nullptr }, m_vpCam{ nullptr }, m_projectPath{ new char[strlen(projectPath) + 1] }
 	{
@@ -89,7 +83,10 @@ namespace Catalyst
 
 	void EditorApplication::OnOpened()
 	{
-		Application::OnOpened();
+		if (Screen* screen = GetScreen())
+		{
+			m_renderer = new ViewportRenderer(screen->Width(), screen->Height());
+		}
 
 		m_editorConfig->Load();
 		SetIcon();
@@ -109,6 +106,7 @@ namespace Catalyst
 		m_editors.emplace_back(hierarchy);
 		m_editors.emplace_back(new InspectorWindow(hierarchy));
 		m_editors.emplace_back(new ContentWindow);
+		m_editors.emplace_back(new ViewportWindow(m_renderer));
 
 		Gizmos::Create(
 			m_editorConfig->GetValue<int>("debug", "3d.maxLines"),
@@ -132,6 +130,8 @@ namespace Catalyst
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		m_renderer->Bind();
 
 		m_vpCam->Tick();
 
@@ -163,6 +163,8 @@ namespace Catalyst
 			}
 		}
 
+		m_renderer->Unbind();
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -183,7 +185,7 @@ namespace Catalyst
 	{
 		Application::GenerateConfigFiles();
 
-		m_editorConfig = new Config(GetHandle());
+		m_editorConfig = new Config(embedded_file, embedded_file_size);
 	}
 
 #pragma region ImGui

@@ -13,6 +13,7 @@ ids.language_version = "language_version"
 ids.link_dirs = "link_dirs"
 ids.dll = "external_dll"
 ids.packages = "packages"
+ids.config_name = "config_name"
 ids.testing_enabled = "testing_enabled"
 
 return ids
