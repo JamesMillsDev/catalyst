@@ -112,9 +112,13 @@ namespace Catalyst
 	VAL Config::GetValue(const string& _group, const string& _id)
 	{
 		if (ConfigValue* value = GetValue(_group, _id))
+<<<<<<< HEAD
 		{
 			return value->Get<VAL>();
 		}
+=======
+			return value->Get<VAL>();
+>>>>>>> develop
 
 		return VAL();
 	}

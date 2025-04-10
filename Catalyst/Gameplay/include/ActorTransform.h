@@ -21,8 +21,11 @@ using std::tuple;
 
 namespace Catalyst
 {
+<<<<<<< HEAD
 	class Actor;
 
+=======
+>>>>>>> develop
 	class DLL ActorTransform
 	{
 		friend class Actor;
@@ -38,8 +41,11 @@ namespace Catalyst
 		ActorTransform(ActorTransform&&) = delete;
 
 	public:
+<<<<<<< HEAD
 		Actor* Owner();
 
+=======
+>>>>>>> develop
 		Matrix4 LocalToWorld() const;
 		Matrix4 LocalTransform() const;
 
@@ -47,7 +53,10 @@ namespace Catalyst
 		ActorTransform* Parent() const;
 
 		list<ActorTransform*> Children() const;
+<<<<<<< HEAD
 		bool IsChild(ActorTransform* _other, ActorTransform* _next = nullptr);
+=======
+>>>>>>> develop
 
 		Vector3 Location() const;
 		Vector3 LocalLocation() const;
@@ -93,17 +102,25 @@ namespace Catalyst
 
 		Matrix4* m_transform;
 
+<<<<<<< HEAD
 		Actor* m_owner;
 
 	private:
 		ActorTransform(Actor* _owner);
+=======
+	private:
+		ActorTransform();
+>>>>>>> develop
 		~ActorTransform();
 
 	private:
 		void ApplyChanges();
 		void AddChild(ActorTransform* _child);
 		void RemoveChild(ActorTransform* _child);
+<<<<<<< HEAD
 		void Unparent(ActorTransform* _child);
+=======
+>>>>>>> develop
 
 	};
 }

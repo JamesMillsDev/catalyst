@@ -100,12 +100,15 @@ namespace Catalyst
         for (const auto& comp : _actor->m_components)
             comp->OnEndPlay();
 
+<<<<<<< HEAD
         if (_actor->Transform()->Parent() != nullptr)
         {
             _actor->Transform()->SetParent(nullptr);
             _actor->ApplyChanges();
         }
 
+=======
+>>>>>>> develop
         delete _actor;
     }
 }

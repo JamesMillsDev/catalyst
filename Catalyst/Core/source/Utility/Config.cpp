@@ -50,8 +50,11 @@ namespace Catalyst
 		}
 
 		m_data.clear();
+<<<<<<< HEAD
 
 		delete m_doc;
+=======
+>>>>>>> develop
 	}
 
 	ConfigValue* Config::GetValue(const string& _group, const string& _id)

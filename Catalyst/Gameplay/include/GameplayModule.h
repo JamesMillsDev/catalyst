@@ -11,6 +11,7 @@
 
 #include "IModule.h"
 
+<<<<<<< HEAD
 #include <functional>
 #include <list>
 #include <string>
@@ -21,16 +22,26 @@ using std::list;
 using std::pair;
 using std::string;
 using std::tuple;
+=======
+#include <list>
+
+using std::list;
+using std::pair;
+>>>>>>> develop
 
 namespace Catalyst
 {
 	class Actor;
+<<<<<<< HEAD
 	class ActorComponent;
+=======
+>>>>>>> develop
 
 	class DLL GameplayModule final : public IModule
 	{
 		typedef void(GameplayModule::* ActorListChange)(Actor*);
 
+<<<<<<< HEAD
 #if IS_EDITOR
 		friend class HierarchyWindow;
 #endif
@@ -50,6 +61,8 @@ namespace Catalyst
 
 		};
 
+=======
+>>>>>>> develop
 	public:
 		GameplayModule();
 		~GameplayModule() override;
