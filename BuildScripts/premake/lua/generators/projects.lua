@@ -32,7 +32,8 @@ function projects.generate(properties, outputdir)
             files
             {
                 "%{prj.location}/**.h",
-                "%{prj.location}/**.cpp"
+                "%{prj.location}/**.cpp",
+                "%{prj.location}/**.inl",
             }
 
             for l, file in pairs(module.additional_files) do
