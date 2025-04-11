@@ -86,6 +86,8 @@ namespace Catalyst
 
     void UUID::Generate()
     {
+        delete[] m_value;
+
         m_value = new char[GroupSize * Groups + Groups];
 
         random_device device;

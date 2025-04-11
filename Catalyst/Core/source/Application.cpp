@@ -7,22 +7,25 @@
 #include "Screen.h"
 #include "Utility/Config.h"
 
+#include "EngineConfig.h"
+
 namespace Catalyst
 {
 	Application* Application::m_app = nullptr;
 
 	Application::Application()
-		: m_screen{ new Screen }, m_config{ new Config }
+		: m_screen{ new Screen }, m_config{ nullptr }
 	{
 		
 	}
 
 	Application::~Application()
 	{
-		for(const auto& module : m_modules)
+		for(auto& module : m_modules)
 		{
 			module->Exit();
 			delete module;
+			module = nullptr;
 		}
 
 		m_modules.clear();
@@ -49,6 +52,31 @@ namespace Catalyst
 		return m_app->m_screen;
 	}
 
+	void Application::AssignInstance(Application* _app)
+	{
+		// To handle the incoming being an editor
+		if(m_app)
+		{
+			_app->m_modules = m_app->m_modules;
+			_app->m_screen = m_app->m_screen;
+			_app->m_config = m_app->m_config;
+
+			m_app->m_modules.clear();
+
+			m_app->m_screen = nullptr;
+			m_app->m_config = nullptr;
+
+			delete m_app;
+		}
+
+		m_app = _app;
+	}
+
+	Application* Application::GetApp()
+	{
+		return m_app;
+	}
+
 	void Application::OnOpened() { }
 
 	void Application::OnClosed() { }
@@ -57,30 +85,57 @@ namespace Catalyst
 
 	void Application::Render() { }
 
+	void Application::GenerateConfigFiles()
+	{
+		m_config = new Config(embedded_file, embedded_file_size);
+	}
+
+	void Application::TickModules()
+	{
+		for (const auto& module : m_modules)
+		{
+			module->Tick();
+		}
+	}
+
 	int Application::Process()
 	{
+		GenerateConfigFiles();
+
 		m_config->Load();
 
 		m_screen->Open(m_config);
 
 		CatalystTime::Init();
 
+		for (const auto& module : m_modules)
+			module->BeginPlay();
+
+		OnOpened();
+
 		while(!m_screen->WindowShouldClose())
 		{
 			CatalystTime::Tick();
 
+			Tick();
+			TickModules();
+
 			m_screen->BeginFrame();
 
-			Tick();
 			for(const auto& module : m_modules)
-				module->Tick();
+			{
+				module->Render();
+			}
 
 			Render();
-			for(const auto& module : m_modules)
-				module->Render();
 
 			m_screen->EndFrame();
 		}
+
+		OnClosed();
+
+		for (const auto& module : m_modules)
+			module->EndPlay();
 
 		m_screen->Close();
 

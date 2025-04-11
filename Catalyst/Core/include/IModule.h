@@ -27,8 +27,12 @@ namespace Catalyst
 		virtual void Enter() = 0;
 		virtual void Exit() = 0;
 
+		virtual void BeginPlay();
+
 		virtual void Tick();
 		virtual void Render();
+
+		virtual void EndPlay();
 
 	};
 }

@@ -10,13 +10,16 @@
 #pragma once
 
 #include "Catalyst.h"
-#include "Utility/Color.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/vec4.hpp>
+
 #include <string>
 #include <memory>
+
+using glm::vec4;
 
 using std::string;
 using std::shared_ptr;
@@ -35,7 +38,7 @@ namespace Catalyst
 		/* Gets the current title of the window. */
 		const string& Title();
 		/* Gets the current clear colour of the screen. */
-		[[nodiscard]] const Color& ClearColor() const;
+		[[nodiscard]] const vec4& ClearColor() const;
 
 		/* Access to the GLFW window. */
 		[[nodiscard]] GLFWwindow* GetWindowPtr() const;
@@ -59,7 +62,7 @@ namespace Catalyst
 		* Sets the clear color of the screen to the new value.
 		* @param _newColor: The new background colour of the screen.
 		*/
-		void SetClearColor(Color _newColor);
+		void SetClearColor(vec4 _newColor);
 
 		[[nodiscard]] bool WindowShouldClose() const;
 		void CloseWindow();
@@ -75,7 +78,7 @@ namespace Catalyst
 		int m_width;
 		int m_height;
 		string m_title;
-		Color m_clearColor;
+		vec4 m_clearColor;
 
 	private:
 		Screen();

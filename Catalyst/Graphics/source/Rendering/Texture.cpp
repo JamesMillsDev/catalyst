@@ -150,9 +150,11 @@ namespace Catalyst
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::Bind(const unsigned int _slot) const
+	int Texture::Bind(const unsigned int _slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + _slot);
 		glBindTexture(GL_TEXTURE_2D, m_glHandle);
+
+		return _slot;
 	}
 }

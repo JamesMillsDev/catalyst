@@ -1,7 +1,6 @@
 #include "cacorepch.h"
 #include "Utility/Config.h"
 
-#include "Utility/Color.h"
 #include "Utility/ConfigValue.h"
 #include "Utility/StringUtils.h"
 
@@ -11,16 +10,17 @@
 #include <sstream>
 #include <vector>
 #include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 #include <pugixml/pugixml.hpp>
-#include <windows.h>
 
-#include "../resource.h"
-
+using pugi::char_t;
 using pugi::xml_parse_result;
-using pugi::xml_node;
 using pugi::xml_node;
 
 using glm::vec2;
+using glm::vec3;
+using glm::vec4;
 
 using std::ifstream;
 using std::vector;
@@ -33,8 +33,8 @@ namespace Catalyst
 		return value.c_str();
 	}
 
-	Config::Config()
-		: m_doc{ new xml_document }
+	Config::Config(const uint8_t* data, size_t length)
+		: m_doc{ new xml_document }, m_content{ data }, m_length{ length }
 	{
 	}
 
@@ -47,6 +47,8 @@ namespace Catalyst
 		}
 
 		m_data.clear();
+
+		delete m_doc;
 	}
 
 	ConfigValue* Config::GetValue(const string& _group, const string& _id)
@@ -88,16 +90,16 @@ namespace Catalyst
 	{
 		for (auto& group : m_data | std::views::values)
 		{
-			for (auto iter = group.begin(); iter != group.end(); ++iter)
-				delete iter->second;
+			for (const auto& val : group | std::views::values)
+				delete val;
 		}
 
 		m_data.clear();
 	}
 
-	void Config::Load(const bool _initialise)
+	void Config::Load()
 	{
-		if (_initialise && !Initialise())
+		if (!Initialise())
 			return;
 
 		for (const xml_node& category : m_doc->child("Config").child("Categories").children("Category"))
@@ -127,8 +129,16 @@ namespace Catalyst
 					m_data[categoryTitle][valName] = new ConfigValue(new string(value.attribute("value").as_string()));
 					break;
 
-				case EValType::Vector:
-					HandleVector(categoryTitle, valName, value.attribute("value").as_string());
+				case EValType::Vector2:
+					HandleVector2(categoryTitle, valName, value.attribute("value").as_string());
+					break;
+
+				case EValType::Vector3:
+					HandleVector3(categoryTitle, valName, value.attribute("value").as_string());
+					break;
+
+				case EValType::Vector4:
+					HandleVector4(categoryTitle, valName, value.attribute("value").as_string());
 					break;
 
 				case EValType::Color:
@@ -143,7 +153,14 @@ namespace Catalyst
 		}
 	}
 
-	void Config::HandleVector(const string& _category, const string& _name, const string& _value)
+	bool Config::Initialise() const
+	{
+		const xml_parse_result result = m_doc->load_string(reinterpret_cast<const char_t*>(m_content));
+
+		return result;
+	}
+
+	void Config::HandleVector2(const string& _category, const string& _name, const string& _value)
 	{
 		auto converter = [](const string& _val) -> float
 			{
@@ -155,6 +172,30 @@ namespace Catalyst
 		m_data[_category][_name] = new ConfigValue(new vec2{ values[0], values[1] });
 	}
 
+	void Config::HandleVector3(const string& _category, const string& _name, const string& _value)
+	{
+		auto converter = [](const string& _val) -> float
+			{
+				return std::stof(_val);
+			};
+
+		const vector<float> values = StringUtils::Split<float>(_value, ',', converter);
+
+		m_data[_category][_name] = new ConfigValue(new vec3{ values[0], values[1], values[2] });
+	}
+
+	void Config::HandleVector4(const string& _category, const string& _name, const string& _value)
+	{
+		auto converter = [](const string& _val) -> float
+			{
+				return std::stof(_val);
+			};
+
+		const vector<float> values = StringUtils::Split<float>(_value, ',', converter);
+
+		m_data[_category][_name] = new ConfigValue(new vec4{ values[0], values[1], values[2], values[3] });
+	}
+
 	void Config::HandleColor(const string& _category, const string& _name, const string& _value)
 	{
 		auto converter = [](const string& _val) -> float
@@ -164,53 +205,13 @@ namespace Catalyst
 
 		const vector<float> values = StringUtils::Split<float>(_value, ',', converter);
 
-		m_data[_category][_name] = new ConfigValue(new Color
+		m_data[_category][_name] = new ConfigValue(new vec4
 			{
 				values[0],
 				values[1],
 				values[2],
 				values[3]
 			});
-	}
-
-	HMODULE GetHandle()
-	{
-		HMODULE hModule = nullptr;
-		GetModuleHandleEx(
-			GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-			(LPCTSTR)GetHandle, &hModule);
-
-		return hModule;
-	}
-
-	string Config::GetConfigData(const int _id)
-	{
-		string result;
-
-		const HMODULE handle = GetHandle();
-		const HRSRC hRes = FindResource(handle, MAKEINTRESOURCE(_id), MAKEINTRESOURCE(TEXTFILE));
-
-		if (hRes != nullptr)
-		{
-			const HGLOBAL hData = LoadResource(handle, hRes);
-			const DWORD hSize = SizeofResource(handle, hRes);
-
-			if (hData != nullptr)
-			{
-				const char* hFinal = static_cast<char*>(LockResource(hData));
-
-				result.assign(hFinal, hSize);
-			}
-		}
-
-		return result;
-	}
-
-	bool Config::Initialise() const
-	{
-		const xml_parse_result result = m_doc->load_string(GetConfigData(CONFIG_FILE).c_str());
-
-		return result;
 	}
 
 	EValType Config::StringToType(const string& _type)
@@ -227,8 +228,14 @@ namespace Catalyst
 		if (_type == "string")
 			return EValType::String;
 
-		if (_type == "vector")
-			return EValType::Vector;
+		if (_type == "vector2")
+			return EValType::Vector2;
+
+		if (_type == "vector3")
+			return EValType::Vector3;
+
+		if (_type == "vector4")
+			return EValType::Vector4;
 
 		if (_type == "color")
 			return EValType::Color;

@@ -5,6 +5,9 @@
 *.vcxproj.filters
 *.sln
 
+packages.config
+*.glsl
+
 ### C++ ###
 # Prerequisites
 *.d

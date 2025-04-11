@@ -53,7 +53,9 @@ namespace Catalyst
 		Float,
 		Bool,
 		String,
-		Vector,
+		Vector2,
+		Vector3,
+		Vector4,
 		Color
 	};
 
@@ -62,21 +64,23 @@ namespace Catalyst
 		friend class Application;
 
 	public:
-		Config();
+		explicit Config(const uint8_t* data, size_t length);
 		~Config();
 
 		Config(const Config&) = delete;
 		Config(Config&&) = delete;
 
 	public:
-		class ConfigValue* GetValue(const string& _group, const string& _id);
-		bool TryGetValue(const string& _group, const string& _id, class ConfigValue*& _value);
+		ConfigValue* GetValue(const string& _group, const string& _id);
+		bool TryGetValue(const string& _group, const string& _id, ConfigValue*& _value);
 		bool HasValue(const string& _group, const string& _id);
 
 		template<typename VAL>
 		VAL GetValue(const string& _group, const string& _id);
 		template<typename VAL>
 		bool TryGetValue(const string& _group, const string& _id, VAL& _value);
+
+		void Load();
 
 	public:
 		Config& operator=(const Config&) = delete;
@@ -85,18 +89,21 @@ namespace Catalyst
 	private:
 		xml_document* m_doc;
 
-		map<string, map<string, class ConfigValue*>> m_data;
+		map<string, map<string, ConfigValue*>> m_data;
+
+		const uint8_t* m_content;
+		size_t m_length;
 
 	private:
 		bool Initialise() const;
 		void Clear();
-		void Load(bool _initialise = true);
 
-		void HandleVector(const string& _category, const string& _name, const string& _value);
+		void HandleVector2(const string& _category, const string& _name, const string& _value);
+		void HandleVector3(const string& _category, const string& _name, const string& _value);
+		void HandleVector4(const string& _category, const string& _name, const string& _value);
 		void HandleColor(const string& _category, const string& _name, const string& _value);
 
 	private:
-		static string GetConfigData(int _id);
 		static EValType StringToType(const string& _type);
 
 	};
@@ -105,7 +112,9 @@ namespace Catalyst
 	VAL Config::GetValue(const string& _group, const string& _id)
 	{
 		if (ConfigValue* value = GetValue(_group, _id))
+		{
 			return value->Get<VAL>();
+		}
 
 		return VAL();
 	}

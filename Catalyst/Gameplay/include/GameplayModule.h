@@ -11,18 +11,44 @@
 
 #include "IModule.h"
 
+#include <functional>
 #include <list>
+#include <string>
+#include <tuple>
 
+using std::function;
 using std::list;
 using std::pair;
+using std::string;
+using std::tuple;
 
 namespace Catalyst
 {
 	class Actor;
+	class ActorComponent;
 
 	class DLL GameplayModule final : public IModule
 	{
 		typedef void(GameplayModule::* ActorListChange)(Actor*);
+
+#if IS_EDITOR
+		friend class HierarchyWindow;
+#endif
+
+	public:
+		struct DLL ComponentRegistry
+		{
+		public:
+			using FactoryFunction = function<ActorComponent* ()>;
+
+		public:
+			static void Register(const string& name, FactoryFunction func);
+			static list<tuple<string, string, FactoryFunction>>& GetRegistry();
+
+		private:
+			static list<tuple<string, string, FactoryFunction>> m_registry;
+
+		};
 
 	public:
 		GameplayModule();

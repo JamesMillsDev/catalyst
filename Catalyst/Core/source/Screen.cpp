@@ -22,7 +22,7 @@ namespace Catalyst
 		return m_title;
 	}
 
-	const Color& Screen::ClearColor() const
+	const vec4& Screen::ClearColor() const
 	{
 		return m_clearColor;
 	}
@@ -50,7 +50,7 @@ namespace Catalyst
 		glfwSetWindowTitle(m_window, m_title.c_str());
 	}
 
-	void Screen::SetClearColor(const Color _newColor)
+	void Screen::SetClearColor(const vec4 _newColor)
 	{
 		m_clearColor = _newColor;
 		glClearColor(m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
@@ -75,6 +75,7 @@ namespace Catalyst
 
 	Screen::~Screen()
 	{
+		glfwDestroyWindow(m_window);
 		m_window = nullptr;
 	}
 
@@ -186,7 +187,7 @@ namespace Catalyst
 		if (!_config->TryGetValue<string>("application", "title", m_title))
 			return GLFW_FALSE;
 
-		if (!_config->TryGetValue<Color>("window", "clrCol", m_clearColor))
+		if (!_config->TryGetValue<vec4>("window", "clrCol", m_clearColor))
 			return GLFW_FALSE;
 
 		if (!_config->TryGetValue<bool>("application", "vSync", m_vSync))

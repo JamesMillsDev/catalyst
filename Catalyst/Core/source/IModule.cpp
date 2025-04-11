@@ -13,6 +13,10 @@ namespace Catalyst
 		_module->Enter();
 	}
 
+	void IModule::BeginPlay() { }
+
+	void IModule::EndPlay() { }
+
 	void IModule::Tick() { }
 
 	void IModule::Render() { }

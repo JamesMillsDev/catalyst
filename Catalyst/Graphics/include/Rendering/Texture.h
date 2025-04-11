@@ -48,7 +48,7 @@ namespace Catalyst
 		[[nodiscard]] const string& GetFilename() const { return m_filename; }
 
 		// binds the texture to the specified slot
-		void Bind(unsigned int _slot) const;
+		int Bind(unsigned int _slot) const;
 
 		// returns the opengl texture handle
 		[[nodiscard]] uint GetHandle() const { return m_glHandle; }

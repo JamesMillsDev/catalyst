@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <Categories>
+    <Category title="window">
+      <Value name="width" value="1080" type="int"/>
+      <Value name="height" value="720" type="int"/>
+      <Value name="clrCol" value="0.25,0.25,0.25,0.25" type="color"/>
+    </Category>
+    <Category title="application">
+      <Value name="title" value="Catalyst - v0.0.1" type="string"/>
+      <Value name="vSync" value="true" type="bool"/>
+    </Category>
+  </Categories>
+</Config>

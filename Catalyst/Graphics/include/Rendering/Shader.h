@@ -11,12 +11,16 @@
 
 #include "Catalyst.h"
 
+#include <list>
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/mat2x2.hpp>
 #include <glm/mat3x3.hpp>
 #include <glm/mat4x4.hpp>
+
+using std::list;
 
 using glm::vec2;
 using glm::vec3;
@@ -28,12 +32,14 @@ using glm::mat4;
 
 namespace Catalyst
 {
+	class ShaderProperty;
+
 	class DLL Shader
 	{
 		friend class Material;
 		friend class ShaderParser;
 
-	private:
+	public:
 		enum EShaderStage : uint
 		{
 			Undefined = 0,
@@ -45,6 +51,7 @@ namespace Catalyst
 			ShaderStageCount
 		};
 
+	private:
 		class DLL SubShader
 		{
 			friend class Shader;
@@ -79,7 +86,9 @@ namespace Catalyst
 	private:
 		const char* GetLastError() const;
 
-		void Bind() const;
+	public:
+		void Bind();
+		list<ShaderProperty*> GetProperties();
 
 		uint GetHandle() const;
 
@@ -125,6 +134,8 @@ namespace Catalyst
 		SubShader* m_shaders[ShaderStageCount];
 		char* m_lastError;
 		const char* m_fileName;
+
+		list<ShaderProperty*> m_properties;
 
 	private:
 		void Load();
