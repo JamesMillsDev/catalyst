@@ -13,6 +13,7 @@
 
 #include "ActorComponent.h"
 #include "IRenderFeature.h"
+#include "HeaderMacros.h"
 
 #include <list>
 #include <string>
@@ -28,7 +29,7 @@ namespace Catalyst
 	class DLL StaticMeshComponent : public ActorComponent, public IRenderFeature
 	{
 	public:
-		GENERATED_COMPONENT(StaticMeshComponent);
+		REGISTER_COMPONENT(StaticMeshComponent);
 
 	public:
 		list<Mesh*> submeshes;
@@ -50,6 +51,4 @@ namespace Catalyst
 		Material* GetMaterialFor(Mesh* mesh);
 
 	};
-
-	REGISTER_COMPONENT(StaticMeshComponent);
 }

@@ -19,13 +19,49 @@ function(add_to_folder TARGET)
     endif()
 endfunction()
 
+function(configure_dependencies)
+    configure_assimp()
+    configure_pugi()
+    configure_glad()
+    configure_imgui()
+
+    # List of dependency targets
+    set(DEPENDENCY_TARGETS glfw reactphysics3d ryml glm)
+
+    # Loop through the dependency targets and assign them to the "Dependencies" folder
+    foreach(TARGET ${DEPENDENCY_TARGETS})
+        status_message("=== Configuring: ${TARGET} ===")
+        FetchContent_MakeAvailable(${TARGET})
+        add_to_folder(${TARGET})
+    endforeach()
+    
+    set(HEADER_DEPENDENCY_TARGETS stb nlohmann_json)
+
+    # Loop through the dependency targets and assign them to the "Dependencies" folder
+    foreach(TARGET ${HEADER_DEPENDENCY_TARGETS})
+        status_message("=== Configuring: ${TARGET} ===")
+        FetchContent_Populate(${TARGET})
+
+        string(CONCAT PATH "${TARGET}_SOURCE_DIR")
+
+        set(PATH "${${PATH}}")
+
+        if(NOT TARGET ${TARGET})
+            add_library(${TARGET} INTERFACE)
+            target_include_directories(${TARGET} INTERFACE ${PATH})
+        endif()
+
+        add_to_folder(${TARGET} "Header-Only")
+    endforeach()
+endfunction()
+
 function(configure_glad)
     status_message("=== Configuring: GLAD ===")
         
     # Ensure GLAD is built correctly
     FetchContent_GetProperties(glad)
     if(NOT glad_POPULATED)
-        FetchContent_MakeAvailable(glad)
+        FetchContent_Populate(glad)
 
         # Path to generated GLAD files
         set(GLAD_GENERATED_DIR ${glad_SOURCE_DIR}/generated)
@@ -122,4 +158,34 @@ function(configure_imgui)
     )
 
     add_to_folder(imgui)
+endfunction()
+
+function(configure_assimp)
+    status_message("=== Configuring: assimp ===")
+
+    set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_INJECT_DEBUG_POSTFIX OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
+
+    # This is the key flag for /MD
+    set(ASSIMP_MSVC_RUNTIME_DYNAMIC ON CACHE BOOL "" FORCE)
+
+    FetchContent_Declare(
+        assimp
+        GIT_REPOSITORY https://github.com/assimp/assimp.git
+    )
+
+    FetchContent_MakeAvailable(assimp)
+
+    # Extra safety (optional): force /MD directly
+    foreach(tgt IN LISTS assimp assimp_cmd assimp_view)
+        if (TARGET ${tgt})
+            set_target_properties(${tgt} PROPERTIES
+                MSVC_RUNTIME_LIBRARY "MultiThreadedDLL"
+            )
+            add_to_folder(${tgt})
+        endif()
+    endforeach()
+
 endfunction()

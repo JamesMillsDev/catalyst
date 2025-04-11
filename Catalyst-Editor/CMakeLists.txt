@@ -10,6 +10,10 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
 
 add_executable(CatalystEditor ${SOURCE_FILES})
 
+if (MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "" FORCE)
+endif()
+
 target_include_directories(CatalystEditor PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/Catalyst/Core/include
@@ -40,6 +44,7 @@ target_link_libraries(CatalystEditor
         imgui
         assimp
         pugixml
+        stb
 )
 
 target_compile_definitions(CatalystEditor PRIVATE IS_EDITOR)

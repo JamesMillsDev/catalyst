@@ -14,6 +14,7 @@
 #include "Editors/StaticMeshComponentEditor.h"
 #include "Editors/LightComponentEditor.h"
 
+#include <ComponentRegistry.h>
 #include <Components/LightComponent.h>
 #include <Components/CameraComponent.h>
 #include <Components/StaticMeshComponent.h>
@@ -91,7 +92,7 @@ namespace Catalyst
 				ImGui::InputText("##Search", searchBuffer, sizeof(searchBuffer));
 
 				// Iterate over the registered components
-				for (const auto& [name, displayName, creator] : GameplayModule::ComponentRegistry::GetRegistry())
+				for (const auto& [name, displayName, creator] : ComponentRegistry::GetRegistry())
 				{
 					if (strlen(searchBuffer) == 0 || strstr(displayName.c_str(), searchBuffer))
 					{

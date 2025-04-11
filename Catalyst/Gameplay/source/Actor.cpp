@@ -19,6 +19,7 @@ namespace Catalyst
 #endif
 		m_transform{ new ActorTransform(this) }, m_name{ "Actor" }, m_isEnabled{ true }
 	{
+		std::cout << "[Actor::Actor] this = " << this << "\n";
 	}
 
 	Actor::~Actor()
@@ -31,7 +32,7 @@ namespace Catalyst
 			delete comp;
 		}
 
-		m_components.Clear();
+		m_components.clear();
 	}
 
 	string Actor::GetName() const
@@ -72,22 +73,30 @@ namespace Catalyst
 
 	void Actor::AddComponent(ActorComponent* _component)
 	{
-		m_components.Add(_component);
+		m_components.emplace_back(_component);
 	}
 
 	void Actor::RemoveComponent(ActorComponent* _component)
 	{
-		m_components.Add(_component);
+		m_components.emplace_back(_component);
 	}
 
 	void Actor::ApplyChanges()
 	{
 		for (auto& [fnc, obj] : m_changes)
 		{
-			std::invoke(fnc, this, obj);
+			switch (fnc)
+			{
+			case ComponentAction::Add:
+				AddComponent(obj);
+				break;
+			case ComponentAction::Remove:
+				RemoveComponent(obj);
+				break;
+			}
 		}
 
-		m_changes.Clear();
+		m_changes.clear();
 
 		m_transform->ApplyChanges();
 	}

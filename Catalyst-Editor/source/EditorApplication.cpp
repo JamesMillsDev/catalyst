@@ -87,9 +87,15 @@ namespace Catalyst
 
 		if (GameplayModule* module = GetModule<GameplayModule>())
 		{
+			std::cout << "[SpawnActor] sizeof(ViewportCameraActor) = " << sizeof(ViewportCameraActor) << "\n";
 			m_vpCam = module->SpawnActor<ViewportCameraActor>();
+
+			std::cout << "m_vpCam = " << m_vpCam << "\n";
+
 			m_vpCam->Initialise(m_editorConfig);
 			m_vpCam->m_hideFromHierarchy = true;
+
+			module->RegisterActor(m_vpCam);
 		}
 
 		InitialiseImGui();

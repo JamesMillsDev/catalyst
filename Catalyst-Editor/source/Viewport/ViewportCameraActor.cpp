@@ -17,8 +17,6 @@ namespace Catalyst
 		: m_theta{ 0.f }, m_phi{ 0.f }, m_turnSpeed{ 0.f }, m_moveSpeed{ 0.f }, m_speedFactor{ 1.f },
 		m_isCursorHidden{ false }, m_borderSize{ 0 }, m_minMoveSpeed{ 0.f }, m_maxMoveSpeed{ 0.f }
 	{
-		m_camera = CreateComponent<CameraComponent>();
-
 		if (const ActorTransform* transform = Transform())
 		{
 			transform->TRS({ 10.f, 0.f, 2.f }, Vector3::zero, Vector3::one);
@@ -30,6 +28,8 @@ namespace Catalyst
 
 	void ViewportCameraActor::Initialise(Config* _config)
 	{
+		m_camera = CreateComponent<CameraComponent>();
+
 		m_camera->SetFovAngle(_config->GetValue<float>("viewport", "camera.fov"));
 		m_camera->SetNearPlane(_config->GetValue<float>("viewport", "camera.near"));
 		m_camera->SetFarPlane(_config->GetValue<float>("viewport", "camera.far"));

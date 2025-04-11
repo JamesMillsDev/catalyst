@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Catalyst.h"
+#include <iostream>
 #include <stdexcept>
 #include <initializer_list>
 
@@ -50,7 +51,7 @@ namespace Catalyst
             }
 
             // Increment operators
-            Iterator& operator++()
+            Iterator operator++()
             {
                 if (node != nullptr)
                 {
@@ -64,24 +65,6 @@ namespace Catalyst
             {
                 Iterator tmp = *this;
                 ++(*this);
-                return tmp;
-            }
-
-            // Decrement operators
-            Iterator& operator--()
-            {
-                if (node != nullptr)
-                {
-                    node = node->prev;
-                }
-
-                return *this;
-            }
-
-            Iterator operator--(int)
-            {
-                Iterator tmp = *this;
-                --(*this);
                 return tmp;
             }
 
@@ -108,7 +91,7 @@ namespace Catalyst
             }
 
             // Adding and subtracting operators (move forward or backward by a certain amount)
-            Iterator& operator+(const int _shiftAmount)
+            Iterator operator+(const int _shiftAmount)
             {
                 Iterator iter = *this;
                 for (int i = 0; i < _shiftAmount; ++i)
@@ -120,27 +103,14 @@ namespace Catalyst
                 }
                 return iter;
             }
-
-            Iterator& operator-(const int _shiftAmount)
-            {
-                Iterator iter = *this;
-                for (int i = _shiftAmount; i > 0; --i)
-                {
-                    if (iter.node != nullptr)
-                    {
-                        iter.node = iter.node->prev;
-                    }
-                }
-                return iter;
-            }
         };
 
     public:
         // Default constructor
         LinkedList()
-	        : m_head{ nullptr }, m_tail{ nullptr }
+            : m_head{ nullptr }, m_tail{ nullptr }, m_count{ 0 }
         {
-	        
+            std::cout << "[LinkedList] Constructor: this=" << this << "\n";
         }
 
         // Constructor from initializer list
@@ -300,12 +270,15 @@ namespace Catalyst
         // Finds a node with specific value
         Iterator Find(const T& value)
         {
-            if (IndexOf(value) == -1)
+            for (Node* node = m_head; node != nullptr; node = node->next)
             {
-                return end();
+                if (node->data == value)
+                {
+                    return Iterator{ node };
+                }
             }
 
-            return { value };
+            return end();
         }
 
         // Gets the index of the node with specific value

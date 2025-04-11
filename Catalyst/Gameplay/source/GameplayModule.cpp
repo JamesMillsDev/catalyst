@@ -9,31 +9,6 @@
 
 namespace Catalyst
 {
-    list<tuple<string, string, GameplayModule::ComponentRegistry::FactoryFunction>> GameplayModule::ComponentRegistry::m_registry;
-
-    void GameplayModule::ComponentRegistry::Register(const string& name, FactoryFunction func)
-    {
-        if (std::ranges::find_if(m_registry, [name](const auto& comp) { return std::get<0>(comp) == name; }) == m_registry.end())
-        {
-            string displayName;
-            for (size_t i = 0; i < name.find("Component"); ++i)
-            {
-                if (i > 0 && std::isupper(name[i]))
-                {
-                    displayName += ' ';
-                }
-                displayName += name[i];
-            }
-
-            m_registry.emplace_back(name, displayName, func);
-        }
-    }
-
-    list<tuple<string, string, GameplayModule::ComponentRegistry::FactoryFunction>>& GameplayModule::ComponentRegistry::GetRegistry()
-    {
-        return m_registry;
-    }
-
     GameplayModule::GameplayModule()
     {
 		AddModule(this);
@@ -42,6 +17,11 @@ namespace Catalyst
     GameplayModule::~GameplayModule()
     {
         
+    }
+
+    void GameplayModule::RegisterActor(Actor* _actor)
+    {
+        m_changes.emplace_back(ActorAction::Add, _actor);
     }
 
     void GameplayModule::Enter()
@@ -60,7 +40,17 @@ namespace Catalyst
     void GameplayModule::Tick()
     {
         for (auto& [fnc, obj] : m_changes)
-            std::invoke(fnc, this, obj);
+        {
+            switch (fnc)
+            {
+            case ActorAction::Add:
+                AddActor(obj);
+                break;
+            case ActorAction::Remove:
+                RemoveActor(obj);
+                break;
+            }
+        }
 
         m_changes.clear();
 
@@ -88,8 +78,19 @@ namespace Catalyst
         m_actors.emplace_back(_actor);
         _actor->OnBeginPlay();
 
-        for (const auto& comp : _actor->m_components)
-            comp->OnBeginPlay();
+        std::cout << "Components: " << _actor->m_components.size() << "\n";
+        std::cout << "LinkedList address: " << &_actor->m_components << "\n";
+        auto& list = _actor->m_components;
+        std::cout << "Head: " << list.front() << "\n";
+        std::cout << "Tail: " << list.back() << "\n";
+        std::cout << "Count: " << list.size() << "\n";
+
+        for (auto it = _actor->m_components.begin(); it != _actor->m_components.end(); ++it)
+        {
+            //std::cout << "Iterating: " << it.node << "\n";
+            if (*it)
+                std::cout << "Component ptr: " << *it << "\n";
+        }
     }
 
     void GameplayModule::RemoveActor(Actor* _actor)

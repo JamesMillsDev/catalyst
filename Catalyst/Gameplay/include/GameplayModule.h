@@ -27,6 +27,8 @@ namespace Catalyst
 	class Actor;
 	class ActorComponent;
 
+	enum class ActorAction { Add, Remove };
+
 	class DLL GameplayModule final : public IModule
 	{
 		typedef void(GameplayModule::* ActorListChange)(Actor*);
@@ -34,21 +36,6 @@ namespace Catalyst
 #if IS_EDITOR
 		friend class HierarchyWindow;
 #endif
-
-	public:
-		struct DLL ComponentRegistry
-		{
-		public:
-			using FactoryFunction = function<ActorComponent* ()>;
-
-		public:
-			static void Register(const string& name, FactoryFunction func);
-			static list<tuple<string, string, FactoryFunction>>& GetRegistry();
-
-		private:
-			static list<tuple<string, string, FactoryFunction>> m_registry;
-
-		};
 
 	public:
 		GameplayModule();
@@ -61,6 +48,7 @@ namespace Catalyst
 	public:
 		template<derived<Actor> ACTOR>
 		ACTOR* SpawnActor();
+		void RegisterActor(Actor* _actor);
 		template<derived<Actor> ACTOR>
 		void DestroyActor(ACTOR* _actor);
 
@@ -76,7 +64,7 @@ namespace Catalyst
 		void Render() override;
 
 	private:
-		list<pair<ActorListChange, Actor*>> m_changes;
+		list<pair<ActorAction, Actor*>> m_changes;
 		list<Actor*> m_actors;
 
 	private:
@@ -86,18 +74,16 @@ namespace Catalyst
 	};
 
 	template <derived<Actor> ACTOR>
-	ACTOR* GameplayModule::SpawnActor()
+	inline ACTOR* GameplayModule::SpawnActor()
 	{
 		ACTOR* actor = new ACTOR;
-
-		m_changes.emplace_back(&GameplayModule::AddActor, actor);
 
 		return actor;
 	}
 
 	template <derived<Actor> ACTOR>
-	void GameplayModule::DestroyActor(ACTOR* _actor)
+	inline void GameplayModule::DestroyActor(ACTOR* _actor)
 	{
-		m_changes.emplace_back(&GameplayModule::RemoveActor, _actor);
+		m_changes.emplace_back(ActorAction::Remove, _actor);
 	}
 }

@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(catalyst.core)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
     source/*.cpp
     include/*.h
 )
 
 add_library(catalyst.core SHARED ${SOURCE_FILES})
+message(STATUS "✅ Core module: added target catalyst.core")
+
+if (MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "" FORCE)
+endif()
 
 # Set include directories
 target_include_directories(catalyst.core PUBLIC
@@ -53,3 +54,8 @@ add_custom_target(EmbedEngineConfig
 )
 
 add_dependencies(catalyst.core EmbedEngineConfig)
+
+get_property(_IS_GLOBAL TARGET catalyst.core PROPERTY NAME)
+message(STATUS "🧪 Target exists now: '${_IS_GLOBAL}'")
+
+register_target(catalyst.core)

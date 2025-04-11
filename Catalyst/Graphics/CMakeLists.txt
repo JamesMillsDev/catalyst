@@ -6,8 +6,11 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
     source/*.cpp
     include/*.h
 )
-
 add_library(catalyst.graphics SHARED ${SOURCE_FILES})
+
+if (MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "" FORCE)
+endif()
 
 target_include_directories(catalyst.graphics PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -30,6 +33,7 @@ target_link_libraries(catalyst.graphics
         glad
         glfw
         assimp
+        stb
 )
 
 set_target_properties(catalyst.graphics PROPERTIES FOLDER "Modules")

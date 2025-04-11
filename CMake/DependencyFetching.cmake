@@ -3,10 +3,6 @@ include(FetchContent)
 function(fetch_dependencies)
     # Define dependencies
     FetchContent_Declare(
-        assimp
-        GIT_REPOSITORY https://github.com/assimp/assimp.git
-    )
-    FetchContent_Declare(
         glfw
         GIT_REPOSITORY https://github.com/glfw/glfw.git
     )

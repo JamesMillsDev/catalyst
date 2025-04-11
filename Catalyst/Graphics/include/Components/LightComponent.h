@@ -12,6 +12,7 @@
 #include "Catalyst.h"
 #include "ActorComponent.h"
 #include "IRenderFeature.h"
+#include "HeaderMacros.h"
 
 #include <glm/vec3.hpp>
 
@@ -29,7 +30,7 @@ namespace Catalyst
 	class DLL LightComponent final : public ActorComponent, public IRenderFeature
 	{
 	public:
-		GENERATED_COMPONENT(LightComponent);
+		REGISTER_COMPONENT(LightComponent);
 
 	public:
 		vec3 color;
@@ -52,6 +53,4 @@ namespace Catalyst
 		LightComponent& operator=(LightComponent&&) = delete;
 
 	};
-
-	REGISTER_COMPONENT(LightComponent);
 }

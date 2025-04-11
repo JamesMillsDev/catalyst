@@ -9,6 +9,10 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
 
 add_executable(SampleGame ${SOURCE_FILES})
 
+if (MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE STRING "" FORCE)
+endif()
+
 target_include_directories(SampleGame
     PUBLIC include
     PRIVATE source

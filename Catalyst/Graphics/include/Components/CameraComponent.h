@@ -12,13 +12,14 @@
 #include "ActorComponent.h"
 
 #include "Mathematics/Matrix4.h"
+#include "HeaderMacros.h"
 
 namespace Catalyst
 {
 	class DLL CameraComponent final : public ActorComponent
 	{
 	public:
-		GENERATED_COMPONENT(CameraComponent);
+		REGISTER_COMPONENT(CameraComponent);
 
 	public:
 		CameraComponent();
@@ -57,5 +58,4 @@ namespace Catalyst
 
 	};
 
-	REGISTER_COMPONENT(CameraComponent);
 }
